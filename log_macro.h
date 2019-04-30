@@ -22,7 +22,9 @@
 
 // stuff to create & send the log event
 #define _LOG_ISENABLEDV(catv, priority) \
-  (catv->_logLevel != 0 && catv->_logLevel <= priority)
+  (true)
+
+//(catv->_logLevel >= priority)
 
 #ifndef min
 #define min(a, b) (a > b ? b : a)
@@ -32,16 +34,13 @@
 #define max(a, b) (a > b ? a : b)
 #endif
 
-#define _LOG_(catv, priority, fmt, ...)                                  \
+#define _LOG_(catv, priority, fmt, ...)                                 \
 	if (_LOG_ISENABLEDV(catv, priority)) {                                \
 		struct LogEvent _log_ev =                                           \
-      {catv, min(max(LP_NONE, priority), LP_EMERGENCY),                 \
-       __FILE__, __FUNCTION__, __LINE__,  fmt};                         \
-		_log_logEvent(catv, &_log_ev, fmt, ##__VA_ARGS__) ;                  \
+      {catv, priority, __FILE__, __FUNCTION__, __LINE__,  fmt};         \
+		_log_logEvent(catv, &_log_ev, fmt, ##__VA_ARGS__) ;                 \
 	}
 
 #define LOG2(prio, fmt, ...)		  _LOG_(_defaultLogCategory, prio, fmt, ##__VA_ARGS__)
-
-#define LOG(fmt, ...) LOG_INFO("" fmt, ##__VA_ARGS__)
 
 #endif /* LOG_MACRO_H */

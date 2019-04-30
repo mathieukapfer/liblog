@@ -1,19 +1,19 @@
 #include <string.h>
 #include "log_level.h"
 
-#define LP_MAX LP_EMERGENCY
+#define LP_MAX LP_TRACE
 
 static const char* logLevelString[LP_MAX+1] = {
   "NONE",
-  "TRACE",
-  "DEBUG",
-  "INFO",
-  "NOTIC",
-  "WARN",
-  "ERROR",
-  "CRIT",
+  "EMERG",
   "FATAL",
-  "EMERG"
+  "CRIT",
+  "ERROR",
+  "WARN",
+  "NOTIC",
+  "INFO",
+  "DEBUG",
+  "TRACE"
 };
 
 const char * logLevelToString(int level) {

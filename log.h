@@ -28,18 +28,16 @@
 
       here is log level meaning:
 
-               NONE           0  ==> special value to remove all log
-      then,
-               TRACE          1  ==> lower level
-               DEBUG          2
-               INFO           3
-               NOTICE         4
+               TRACE          9  ==> higher verbose level
+               DEBUG          8
+               INFO           7
+               NOTICE         6
                WARNING        5
-               ERROR          6
-               CRITICAL       7
-               FATAL          8
-               EMERGENCY      9  ==> higher level
-
+               ERROR          4
+               CRITICAL       3
+               FATAL          2
+               EMERGENCY      1  ==> lower verbose level
+               NONE           0  ==> no log
 
     3) Get log when you application is running
     -----------------------------------------------------------------------------
@@ -52,6 +50,7 @@
 #ifndef LOG_H
 #define LOG_H
 
+#include "log_level.h"
 #include "log_macro.h"
 #include "LogNodeFactory.h"
 
