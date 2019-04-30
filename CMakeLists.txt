@@ -19,6 +19,7 @@ log_macro.h
 LogNodeVisitor_ConfigureLevel.h
 log.h
 LogNodeFactory.cpp
+log_utils.cpp
 )
 
 # include dir

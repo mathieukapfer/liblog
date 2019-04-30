@@ -5,31 +5,22 @@
 #include <stdarg.h>
 #include "log_event.h"
 #include "log_level.h"
+#include "log_utils.h"
 
 //#define DEBUG_LOGGER
 
-#if 0
-#define LOG(FMT, ...)                                                   \
-  {                                                                     \
-    char catName[ LOG_CATEGORY_NAME_SIZE_MAX];                                                   \
-    printf("\n%-20s:%04d:%-10s [%d][%-25s]: ", __FILE__, __LINE__, __func__, \
-           defaultLog?defaultLog->_logLevel:0,                          \
-           defaultLog?defaultLog->getFullName(catName,LOG_CATEGORY_NAME_SIZE_MAX):"<out of bound>"); \
-    printf(" " FMT, ##__VA_ARGS__);                                     \
-  }
-#endif
-
+// macro to log the logger itself
 #ifdef DEBUG_LOGGER
 #define LOG_(FMT, ...)                                                   \
   {                                                                     \
-    printf("\n%-25s:%04d %-20s", __FILE__, __LINE__, __func__); \
+    printf("\n%-25s:%04d %-20s", basename_const(__FILE__), __LINE__, __func__); \
     printf(" " FMT, ##__VA_ARGS__);                                     \
   }
 #else
 #define LOG_(FMT, ...)
 #endif
 
-
+// stuff to create & send the log event
 #define _LOG_ISENABLEDV(catv, priority) \
   (catv->_logLevel != 0 && catv->_logLevel <= priority)
 
