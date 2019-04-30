@@ -27,7 +27,7 @@ const char * logLevelToString(int level) {
 int stringToLogLevel(const char *  levelStr) {
   int ret = 0;
   bool isFound = false;
-  for (ret = 0; ret < LP_MAX; ret++) {
+  for (ret = 0; ret <= LP_MAX; ret++) {
     if (strncmp(logLevelString[ret], levelStr, strlen(logLevelString[ret])) == 0) {
       isFound = true;
       break;

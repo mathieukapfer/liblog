@@ -58,6 +58,9 @@ LogNode *LogNodeFactory::createNode(const char* parent, const char* child) {
     new (ret) LogNode(&(_logNodeTable[parentIndex]), child);
   }
 
+  // set default level as root level
+  ret->_logLevel = getRootNode()->_logLevel;
+
 #ifdef DEBUG_LOGGER
   printTable();
 #endif
@@ -94,7 +97,8 @@ int LogNodeFactory::searchNode(const char* nodeName) {
  * @param index
  *
  * @return
- */LogNode *LogNodeFactory::getFreeNode(int &index) {
+ */
+LogNode *LogNodeFactory::getFreeNode(int &index) {
   LogNode * ret = NULL;
   for(index=0; index < _logNodeTable_SIZE; index++) {
     if (_logNodeTable[index]._name == 0) {
