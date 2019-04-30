@@ -8,11 +8,16 @@ LOG_REGISTER("Main");
 
 int main(int argc, char *argv[]) {
 
+  static const char *msg = "!!!!!";
+
+  LOG_CONFIGURE("GLOBAL:7");
+
   MyClass myClass;
   MyClass2 myClass2;
   MyClass3 myClass3;
 
-  LOG_NOTICE("Hello - in main");
+  LOG_NOTICE("Hello - in main: %s", msg);
+  LOG_NOTICE("Hello - in main: %d", 999);
 
   myClass2.aMethode();
 

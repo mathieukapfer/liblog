@@ -36,7 +36,7 @@
 	if (_LOG_ISENABLEDV(catv, priority)) {                                \
 		struct LogEvent _log_ev =                                           \
       {catv, priority, __FILE__, __FUNCTION__, __LINE__,  fmt};         \
-		_log_logEvent(catv, &_log_ev, fmt, ##__VA_ARGS__) ;                 \
+		_log_logEvent(catv, &_log_ev, ##__VA_ARGS__) ;                 \
 	}
 
 #define LOG2(prio, fmt, ...)		  _LOG_(_defaultLogCategory, prio, fmt, ##__VA_ARGS__)
