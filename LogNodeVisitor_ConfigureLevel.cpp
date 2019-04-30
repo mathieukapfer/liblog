@@ -1,7 +1,7 @@
 #include <string.h>
 #include <stdlib.h>
 
-#define DEBUG_LOGGER
+//#define DEBUG_LOGGER
 #include "log.h"
 #include "LogNodeVisitor_ConfigureLevel.h"
 

@@ -15,7 +15,7 @@
 #define LOG_ROOT_NAME "GLOBAL"
 
 // default log level
-#define DEFAULT_LOG_LEVEL 3
+#define DEFAULT_LOG_LEVEL 6
 
 // max size of a category
 #define LOG_CATEGORY_NAME_SIZE_MAX 40
