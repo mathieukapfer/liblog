@@ -13,7 +13,7 @@
 #ifdef DEBUG_LOGGER
 #define LOG_(FMT, ...)                                                   \
   {                                                                     \
-    printf("\n%-25s:%04d %-20s", basename_const(__FILE__), __LINE__, __func__); \
+    printf("\n%-25s:%04d:%-20s", basename_const(__FILE__), __LINE__, __func__); \
     printf(" " FMT, ##__VA_ARGS__);                                     \
   }
 #else

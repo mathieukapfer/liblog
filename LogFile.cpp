@@ -1,7 +1,8 @@
+#include <string.h>
 #include "LogFile.h"
 #include "LogNodeFactory.h"
 
-#define DEBUG_LOGGER
+//#define DEBUG_LOGGER
 #include "log_macro.h"
 
 void LogFile::parseFile() {
@@ -11,7 +12,7 @@ void LogFile::parseFile() {
     // read line
     if (fd) {
       while (fgets(str, sizeof(buf), fd) != NULL) {
-        if (buf[0] != '#') {
+        if (buf[0] != '#' && strlen(buf) > 1) {
           parseFileLine(buf);
         }
       }

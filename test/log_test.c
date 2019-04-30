@@ -12,6 +12,11 @@ int main(int argc, char *argv[]) {
 
   LOG_CONFIGURE("GLOBAL:7");
 
+  LOG_DISLAY_TREE();
+
+  LogFile logFile;
+  logFile.parseFile();
+
   MyClass myClass;
   MyClass2 myClass2;
   MyClass3 myClass3;
@@ -20,6 +25,7 @@ int main(int argc, char *argv[]) {
   LOG_NOTICE("Hello - in main: %d", 999);
 
   myClass2.aMethode();
+  LOG_CONFIGURE("Main.MyClass2.aMethode:8");
 
   LOG_INFO("end");
 
@@ -54,9 +60,6 @@ int main(int argc, char *argv[]) {
   }
 
   LOG_CONFIGURE("TOTO        : TITI");
-
-  LogFile logFile;
-  logFile.parseFile();
 
   return 0;
 }
