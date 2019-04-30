@@ -1,6 +1,7 @@
 #include "log.h"
 #include "MyClass.h"
 #include "MyClass2.h"
+#include "MyClass3.h"
 #include "LogFile.h"
 
 LOG_REGISTER("Main");
@@ -9,11 +10,9 @@ int main(int argc, char *argv[]) {
 
   MyClass myClass;
   MyClass2 myClass2;
-  LOG_NOTICE("Hello - in main")
-  {
-    LOG_REGISTER("Main","BlockOfmain");
-    LOG_INFO("hello - inside block");
-  }
+  MyClass3 myClass3;
+
+  LOG_NOTICE("Hello - in main");
 
   myClass2.aMethode();
 
@@ -34,9 +33,10 @@ int main(int argc, char *argv[]) {
   LOG_DISLAY_TREE();
 
   LOG_INFO("Hello - in main");
+
   {
-  LOG_REGISTER("Main","BlockOfmain");
-  LOG_INFO("hello - inside block");
+    LOG_REGISTER("Main","BlockOfmain");
+    LOG_INFO("hello - inside block");
   }
 
   LOG_CONFIGURE("GLOBAL        : INFO");
