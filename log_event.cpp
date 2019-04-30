@@ -35,7 +35,7 @@ void _log_logEvent(LogNode *logNode, struct LogEvent* ev, ...) {
   logNode?logNode->getFullName(logPath,LOG_CATEGORY_NAME_SIZE_MAX):"<out of bound>";
   printf("\n%-20s:%04d:[%-5s][%-22s]%10s():",
          basename_const(ev->fileName), ev->lineNum, logLevelToString(ev->priority), logPath, ev->functionName);
-  printf(ev->fmt, ev->ap);
+  vprintf(ev->fmt, ev->ap);
   va_end(ev->ap);
 #endif
 } // _log_logEvent

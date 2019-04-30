@@ -5,7 +5,7 @@
 LOG_REGISTER("Main","MyClass2")
 
 MyClass2::MyClass2() {
-  LOG_INFO();
+  LOG_NOTICE();
 }
 
 void MyClass2::aMethode() {
