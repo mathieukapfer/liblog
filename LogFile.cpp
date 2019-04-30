@@ -14,7 +14,7 @@ void LogFile::parseFile() {
         parseFileLine(buf);
       }
     } else {
-      LOG_("file %d not found", LOG_CNF_FILE);
+      LOG_("file '%s' not found", LOG_CNF_FILE);
     }
 }
 
