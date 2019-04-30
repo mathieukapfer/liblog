@@ -22,9 +22,7 @@
 
 // stuff to create & send the log event
 #define _LOG_ISENABLEDV(catv, priority) \
-  (true)
-
-//(catv->_logLevel >= priority)
+  (catv->_logLevel >= priority)
 
 #ifndef min
 #define min(a, b) (a > b ? b : a)
