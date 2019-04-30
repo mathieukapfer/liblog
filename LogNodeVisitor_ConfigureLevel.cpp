@@ -76,11 +76,11 @@ int LogNodeVisitor_ConfigureLevel::parseLevel(const char * configureString, int 
       LOG_("set node:%d", nodeLevel);
     } else {
       // move pointer to next name
-      index = (sep - configureString) + 1;
+      index += (sep - configureString) + 1;
       LOG_("move ptr:%d",index);
     }
   }
 
-  LOG_("name:'%-15s'\tdot:'%-10s'\teq:'%-5s'\tlevel:'%-10s'=%d", name, sep, eq, level, nodeLevel);
+  LOG_("%s: name:'%-15s'\tdot:'%-10s'\teq:'%-5s'\tlevel:'%-10s'=%d\n=>%d", configureString, name, sep, eq, level, nodeLevel, index);
   return nodeLevel;
 }

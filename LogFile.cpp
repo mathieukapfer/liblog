@@ -11,7 +11,9 @@ void LogFile::parseFile() {
     // read line
     if (fd) {
       while (fgets(str, sizeof(buf), fd) != NULL) {
-        parseFileLine(buf);
+        if (buf[0] != '#') {
+          parseFileLine(buf);
+        }
       }
     } else {
       LOG_("file '%s' not found", LOG_CNF_FILE);
