@@ -2,8 +2,8 @@
 #include "LogFile.h"
 #include "LogNodeFactory.h"
 
-#define DEBUG_LOGGER
-#include "log_macro.h"
+#include "log_for_logger.h"
+ENABLE_LOG(INFO);
 
 void LogFile::parseFile() {
     char buf[LOG_LINE_SIZE_MAX];
@@ -26,7 +26,7 @@ void LogFile::parseFileLine(char *buf) {
   LOG_("%s",buf)
   namePathIsFound = LogNodeFactory::inst().configureLevel(buf);
   LOG_("IS %sFOUND:%s\n", namePathIsFound?"":"NOT ", buf) ;
-#ifdef DEBUG_LOGGER
+#ifdef DEBUG_LOGGER_ON
   LogNodeFactory::inst().displayLevelTree();
 #endif
   LOG_("exit %s", buf);

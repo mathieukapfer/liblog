@@ -4,11 +4,13 @@
 // placement new operator
 #include <new>
 
-#define DEBUG_LOGGER
-#include "log.h"
+#include "log_for_logger.h"
+#include "log_level.h"
 #include "LogNodeFactory.h"
 #include "LogNodeVisitor_ShowTree.h"
 #include "LogNodeVisitor_ConfigureLevel.h"
+
+ENABLE_LOG(INFO);
 
 LogNodeFactory &LogNodeFactory::inst() {
   static LogNodeFactory inst;
@@ -43,9 +45,10 @@ void LogNodeFactory::initTable() {
 LogNode *LogNodeFactory::createNode(const char* parent, const char* child) {
   int parentIndex = searchNode(parent);
   int childIndex = searchNode(child);
+  bool creation = false;
   LogNode* ret;
 
-  LOG_("%s[%d]->%s[%d]", child, childIndex, parent, parentIndex);
+  LOG_INFO("%s[%d]->%s[%d]", child, childIndex, parent, parentIndex);
 
   if (childIndex > 0) {
       ret = &_logNodeTable[childIndex];
@@ -53,17 +56,23 @@ LogNode *LogNodeFactory::createNode(const char* parent, const char* child) {
     if (parentIndex < 0) {
       // create parent first - with root as parent by default
       new (getFreeNode(parentIndex)) LogNode(&(_logNodeTable[0]), parent);
+      creation = true;
     }
     // create child
     ret = getFreeNode(childIndex);
     new (ret) LogNode(&(_logNodeTable[parentIndex]), child);
+    creation = true;
   }
 
   // set default level as root level
   ret->_logLevel = getRootNode()->_logLevel;
 
-#ifdef DEBUG_LOGGER
-  printTable();
+#ifdef DEBUG_LOGGER_ON
+  if (creation) {
+    printTable();
+  } else {
+    //LOG_("aleady done");
+  }
 #endif
 
   return ret;
@@ -130,9 +139,9 @@ LogNode *LogNodeFactory::getFreeNode(int &index) {
  */
 bool  LogNodeFactory::configureLevel(const char* confString) {
   bool ret = false;
-  printf("\nSet spec:%s",confString);
+  LOG_("%s",confString);
   ret = (getRootNode()->accept(*(new LogNodeVisitor_ConfigureLevel(confString))));
-  printf("\nSet spec:%s %s",confString, ret?"found":"NOT FOUND");
+  LOG_INFO("%s %s",confString, ret?"found":"NOT FOUND");
   return ret;
 }
 

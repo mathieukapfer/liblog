@@ -2,8 +2,8 @@
 #include "NodeVisitorI.h"
 #include <stddef.h>
 
-#define DEBUG_LOGGER
-#include "log.h"
+#include "log_for_logger.h"
+ENABLE_LOG(INFO);
 
 Node::Node(Node *p_parent):
   _parent(p_parent) {
