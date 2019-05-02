@@ -2,7 +2,7 @@
 #include "LogFile.h"
 #include "LogNodeFactory.h"
 
-//#define DEBUG_LOGGER
+#define DEBUG_LOGGER
 #include "log_macro.h"
 
 void LogFile::parseFile() {
@@ -17,14 +17,17 @@ void LogFile::parseFile() {
         }
       }
     } else {
-      LOG_("file '%s' not found", LOG_CNF_FILE);
+      printf("file '%s' not found", LOG_CNF_FILE);
     }
 }
 
 void LogFile::parseFileLine(char *buf) {
+  bool namePathIsFound = false;
   LOG_("%s",buf)
-  LogNodeFactory::inst().configureLevel(buf);
+  namePathIsFound = LogNodeFactory::inst().configureLevel(buf);
+  LOG_("IS %sFOUND:%s\n", namePathIsFound?"":"NOT ", buf) ;
 #ifdef DEBUG_LOGGER
   LogNodeFactory::inst().displayLevelTree();
 #endif
+  LOG_("exit %s", buf);
 }

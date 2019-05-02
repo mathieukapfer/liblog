@@ -7,22 +7,43 @@
 /// const
 LogNode::LogNode(LogNode *p_parent, const char *p_name):
   Node(p_parent),
+#ifndef ALLOW_CONFIGURATION_BEFORE_DECLARATION
   _name(p_name),
+#endif
   _logLevel(DEFAULT_LOG_LEVEL),
   _inherited(false)
 {
   LOG_("LogNode:%s->%s", p_name, p_parent?p_parent->_name:"-");
+#ifdef ALLOW_CONFIGURATION_BEFORE_DECLARATION
+  strncpy(_name, p_name, LOG_CATEGORY_NAME_SIZE_MAX);
+#endif
+
 }
 
 
 /// default const
 LogNode::LogNode():
   Node(),
+#ifndef ALLOW_CONFIGURATION_BEFORE_DECLARATION
   _name(NULL),
+#endif
   _logLevel(DEFAULT_LOG_LEVEL),
   _inherited(false)
 {
   LOG_("LogNode (NULL)");
+#ifdef ALLOW_CONFIGURATION_BEFORE_DECLARATION
+  _name[0] = '\0';
+#endif
+}
+
+/// is free
+bool LogNode::isFree() {
+  int ret = false;
+#ifdef ALLOW_CONFIGURATION_BEFORE_DECLARATION
+  ret =  _name[0] == '\0';
+#else
+  ret = _name == NULL;
+#endif
 }
 
 

@@ -21,9 +21,9 @@ class LogNodeVisitor_ShowTree: public NodeVisitorI {
   LogNodeVisitor_ShowTree() {};
   virtual ~LogNodeVisitor_ShowTree() {};
 
-  virtual void visit(Node *node) {
+  virtual bool visit(Node *node) {
     LogNode *logNode = dynamic_cast<LogNode *>(node);
-    visit(logNode);
+    return visit(logNode);
   }
 
   virtual void newSibling() {printf("\n");};
@@ -31,7 +31,8 @@ class LogNodeVisitor_ShowTree: public NodeVisitorI {
 
  private:
 
-  void visit(LogNode *logNode) {
+  bool visit(LogNode *logNode) {
+    bool ret = true;
     char buf[LOG_CATEGORY_PATH_NAME_SIZE_MAX];
     (logNode)->getFullName(buf,LOG_CATEGORY_PATH_NAME_SIZE_MAX);
 
@@ -40,6 +41,7 @@ class LogNodeVisitor_ShowTree: public NodeVisitorI {
            logLevelToString(logNode->_logLevel),
            logNode->_logLevel
       );
+    return true;
   }
 
 };

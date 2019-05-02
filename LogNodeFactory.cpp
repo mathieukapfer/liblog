@@ -4,6 +4,7 @@
 // placement new operator
 #include <new>
 
+#define DEBUG_LOGGER
 #include "log.h"
 #include "LogNodeFactory.h"
 #include "LogNodeVisitor_ShowTree.h"
@@ -44,7 +45,7 @@ LogNode *LogNodeFactory::createNode(const char* parent, const char* child) {
   int childIndex = searchNode(child);
   LogNode* ret;
 
-  LOG_("%s[%d]->%s[%d]", parent, parentIndex, child, childIndex);
+  LOG_("%s[%d]->%s[%d]", child, childIndex, parent, parentIndex);
 
   if (childIndex > 0) {
       ret = &_logNodeTable[childIndex];
@@ -80,14 +81,16 @@ int LogNodeFactory::searchNode(const char* nodeName) {
   int ret = -1;
   int index;
 
- // check if  already exit
+ // check if already exit
   for(index=0; index < _logNodeTable_SIZE; index++) {
     if(_logNodeTable[index]._name &&
        strcmp(_logNodeTable[index]._name, nodeName) == 0) {
       ret = index;
-    } else if (_logNodeTable[index]._name == 0)
+    } else if (_logNodeTable[index].isFree()) {
       break;
+    }
   }
+  //LOG_("%s=>%d", nodeName, ret);
   return ret;
 }
 
@@ -101,7 +104,7 @@ int LogNodeFactory::searchNode(const char* nodeName) {
 LogNode *LogNodeFactory::getFreeNode(int &index) {
   LogNode * ret = NULL;
   for(index=0; index < _logNodeTable_SIZE; index++) {
-    if (_logNodeTable[index]._name == 0) {
+    if (_logNodeTable[index].isFree()) {
       ret= &_logNodeTable[index];
       break;
     }
@@ -123,10 +126,14 @@ LogNode *LogNodeFactory::getFreeNode(int &index) {
  *               "Main:3"
  *               "Main.SectionOfMain:3"
  *               "<LOG_ROOT_NAME>:3"
+ * @return if level has been configured (if node exist)
  */
-void  LogNodeFactory::configureLevel(const char* confString) {
-  printf("\n\nSet spec:%s\n",confString);
-  getRootNode()->accept(*(new LogNodeVisitor_ConfigureLevel(confString)));
+bool  LogNodeFactory::configureLevel(const char* confString) {
+  bool ret = false;
+  printf("\nSet spec:%s",confString);
+  ret = (getRootNode()->accept(*(new LogNodeVisitor_ConfigureLevel(confString))));
+  printf("\nSet spec:%s %s",confString, ret?"found":"NOT FOUND");
+  return ret;
 }
 
 /**
@@ -136,6 +143,7 @@ void  LogNodeFactory::configureLevel(const char* confString) {
 void LogNodeFactory::displayLevelTree() {
   printf("\nDisplay spec:\n");
   getRootNode()->accept(*(new LogNodeVisitor_ShowTree));
+  printf("\n");
 }
 
 /**
@@ -147,7 +155,7 @@ void LogNodeFactory::printTable() {
   printf("\n");
 
   for(index=0; index < _logNodeTable_SIZE; index++) {
-    if (_logNodeTable[index]._name == 0) {
+    if (_logNodeTable[index].isFree()) {
       break;
     } else {
       printf("[%d] %s->%s \n", index,
