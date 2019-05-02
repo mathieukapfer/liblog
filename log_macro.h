@@ -7,10 +7,11 @@
 #include "log_level.h"
 #include "log_utils.h"
 
+//#define GLOBAL_DEBUG_LOGGER
 //#define DEBUG_LOGGER
 
 // macro to log the logger itself
-#ifdef DEBUG_LOGGER
+#if defined GLOBAL_DEBUG_LOGGER && defined  DEBUG_LOGGER
 #define LOG_(FMT, ...)                                                   \
   {                                                                     \
     printf("\n%-25s:%04d:%-20s", basename_const(__FILE__), __LINE__, __func__); \

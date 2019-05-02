@@ -2,6 +2,9 @@
 #include "NodeVisitorI.h"
 #include <stddef.h>
 
+#define DEBUG_LOGGER
+#include "log.h"
+
 Node::Node(Node *p_parent):
   _parent(p_parent) {
 
@@ -25,14 +28,17 @@ void Node::addChild(Node *child) {
   }
 
 
-void Node::accept(NodeVisitorI &visitor) {
-  visitor.visit(this);
+bool Node::accept(NodeVisitorI &visitor) {
+  bool ret = false;
+  ret |= visitor.visit(this);
   if (_firstChild != NULL) {
     visitor.newChild();
-    _firstChild->accept(visitor);
+    ret |= _firstChild->accept(visitor);
   }
   if (_nextSibling != NULL) {
     visitor.newSibling();
-    _nextSibling->accept(visitor);
+    ret |= _nextSibling->accept(visitor);
   }
+  LOG_("ret:%d",ret);
+  return ret;
 }

@@ -12,6 +12,12 @@ void MyClass2::aMethode() {
   // register
   LOG_REGISTER("Main","MyClass2","aMethode");
 
+  {
+    // register
+    LOG_REGISTER("Main","MyClass2","aMethode","block");
+    LOG_INFO("inside block")
+  }
+
   // log something
   LOG_INFO("OK!");
 }

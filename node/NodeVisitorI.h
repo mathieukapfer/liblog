@@ -8,7 +8,7 @@ class NodeVisitorI {
   NodeVisitorI() {};
   virtual ~NodeVisitorI() {};
 
-  virtual void visit(Node *node) = 0;
+  virtual bool visit(Node *node) = 0;
 
   virtual void newSibling() = 0;
   virtual void newChild() = 0;

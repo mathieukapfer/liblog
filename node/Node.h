@@ -17,7 +17,7 @@ class Node {
   void addChild(Node *child);
 
   //
-  void accept(NodeVisitorI &visitor);
+  bool accept(NodeVisitorI &visitor);
 
   //
   Node *getParent() { return _parent;};

@@ -24,9 +24,9 @@ class LogNodeVisitor_ConfigureLevel: public NodeVisitorI {
   virtual ~LogNodeVisitor_ConfigureLevel() {};
 
   /// wrapper to private visitor
-  virtual void visit(Node *node) {
+  virtual bool visit(Node *node) {
     LogNode *logNode = dynamic_cast<LogNode *>(node);
-    visit(logNode);
+    return visit(logNode);
   }
 
   /// action to do during node tree parcour
@@ -39,10 +39,10 @@ class LogNodeVisitor_ConfigureLevel: public NodeVisitorI {
   int _currentIndex;
 
   // apply configuration string to current node
-  void visit(LogNode *logNode) ;
+  bool visit(LogNode *logNode) ;
 
   // parse configuration string
-  static int parseLevel(const char * _configureString, int &index, const char * nodeName);
+  static int parseLevel(const char * _configureString, int &index, const char * nodeName, bool &isFound, bool &checkChild);
 
 };
 

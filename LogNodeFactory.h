@@ -26,10 +26,13 @@ class LogNodeFactory {
   LogNode *getNode(const char* catName, ...);
 
   /// define log level
-  void configureLevel(const char* confString);
+  bool configureLevel(const char* confString);
 
   /// dislay log node tree
   void displayLevelTree();
+
+  /// internal api for log node creation
+  LogNode *createNode(const char* parent, const char* child);
 
  private:
   LogNodeFactory() { initTable(); };
@@ -38,14 +41,11 @@ class LogNodeFactory {
   /// Factory with pre preallocated table
   ///  in order to allow setup directly on memory
   /// TODO: use generic container (STL) and preallacted table as an option
-  static const int _logNodeTable_SIZE = LOG_CATEGOTY_NODE_MAX;
+  static const int _logNodeTable_SIZE = LOG_CATEGORY_NODE_MAX;
   LogNode _logNodeTable[_logNodeTable_SIZE];
 
   /// Complete the node initialisation by creating the root node at index 0
   void initTable();
-
-  /// Create a child node linked to its parent - create the parent if needed
-  LogNode *createNode(const char* parent, const char* child);
 
   /// Return the table index of the node with name "nodeName". return -1 if not exist
   int searchNode(const char* nodeName);

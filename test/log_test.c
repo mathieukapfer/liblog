@@ -10,8 +10,14 @@ int main(int argc, char *argv[]) {
 
   static const char *msg = "!!!!!";
 
-  LOG_CONFIGURE("GLOBAL:7");
+  LOG_EMERGENCY("ENTER");
 
+  // test configuration before declaration
+  LOG_CONFIGURE("GLOBAL:7");
+  LOG_DISLAY_TREE();
+  LOG_CONFIGURE("Main.MyClass2.aMethode:8");
+  LOG_DISLAY_TREE();
+  LOG_CONFIGURE("Main.MyClass2.aMethode.block:3");
   LOG_DISLAY_TREE();
 
   LogFile logFile;
@@ -25,41 +31,9 @@ int main(int argc, char *argv[]) {
   LOG_NOTICE("Hello - in main: %d", 999);
 
   myClass2.aMethode();
-  LOG_CONFIGURE("Main.MyClass2.aMethode:8");
-
-  LOG_INFO("end");
+  LOG_CONFIGURE("Main.MyClass2.aMethode:2");
 
   LOG_DISLAY_TREE();
-
-  LOG_CONFIGURE("Main.MyClass2:2");
-  LOG_DISLAY_TREE();
-
-  LOG_CONFIGURE("Main.MyClass1:TRACE");
-  LOG_DISLAY_TREE();
-
-  LOG_CONFIGURE("Main:3");
-  LOG_DISLAY_TREE();
-
-  LOG_CONFIGURE("GLOBAL:0");
-  LOG_DISLAY_TREE();
-
-  LOG_INFO("Hello - in main");
-
-  {
-    LOG_REGISTER("Main","BlockOfmain");
-    LOG_INFO("hello - inside block");
-  }
-
-  LOG_CONFIGURE("GLOBAL        : INFO");
-  LOG_DISLAY_TREE();
-
-  LOG_INFO("Hello - in main");
-  {
-  LOG_REGISTER("Main","BlockOfmain");
-  LOG_INFO("hello - inside block");
-  }
-
-  LOG_CONFIGURE("TOTO        : TITI");
 
   return 0;
 }

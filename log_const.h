@@ -24,6 +24,10 @@
 #define LOG_CATEGORY_PATH_NAME_SIZE_MAX 100
 
 // size of pre allocated table of node
-#define LOG_CATEGOTY_NODE_MAX 50
+#define LOG_CATEGORY_NODE_MAX 50
+
+// option
+#define ALLOW_CONFIGURATION_BEFORE_DECLARATION
+
 
 #endif /* LOG_CONST_H */
