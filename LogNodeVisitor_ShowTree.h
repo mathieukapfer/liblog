@@ -16,6 +16,7 @@
 #include "LogNode.h"
 #include "NodeVisitorI.h"
 
+
 class LogNodeVisitor_ShowTree: public NodeVisitorI {
  public:
   LogNodeVisitor_ShowTree() {};

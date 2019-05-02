@@ -1,9 +1,11 @@
 #include <string.h>
 #include <stdlib.h>
 
-#define DEBUG_LOGGER
-#include "log.h"
+#include "log_for_logger.h"
 #include "LogNodeVisitor_ConfigureLevel.h"
+#include "LogNodeFactory.h"
+
+ENABLE_LOG(INFO);
 
 // apply configuration string to current node
 bool LogNodeVisitor_ConfigureLevel::visit(LogNode *logNode) {

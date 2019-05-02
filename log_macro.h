@@ -7,31 +7,9 @@
 #include "log_level.h"
 #include "log_utils.h"
 
-//#define GLOBAL_DEBUG_LOGGER
-//#define DEBUG_LOGGER
-
-// macro to log the logger itself
-#if defined GLOBAL_DEBUG_LOGGER && defined  DEBUG_LOGGER
-#define LOG_(FMT, ...)                                                   \
-  {                                                                     \
-    printf("\n%-25s:%04d:%-20s", basename_const(__FILE__), __LINE__, __func__); \
-    printf(" " FMT, ##__VA_ARGS__);                                     \
-  }
-#else
-#define LOG_(FMT, ...)
-#endif
-
 // stuff to create & send the log event
 #define _LOG_ISENABLEDV(catv, priority) \
   (catv->_logLevel >= priority)
-
-#ifndef min
-#define min(a, b) (a > b ? b : a)
-#endif
-
-#ifndef max
-#define max(a, b) (a > b ? a : b)
-#endif
 
 #define _LOG_(catv, priority, fmt, ...)                                 \
 	if (_LOG_ISENABLEDV(catv, priority)) {                                \
