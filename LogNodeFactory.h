@@ -38,6 +38,23 @@ class LogNodeFactory {
   /// internal api for log node creation
   LogNode *createNode(const char* parent, const char* child, bool preAllocated);
 
+  /// api for test
+  /// todo: put as private and use friend
+  bool compareLevel(int *tableLevel, int tableSize) {
+    bool ret = true;
+    for ( int index=0; index < tableSize; index ++) {
+      if (_logNodeTable[index]._logLevel != tableLevel[index]) {
+          ret = false;
+          break;
+      }
+    }
+    return ret;
+  }
+
+  /// For debug purpose: print the nodes table
+  /// todo: put as private and use friend
+  void printTable();
+
  private:
   LogNodeFactory()
 #ifndef LOG_NO_FILE_SYSTEM
@@ -70,9 +87,6 @@ class LogNodeFactory {
   LogNode *getRootNode() {
     return &_logNodeTable[0];
   }
-
-  /// For debug purpose: print the nodes table
-  void printTable();
 
 };
 

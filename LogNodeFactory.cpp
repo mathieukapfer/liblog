@@ -173,9 +173,10 @@ void LogNodeFactory::printTable() {
     if (_logNodeTable[index].isFree()) {
       break;
     } else {
-      printf("[%d] %s->%s \n", index,
+      printf("[%d] %s->%s:%d \n", index,
              _logNodeTable[index]._name,
-             _logNodeTable[index].getParent()?_logNodeTable[index].getParent()->_name:"-");
+             _logNodeTable[index].getParent()?_logNodeTable[index].getParent()->_name:"-",
+             _logNodeTable[index]._logLevel);
         }
   }
 
