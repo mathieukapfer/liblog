@@ -41,6 +41,7 @@ void _log_logEvent(LogNode *logNode, struct LogEvent* ev, ...) {
          header, logLevelToString(ev->priority), strncat(logPath,"]",LOG_CATEGORY_NAME_SIZE_MAX), \
          ev->functionName);
   vprintf(ev->fmt, ev->ap);
+  fflush(stdout);
   va_end(ev->ap);
 #endif
 } // _log_logEvent

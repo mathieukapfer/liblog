@@ -61,7 +61,8 @@
     char header[LOG_HEADER_SIZE];                                       \
     snprintf(header, LOG_HEADER_SIZE, "%s:%04d:", basename_const(__FILE__), __LINE__); \
     printf("\n%-25s[%-5s] %-15s %10s():", header, logLevelToString(priority), LOGGER_LOG_PATH, __func__); \
-    printf("" FMT, ##__VA_ARGS__);                                     \
+    printf("" FMT, ##__VA_ARGS__);                                      \
+    fflush(stdout);                                                     \
   }
 #else
 #define __LOG__(priority, FMT, ...)
