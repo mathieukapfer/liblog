@@ -13,7 +13,8 @@ LogNode::LogNode(LogNode *p_parent, const char *p_name):
   _name(p_name),
 #endif
   _logLevel(DEFAULT_LOG_LEVEL),
-  _inherited(false)
+  _inherited(false),
+  _preAlloacted(false)
 {
   LOG_DEBUG("LogNode:%s->%s", p_name, p_parent?p_parent->_name:"-");
 #ifdef ALLOW_CONFIGURATION_BEFORE_DECLARATION

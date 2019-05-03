@@ -37,10 +37,11 @@ class LogNodeVisitor_ShowTree: public NodeVisitorI {
     char buf[LOG_CATEGORY_PATH_NAME_SIZE_MAX];
     (logNode)->getFullName(buf,LOG_CATEGORY_PATH_NAME_SIZE_MAX);
 
-    printf(" %-25s:%s(%d)",
+    printf(" %-25s:%s(%d) %s",
            buf[0]?buf:"GLOBAL",
            logLevelToString(logNode->_logLevel),
-           logNode->_logLevel
+           logNode->_logLevel,
+           logNode->_preAlloacted?"// prealloacted":""
       );
     return true;
   }

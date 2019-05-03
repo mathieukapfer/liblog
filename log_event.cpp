@@ -1,6 +1,7 @@
 #include <stdarg.h>
 #include <stdio.h>
 #include <libgen.h>
+#include <string.h>
 
 #include "log_utils.h"
 #include "log_event.h"
@@ -26,15 +27,19 @@ void _log_logEvent(LogNode *logNode, struct LogEvent* ev, ...) {
   }
   va_end(ev->ap);
 #else
-  char logPath[ LOG_CATEGORY_NAME_SIZE_MAX];
+  char logPath[LOG_CATEGORY_NAME_SIZE_MAX];
   int logLevel = logNode?logNode->_logLevel:0;
+  char header[LOG_HEADER_SIZE];
 
   va_start(ev->ap, ev);
 
   // compute log path
-  logNode?logNode->getFullName(logPath,LOG_CATEGORY_NAME_SIZE_MAX):"<out of bound>";
-  printf("\n%s:%04d:[%-5s][%-22s]%10s():",
-         basename_const(ev->fileName), ev->lineNum, logLevelToString(ev->priority), logPath, ev->functionName);
+  logPath[0] = '[';
+  logNode?logNode->getFullName(&logPath[1],LOG_CATEGORY_NAME_SIZE_MAX-1):"<out of bound>";
+  snprintf(header, LOG_HEADER_SIZE, "%s:%04d:", basename_const(ev->fileName), ev->lineNum);
+  printf("\n%-25s[%-5s] %-15s %10s():",
+         header, logLevelToString(ev->priority), strncat(logPath,"]",LOG_CATEGORY_NAME_SIZE_MAX), \
+         ev->functionName);
   vprintf(ev->fmt, ev->ap);
   va_end(ev->ap);
 #endif

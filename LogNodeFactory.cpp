@@ -42,13 +42,13 @@ void LogNodeFactory::initTable() {
  *
  * @return the child node
  */
-LogNode *LogNodeFactory::createNode(const char* parent, const char* child) {
+LogNode *LogNodeFactory::createNode(const char* parent, const char* child, bool preAllocated) {
   int parentIndex = searchNode(parent);
   int childIndex = searchNode(child);
   bool creation = false;
   LogNode* ret;
 
-  LOG_INFO("%s[%d]->%s[%d]", child, childIndex, parent, parentIndex);
+  LOG_DEBUG("%s[%d]->%s[%d]", child, childIndex, parent, parentIndex);
 
   if (childIndex > 0) {
       ret = &_logNodeTable[childIndex];
@@ -67,13 +67,19 @@ LogNode *LogNodeFactory::createNode(const char* parent, const char* child) {
   // set default level as root level
   ret->_logLevel = getRootNode()->_logLevel;
 
-#ifdef DEBUG_LOGGER_ON
   if (creation) {
-    printTable();
+    if (preAllocated == true) {
+      // mark node as prealloacted
+      ret->_preAlloacted = true;
+    }
+    LOG_INFO("%s[%d]->%s[%d]", child, childIndex, parent, parentIndex);
   } else {
+    if (preAllocated == false) {
+      // reset flag
+      ret->_preAlloacted = false;
+    }
     //LOG_("aleady done");
   }
-#endif
 
   return ret;
 }
@@ -141,7 +147,7 @@ bool  LogNodeFactory::configureLevel(const char* confString) {
   bool ret = false;
   LOG_("%s",confString);
   ret = (getRootNode()->accept(*(new LogNodeVisitor_ConfigureLevel(confString))));
-  LOG_INFO("%s %s",confString, ret?"found":"NOT FOUND");
+  LOG_INFO("'%s' %s",confString, ret?"found":"NOT FOUND");
   return ret;
 }
 
@@ -187,16 +193,24 @@ void LogNodeFactory::printTable() {
  *
  * @return the child node
  */
-LogNode * LogNodeFactory::getNode(const char* catName, ...) {
+LogNode * LogNodeFactory::getNode(const char* catName, bool preAllocated, ...) {
 
   va_list vl;
-  va_start(vl,catName);
+  va_start(vl,preAllocated);
   const char* cat = catName;
   const char* parent = LOG_ROOT_NAME;
   LogNode* ret = NULL;
 
+#ifndef LOG_NO_FILE_SYSTEM
+  // parse file now if needed
+  if (_isLogFileParsed == false) {
+    _isLogFileParsed = true;
+    _logFile.parseFile();
+  }
+#endif
+
   while (cat) {
-    ret = createNode(parent, cat);
+    ret = createNode(parent, cat, false);
     // cumpute next pair (parent, child)
     parent = cat;
     cat = va_arg(vl, const char*);

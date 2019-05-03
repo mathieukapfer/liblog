@@ -9,15 +9,17 @@ void LogFile::parseFile() {
     char buf[LOG_LINE_SIZE_MAX];
     char *str = buf;
     fd = fopen(LOG_CNF_FILE, "r");
+    LOG_NOTICE("%s %s", LOG_CNF_FILE, fd>0?"parsing ...":"not found");
     // read line
     if (fd) {
       while (fgets(str, sizeof(buf), fd) != NULL) {
         if (buf[0] != '#' && strlen(buf) > 1) {
+          LOG_INFO("line: %s",buf);
           parseFileLine(buf);
         }
       }
     } else {
-      printf("file '%s' not found", LOG_CNF_FILE);
+      LOG_ERROR("file '%s' not found", LOG_CNF_FILE);
     }
 }
 

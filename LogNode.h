@@ -38,6 +38,7 @@ class LogNode: public Node {
 #endif
   int _logLevel;
   bool _inherited;
+  bool _preAlloacted;
 
 };
 
