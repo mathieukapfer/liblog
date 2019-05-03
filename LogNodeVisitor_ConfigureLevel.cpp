@@ -51,7 +51,7 @@ bool LogNodeVisitor_ConfigureLevel::visit(LogNode *logNode) {
     strncpy(childName, cp, childNameSize);
     childName[childNameSize] = '\0';
 
-    LogNodeFactory::inst().createNode(logNode->_name, childName);
+    LogNodeFactory::inst().createNode(logNode->_name, childName, true);
   }
 #endif
 

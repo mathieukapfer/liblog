@@ -26,6 +26,9 @@
 // size of pre allocated table of node
 #define LOG_CATEGORY_NODE_MAX 50
 
+// max of "file:line" header
+#define LOG_HEADER_SIZE 30
+
 // option
 #define ALLOW_CONFIGURATION_BEFORE_DECLARATION
 

@@ -8,7 +8,8 @@
 
 class LogFile {
  public:
-  LogFile():fd(0) {};
+  LogFile():fd(0) {
+  };
   virtual ~LogFile() {
     if (fd) {
       fclose(fd);
