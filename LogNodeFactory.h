@@ -15,7 +15,7 @@
 
 #include "log_const.h"
 #include "LogNode.h"
-#ifndef LOG_NO_FILE_SYSTEM
+#ifdef LOG_CNF_FILE_ENABLE
 #include "LogFile.h"
 #endif
 
@@ -28,8 +28,8 @@ class LogNodeFactory {
   /// public api for log node creation
   LogNode *getNode(const char* catName, bool preAllocated, ...);
 
-  /// define log level IN CODE !
-  /// NOTE: if LOG_NO_FILE_SYSTEM is false, the file log.cnf is automatically parsed
+  /// (re)define log level IN CODE !
+  /// NOTE: By defaut, the file log.cnf in current directory is automatically parsed
   bool configureLevel(const char* confString);
 
   /// dislay log node tree
@@ -57,13 +57,13 @@ class LogNodeFactory {
 
  private:
   LogNodeFactory()
-#ifndef LOG_NO_FILE_SYSTEM
+#ifdef LOG_CNF_FILE_ENABLE
     :_logFile(),_isLogFileParsed(false)
 #endif
     { initTable(); };
   virtual ~LogNodeFactory() {};
 
-#ifndef LOG_NO_FILE_SYSTEM
+#ifdef LOG_CNF_FILE_ENABLE
   LogFile _logFile;
   bool _isLogFileParsed;
 #endif

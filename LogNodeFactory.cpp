@@ -202,7 +202,7 @@ LogNode * LogNodeFactory::getNode(const char* catName, bool preAllocated, ...) {
   const char* parent = LOG_ROOT_NAME;
   LogNode* ret = NULL;
 
-#ifndef LOG_NO_FILE_SYSTEM
+#ifdef LOG_CNF_FILE_ENABLE
   // parse file now if needed
   if (_isLogFileParsed == false) {
     _isLogFileParsed = true;

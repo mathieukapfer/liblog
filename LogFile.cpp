@@ -8,8 +8,8 @@ ENABLE_LOG(INFO);
 void LogFile::parseFile() {
     char buf[LOG_LINE_SIZE_MAX];
     char *str = buf;
-    fd = fopen(LOG_CNF_FILE, "r");
-    LOG_NOTICE("%s %s", LOG_CNF_FILE, fd>0?"parsing ...":"not found");
+    fd = fopen(LOG_CNF_FILE_NAME, "r");
+    LOG_NOTICE("%s %s", LOG_CNF_FILE_NAME, fd>0?"parsing ...":"not found");
     // read line
     if (fd) {
       while (fgets(str, sizeof(buf), fd) != NULL) {
@@ -19,7 +19,7 @@ void LogFile::parseFile() {
         }
       }
     } else {
-      LOG_ERROR("file '%s' not found", LOG_CNF_FILE);
+      LOG_ERROR("file '%s' not found", LOG_CNF_FILE_NAME);
     }
 }
 
