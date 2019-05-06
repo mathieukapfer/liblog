@@ -12,6 +12,7 @@
 
 #include <stdio.h>
 
+#include "log_const.h"
 #include "log_utils.h"
 #include "log_level.h"
 
@@ -50,9 +51,6 @@
 
 #define _LOG_ISENABLED(priority) (min(localLogLevel, GLOBAL_LOG_LEVEL) >= priority)
 
-// max of "file:line" header
-#define LOG_HEADER_SIZE 30
-
 #define LOGGER_LOG_PATH "[LOGGER]"
 
 #ifdef GLOBAL_LOG_ENABLE
@@ -60,7 +58,7 @@
 	if (_LOG_ISENABLED(priority)) {                                       \
     char header[LOG_HEADER_SIZE];                                       \
     snprintf(header, LOG_HEADER_SIZE, "%s:%04d:", basename_const(__FILE__), __LINE__); \
-    printf("\n%-25s[%-5s] %-15s %10s():", header, logLevelToString(priority), LOGGER_LOG_PATH, __func__); \
+    printf("\n%-45s[%-5s] %-15s %10s():", header, logLevelToString(priority), LOGGER_LOG_PATH, __func__); \
     printf("" FMT, ##__VA_ARGS__);                                      \
     fflush(stdout);                                                     \
   }

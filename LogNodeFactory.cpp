@@ -48,7 +48,7 @@ LogNode *LogNodeFactory::createNode(const char* parent, const char* child, bool 
   bool creation = false;
   LogNode* ret;
 
-  LOG_DEBUG("%s[%d]->%s[%d]", child, childIndex, parent, parentIndex);
+  LOG_INFO("%s[%d]->%s[%d]", child, childIndex, parent, parentIndex);
 
   if (childIndex > 0) {
       ret = &_logNodeTable[childIndex];
@@ -64,13 +64,13 @@ LogNode *LogNodeFactory::createNode(const char* parent, const char* child, bool 
     creation = true;
   }
 
-  // set default level as root level
-  ret->_logLevel = getRootNode()->_logLevel;
-
   if (creation) {
     if (preAllocated == true) {
       // mark node as prealloacted
       ret->_preAlloacted = true;
+    } else {
+      // creation by declaration => set default level as root level
+      ret->_logLevel = getRootNode()->_logLevel;
     }
     LOG_INFO("%s[%d]->%s[%d]", child, childIndex, parent, parentIndex);
   } else {
@@ -80,6 +80,7 @@ LogNode *LogNodeFactory::createNode(const char* parent, const char* child, bool 
     }
     //LOG_("aleady done");
   }
+
 
   return ret;
 }
@@ -148,6 +149,9 @@ bool  LogNodeFactory::configureLevel(const char* confString) {
   LOG_("%s",confString);
   ret = (getRootNode()->accept(*(new LogNodeVisitor_ConfigureLevel(confString))));
   LOG_INFO("'%s' %s",confString, ret?"found":"NOT FOUND");
+
+  displayLevelTree();
+
   return ret;
 }
 
