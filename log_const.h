@@ -29,7 +29,19 @@
 // max of "file:line" header
 #define LOG_HEADER_SIZE 30
 
-// option
+
+// User Option
+// -----------------------------------------------------------------
+// Add the parsing of 'log.cfg' file at startup
+#define LOG_CNF_FILE_ENABLE
+
+// configuration log file
+#define LOG_CNF_FILE_NAME    "log.cfg"
+#define LOG_LINE_SIZE_MAX 100
+
+// Internal Option: for advanced user only
+// -----------------------------------------------------------------
+// Allow configuration (by file or by code)
 #define ALLOW_CONFIGURATION_BEFORE_DECLARATION
 
 

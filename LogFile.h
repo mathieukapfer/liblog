@@ -2,9 +2,7 @@
 #define LOGFILE_H
 
 #include <stdio.h>
-
-#define LOG_CNF_FILE    "log.cfg"
-#define LOG_LINE_SIZE_MAX 100
+#include "log_const.h"
 
 class LogFile {
  public:
