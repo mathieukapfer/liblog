@@ -27,7 +27,7 @@
 #define LOG_CATEGORY_NODE_MAX 50
 
 // max of "file:line" header
-#define LOG_HEADER_SIZE 30
+#define LOG_HEADER_SIZE 50
 
 
 // User Option

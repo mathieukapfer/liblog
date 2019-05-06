@@ -1,11 +1,12 @@
 #include <string.h>
 #include <stdlib.h>
 
+#include "log_const.h"
 #include "log_for_logger.h"
 #include "LogNodeVisitor_ConfigureLevel.h"
 #include "LogNodeFactory.h"
 
-ENABLE_LOG(INFO);
+ENABLE_LOG(NOTICE);
 
 // apply configuration string to current node
 bool LogNodeVisitor_ConfigureLevel::visit(LogNode *logNode) {
@@ -15,7 +16,7 @@ bool LogNodeVisitor_ConfigureLevel::visit(LogNode *logNode) {
   bool checkChild = false;
   bool isFound = false;
 
-  LOG_("visit node:%s (parent:%s)", logNode->_name, logNodeParent?logNodeParent->_name:"<undef>");
+  LOG_INFO("visit node:%s (parent:%s)", logNode->_name, logNodeParent?logNodeParent->_name:"<undef>");
 
   // reset inheritage flag
   logNode->_inherited = false;
@@ -37,6 +38,7 @@ bool LogNodeVisitor_ConfigureLevel::visit(LogNode *logNode) {
   }
 
 #ifdef ALLOW_CONFIGURATION_BEFORE_DECLARATION
+  LOG_DEBUG("checkChild:%d", checkChild);
   // check child existance now !
   // in order to allow configuration before declaration
   if (checkChild) {
@@ -47,7 +49,7 @@ bool LogNodeVisitor_ConfigureLevel::visit(LogNode *logNode) {
     char childName[LOG_CATEGORY_NAME_SIZE_MAX];
     int childNameSize = strcspn(cp, ".: ");
 
-    LOG_("CHILD START:%s - size:%d", cp, childNameSize);
+    LOG_INFO("CHILD START:%s - size:%d", cp, childNameSize);
     strncpy(childName, cp, childNameSize);
     childName[childNameSize] = '\0';
 
