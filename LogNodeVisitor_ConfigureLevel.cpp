@@ -7,7 +7,7 @@
 #include "LogNodeFactory.h"
 #include "parseConfigurationString.h"
 
-ENABLE_LOG(NOTICE);
+ENABLE_LOG(INFO);
 
 // apply configuration string to current node
 bool LogNodeVisitor_ConfigureLevel::visit(LogNode *logNode) {
@@ -48,7 +48,7 @@ bool LogNodeVisitor_ConfigureLevel::visit(LogNode *logNode) {
     // so it easy to check the existance of child and create it needed
     char childName[LOG_CATEGORY_NAME_SIZE_MAX];
     GET_FIRST_NAME_STR(&_configureString[_currentIndex], childName);
-    LOG_INFO("create prealloacted child:%d", childName);
+    LOG_INFO("create prealloacted child:%s", childName);
 
     LogNodeFactory::inst().createNode(logNode->_name, childName, true);
   }
@@ -81,7 +81,7 @@ int LogNodeVisitor_ConfigureLevel::parseLevel(const char * configureString, int 
   const char *name  = GET_FIRST_NAME(configureString, parsed);
   const char *level = GET_LEVEL(configureString, parsed);
 
-  // check if name is the node name
+  // check if the config name is the node name
   if ( (strncmp( nodeName, name, parsed.firstNameSize ) == 0 ) ) {
     if (parsed.isLastName) {
       isFound = true;

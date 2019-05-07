@@ -5,7 +5,7 @@
     ConfigStringParsed parsed;                                          \
     int localIndex = 0;                                                 \
     getFirstName(configStr, localIndex, parsed);                        \
-    strncpy(firstName, configStr, parsed.firstNameSize); \
+    strncpy(firstName, configStr + parsed.firstNameIndex, parsed.firstNameSize);                \
     firstName[parsed.firstNameSize] = '\0';                             \
   }
 

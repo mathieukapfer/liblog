@@ -118,7 +118,7 @@ TEST_SUITE("Configuration") {
   // test configuration before declaration
   LOG_CONFIGURE("Main.MyClass2.aMethode:8");
   LOG_CONFIGURE("Main.MyClass2.aMethode.block:3");
-  LOG_CONFIGURE("GLOBAL.Main2:2");
+  LOG_CONFIGURE("Main2:2");
   LOG_DISLAY_TREE();
 
   // check before declaration

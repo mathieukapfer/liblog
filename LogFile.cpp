@@ -25,7 +25,7 @@ void LogFile::parseFile() {
 
 void LogFile::parseFileLine(char *buf) {
   bool namePathIsFound = false;
-  LOG_("%s",buf)
+  LOG_INFO("%s",buf);
   namePathIsFound = LogNodeFactory::inst().configureLevel(buf);
   LOG_("IS %sFOUND:%s\n", namePathIsFound?"":"NOT ", buf) ;
 #ifdef DEBUG_LOGGER_ON
