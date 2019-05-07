@@ -20,10 +20,12 @@ LogNodeVisitor_ConfigureLevel.h
 log.h
 LogNodeFactory.cpp
 log_utils.cpp
+parse/parseConfigurationString.cpp
 )
 
 # include dir
 include_directories(node)
+include_directories(parse)
 
 # sub dir
 add_subdirectory(test)

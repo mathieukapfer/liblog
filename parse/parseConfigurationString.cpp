@@ -12,7 +12,7 @@
 #include "log_for_logger.h"
 #include "parseConfigurationString.h"
 
-ENABLE_LOG(INFO);
+ENABLE_LOG(NOTICE);
 
 /**
  * Parse the configuration string to extract the first name
@@ -55,9 +55,9 @@ void getFirstName(const char * configureString, int &index, ConfigStringParsed &
   parsed.levelIndex = level - start + index;
 
   // move index
-  index = (sep - start) + 1 + index;
+  // index += (sep - start) + 1;
 
-  LOG_INFO("%s %s %d %d %d",
+  LOG_INFO("'%s' '%s' %d %d %d",
            &configureString[ parsed.firstNameIndex], &configureString[index],
            parsed.firstNameSize, parsed.isLastName, index);
 

@@ -5,6 +5,7 @@
 #include "log_for_logger.h"
 #include "LogNodeVisitor_ConfigureLevel.h"
 #include "LogNodeFactory.h"
+#include "parseConfigurationString.h"
 
 ENABLE_LOG(NOTICE);
 
@@ -26,7 +27,7 @@ bool LogNodeVisitor_ConfigureLevel::visit(LogNode *logNode) {
     logLevel = logNodeParent->_logLevel;
   } else {
     // parse level
-    logLevel = parseLevel(&_configureString[_currentIndex], _currentIndex, logNode->_name, isFound, checkChild);
+    logLevel = parseLevel(_configureString, _currentIndex, logNode->_name, isFound, checkChild);
   }
 
   // log level really defined ?
@@ -42,16 +43,12 @@ bool LogNodeVisitor_ConfigureLevel::visit(LogNode *logNode) {
   // check child existance now !
   // in order to allow configuration before declaration
   if (checkChild) {
-    // if 'checkChild' is true, that mean the node name have been found in configuration string
-    // and the index has been move at the beginning of child name
+    // if 'checkChild' is true, that mean the node name have been found in
+    // configuration string and the index has been move at the beginning of child name
     // so it easy to check the existance of child and create it needed
-    const char * cp = &_configureString[_currentIndex];
     char childName[LOG_CATEGORY_NAME_SIZE_MAX];
-    int childNameSize = strcspn(cp, ".: ");
-
-    LOG_INFO("CHILD START:%s - size:%d", cp, childNameSize);
-    strncpy(childName, cp, childNameSize);
-    childName[childNameSize] = '\0';
+    GET_FIRST_NAME_STR(&_configureString[_currentIndex], childName);
+    LOG_INFO("create prealloacted child:%d", childName);
 
     LogNodeFactory::inst().createNode(logNode->_name, childName, true);
   }
@@ -78,25 +75,15 @@ bool LogNodeVisitor_ConfigureLevel::visit(LogNode *logNode) {
  */
 int LogNodeVisitor_ConfigureLevel::parseLevel(const char * configureString, int &index, const char * nodeName, bool &isFound, bool &checkChild) {
   int nodeLevel = -1;
-  const char *name, *sep, *eq, *level;
-  const char *cp = configureString;
-  // remove space bebore name
-  cp += strspn(cp, " ");
-  name = cp;
-  // detect separator position
-  cp += strcspn(cp, ".: ");
-  sep = cp;
-  // detect colon position
-  cp += strcspn(cp, ": ");
-  eq = cp;
-  // move to level
-  cp += strspn(cp, ": ");
-  level = cp;
+
+  ConfigStringParsed parsed;
+  getFirstName(configureString, index, parsed);
+  const char *name  = GET_FIRST_NAME(configureString, parsed);
+  const char *level = GET_LEVEL(configureString, parsed);
 
   // check if name is the node name
-  if ( (strncmp( nodeName, name, sep - name ) == 0 ) ) {
-    // if 'sep' contains a colon, then we reach the last category
-    if (sep == eq) {
+  if ( (strncmp( nodeName, name, parsed.firstNameSize ) == 0 ) ) {
+    if (parsed.isLastName) {
       isFound = true;
       // set node level
       nodeLevel = atoi(level); // try numeric value
@@ -106,12 +93,10 @@ int LogNodeVisitor_ConfigureLevel::parseLevel(const char * configureString, int 
       LOG_("set node:%d", nodeLevel);
     } else {
       // move pointer to next name
-      index += (sep - configureString) + 1;
-      LOG_("move ptr:+%d",index);
       checkChild = true;
+      index = parsed.firstNameSize + parsed.firstNameIndex + 1;
     }
   }
 
-  LOG_("%s: name:'%-15s'\tdot:'%-10s'\teq:'%-5s'\tlevel:'%-10s'=%d\n=>%d", configureString, name, sep, eq, level, nodeLevel, index);
   return nodeLevel;
 }
