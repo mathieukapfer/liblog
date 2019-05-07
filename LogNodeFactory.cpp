@@ -9,6 +9,7 @@
 #include "LogNodeFactory.h"
 #include "LogNodeVisitor_ShowTree.h"
 #include "LogNodeVisitor_ConfigureLevel.h"
+#include "parseConfigurationString.h"
 
 ENABLE_LOG(INFO);
 
@@ -147,7 +148,23 @@ LogNode *LogNodeFactory::getFreeNode(int &index) {
 bool  LogNodeFactory::configureLevel(const char* confString) {
   bool ret = false;
   LOG_("%s",confString);
-  ret = (getRootNode()->accept(*(new LogNodeVisitor_ConfigureLevel(confString))));
+
+  // add prefix 'GLOBAL.' if not present
+  bool useNewConfStr = false;
+  char firstName[LOG_CATEGORY_NAME_SIZE_MAX];
+  char newConfstr[LOG_CATEGORY_PATH_NAME_SIZE_MAX] =  { '\0' };
+
+  GET_FIRST_NAME_STR(confString, firstName);
+  if (strcmp(LOG_ROOT_NAME, firstName) != 0) {
+    strncat(newConfstr, LOG_ROOT_NAME, LOG_CATEGORY_PATH_NAME_SIZE_MAX);
+    strncat(newConfstr, ".", LOG_CATEGORY_PATH_NAME_SIZE_MAX);
+    strncat(newConfstr, confString, LOG_CATEGORY_PATH_NAME_SIZE_MAX);
+    useNewConfStr = true;
+    LOG_INFO("firstName:%s => conf:%s", firstName, newConfstr);
+  }
+
+  ret = (getRootNode()->accept
+         (*(new LogNodeVisitor_ConfigureLevel (useNewConfStr?newConfstr:confString))));
   LOG_INFO("'%s' %s",confString, ret?"found":"NOT FOUND");
 
   displayLevelTree();

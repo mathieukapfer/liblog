@@ -31,7 +31,7 @@ TEST_SUITE("Check paring") {
     CHECK(_CHECK_STRING(&configureString[parsed.firstNameIndex], "name1"));
     CHECK(parsed.firstNameSize == 5);
     CHECK(parsed.isLastName == false);
-    CHECK(strIndex == 6);
+    strIndex = parsed.firstNameSize + parsed.firstNameIndex + 1;
 
     getFirstName(configureString, strIndex, parsed);
 
@@ -43,7 +43,39 @@ TEST_SUITE("Check paring") {
     CHECK(parsed.firstNameSize == 8);
     CHECK(parsed.levelIndex == 15);
     CHECK(parsed.isLastName == true);
-    CHECK(strIndex == 15);
+    strIndex = parsed.firstNameSize + parsed.firstNameIndex + 1;
+
+  }
+  TEST_CASE("simple case 2") {
+
+    int strIndex = 0;
+
+    //                             0123456789012345
+    const char *configureString = "  name1.bigname2:1";
+    ConfigStringParsed parsed;
+
+    getFirstName(configureString, strIndex, parsed);
+
+    LOG_INFO("%s %s %d %d %d",
+             &configureString[parsed.firstNameIndex], &configureString[strIndex],
+             parsed.firstNameSize, parsed.isLastName, strIndex);
+
+    CHECK(_CHECK_STRING(&configureString[parsed.firstNameIndex], "name1"));
+    CHECK(parsed.firstNameSize == 5);
+    CHECK(parsed.isLastName == false);
+    strIndex = parsed.firstNameSize + parsed.firstNameIndex + 1;
+
+    getFirstName(configureString, strIndex, parsed);
+
+    LOG_INFO("%s %s %d %d %d",
+             &configureString[parsed.firstNameIndex], &configureString[strIndex],
+             parsed.firstNameSize, parsed.isLastName, strIndex);
+
+    CHECK(_CHECK_STRING(&configureString[parsed.firstNameIndex], "bigname2"));
+    CHECK(parsed.firstNameSize == 8);
+    CHECK(parsed.levelIndex == 17);
+    CHECK(parsed.isLastName == true);
+    strIndex = parsed.firstNameSize + parsed.firstNameIndex + 1;
 
   }
 }
