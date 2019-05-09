@@ -133,6 +133,12 @@ TEST_SUITE("Configuration") {
   // check after declaration
   CHECK_LEVEL__(9, 9, 9, 9, 9, 8, 3, 2);
 
+  // test again level inheritage
+  LOG_CONFIGURE("Main.MyClass2:2");
+
+  // check again inheritage
+  CHECK_LEVEL__(9, 9, 9, 2, 9, 2, 2, 2);
+
   LOG_DISLAY_TREE();
   }
 }
@@ -143,12 +149,11 @@ TEST_SUITE("Format") {
   static const char *msg = "!!!!!";
 
   // test log with parameter
+  LOG_ENTER("test enter");
   LOG_NOTICE("Hello - in main: %s", msg);
   LOG_NOTICE("Hello - in main: %d", 999);
   LOG_NOTICE("Hello - in main: %s %d", msg, 999);
-
-  // test again level conf
-  LOG_CONFIGURE("Main.MyClass2.aMethode:2");
+  LOG_EXIT("test exit");
 
   LOG_DISLAY_TREE();
   }

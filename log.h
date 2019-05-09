@@ -82,15 +82,19 @@ log_test.c:0069:         [NOTIC] [Main]                main():Hello - in main: 9
   static LogNode *_defaultLogCategory = LogNodeFactory::inst().getNode(catName, false, ##__VA_ARGS__, 0);
 
 /* macro for log */
-#define LOG_TRACE(fmt, ...)     LOG2(LP_TRACE, "" fmt, ##__VA_ARGS__)
-#define LOG_DEBUG(fmt, ...)     LOG2(LP_DEBUG, "" fmt, ##__VA_ARGS__)
-#define LOG_INFO(fmt, ...)      LOG2(LP_INFO, "" fmt, ##__VA_ARGS__)
-#define LOG_NOTICE(fmt, ...)    LOG2(LP_NOTICE, "" fmt, ##__VA_ARGS__)
-#define LOG_WARNING(fmt, ...)   LOG2(LP_WARNING, "" fmt, ##__VA_ARGS__)
-#define LOG_ERROR(fmt, ...)     LOG2(LP_ERROR, "" fmt, ##__VA_ARGS__)
-#define LOG_CRITICAL(fmt, ...)  LOG2(LP_CRITICAL, "" fmt, ##__VA_ARGS__)
-#define LOG_FATAL(fmt, ...)     LOG2(LP_FATAL, "" fmt, ##__VA_ARGS__)
-#define LOG_EMERGENCY(fmt, ...) LOG2(LP_EMERGENCY, "" fmt, ##__VA_ARGS__)
+#define LOG_TRACE(fmt, ...)     LOG2(LP_TRACE, false, "" fmt, ##__VA_ARGS__)
+#define LOG_DEBUG(fmt, ...)     LOG2(LP_DEBUG, false,"" fmt, ##__VA_ARGS__)
+#define LOG_INFO(fmt, ...)      LOG2(LP_INFO, false, "" fmt, ##__VA_ARGS__)
+#define LOG_NOTICE(fmt, ...)    LOG2(LP_NOTICE, false,"" fmt, ##__VA_ARGS__)
+#define LOG_WARNING(fmt, ...)   LOG2(LP_WARNING, false,"" fmt, ##__VA_ARGS__)
+#define LOG_ERROR(fmt, ...)     LOG2(LP_ERROR, false,"" fmt, ##__VA_ARGS__)
+#define LOG_CRITICAL(fmt, ...)  LOG2(LP_CRITICAL, false,"" fmt, ##__VA_ARGS__)
+#define LOG_FATAL(fmt, ...)     LOG2(LP_FATAL, false,"" fmt, ##__VA_ARGS__)
+#define LOG_EMERGENCY(fmt, ...) LOG2(LP_EMERGENCY, false,"" fmt, ##__VA_ARGS__)
+
+/* same as above but with function name and prefix ENTER / EXIT*/
+#define LOG_ENTER(fmt, ...)             LOG2(LP_DEBUG, true,"ENTER:" fmt, ##__VA_ARGS__)
+#define LOG_EXIT(fmt, ...)              LOG2(LP_DEBUG, true,"EXIT: " fmt, ##__VA_ARGS__)
 
 /* macro to trigger action depend on log level */
 #define IF_LOG_TRACE if(_LOG_ISENABLED(LP_TRACE))
