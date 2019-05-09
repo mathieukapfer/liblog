@@ -39,6 +39,6 @@ bool Node::accept(NodeVisitorI &visitor) {
     visitor.newSibling();
     ret |= _nextSibling->accept(visitor);
   }
-  LOG_("ret:%d",ret);
+  LOG_DEBUG("ret:%d",ret);
   return ret;
 }

@@ -14,7 +14,7 @@ void LogFile::parseFile() {
     if (fd) {
       while (fgets(str, sizeof(buf), fd) != NULL) {
         if (buf[0] != '#' && strlen(buf) > 1) {
-          LOG_INFO("line: %s",buf);
+          //LOG_INFO("line: %s",buf);
           parseFileLine(buf);
         }
       }
@@ -25,11 +25,11 @@ void LogFile::parseFile() {
 
 void LogFile::parseFileLine(char *buf) {
   bool namePathIsFound = false;
-  LOG_INFO("%s",buf);
+  LOG_INFO("line:'%s'",buf);
   namePathIsFound = LogNodeFactory::inst().configureLevel(buf);
-  LOG_("IS %sFOUND:%s\n", namePathIsFound?"":"NOT ", buf) ;
+  LOG_DEBUG("IS %sFOUND:%s\n", namePathIsFound?"":"NOT ", buf) ;
 #ifdef DEBUG_LOGGER_ON
   LogNodeFactory::inst().displayLevelTree();
 #endif
-  LOG_("exit %s", buf);
+  LOG_DEBUG("exit %s", buf);
 }

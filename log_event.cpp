@@ -9,6 +9,8 @@
 #include "log_macro.h"
 #include "LogNode.h"
 
+#define DISPLAY_FCT_NAME true
+//#define DISPLAY_FCT_NAME false
 
 // formater function
 void _log_logEvent(LogNode *logNode, struct LogEvent* ev, ...) {
@@ -39,9 +41,11 @@ void _log_logEvent(LogNode *logNode, struct LogEvent* ev, ...) {
   snprintf(header, LOG_HEADER_SIZE, "%s:%04d:", basename_const(ev->fileName), ev->lineNum);
   printf("\n%-25s[%-5s] %-15s %10s():",
          header, logLevelToString(ev->priority), strncat(logPath,"]",LOG_CATEGORY_NAME_SIZE_MAX), \
-         ev->functionName);
+         DISPLAY_FCT_NAME?ev->functionName:"");
   vprintf(ev->fmt, ev->ap);
   fflush(stdout);
+
+  // end of variadic
   va_end(ev->ap);
 #endif
 } // _log_logEvent

@@ -92,10 +92,18 @@ log_test.c:0069:         [NOTIC] [Main]                main():Hello - in main: 9
 #define LOG_FATAL(fmt, ...)     LOG2(LP_FATAL, "" fmt, ##__VA_ARGS__)
 #define LOG_EMERGENCY(fmt, ...) LOG2(LP_EMERGENCY, "" fmt, ##__VA_ARGS__)
 
+/* macro to trigger action depend on log level */
+#define IF_LOG_TRACE if(_LOG_ISENABLED(LP_TRACE))
+#define IF_LOG_DEBUG if(_LOG_ISENABLED(LP_DEBUG))
+#define IF_LOG_INFO if(_LOG_ISENABLED(LP_INFO))
+#define IF_LOG_NOTICE if(_LOG_ISENABLED(LP_NOTICE))
+#define IF_LOG_WARNING if(_LOG_ISENABLED(LP_WARNING))
+#define IF_LOG_ERROR if(_LOG_ISENABLED(LP_ERROR))
+#define IF_LOG_CRITICAL if(_LOG_ISENABLED(LP_CRITICAL))
+#define IF_LOG_FATAL if(_LOG_ISENABLED(LP_FATAL))
+#define IF_LOG_EMERGENCY if(_LOG_ISENABLED(LP_EMERGENCY))
 
-
-
-/* for usage withoutfile system */
+/* for usage without file system */
 /* define log level - BY CODE - see note 2) above */
 #define LOG_CONFIGURE(conf)  LogNodeFactory::inst().configureLevel(conf);
 

@@ -8,11 +8,11 @@
 #include "log_utils.h"
 
 // stuff to create & send the log event
-#define _LOG_ISENABLEDV(catv, priority) \
+#define _LOG_ISENABLED(catv, priority) \
   (catv->_logLevel >= priority)
 
 #define _LOG_(catv, priority, fmt, ...)                                 \
-	if (_LOG_ISENABLEDV(catv, priority)) {                                \
+	if (_LOG_ISENABLED(catv, priority)) {                                \
 		struct LogEvent _log_ev =                                           \
       {catv, priority, __FILE__, __FUNCTION__, __LINE__,  fmt};         \
 		_log_logEvent(catv, &_log_ev, ##__VA_ARGS__) ;                 \

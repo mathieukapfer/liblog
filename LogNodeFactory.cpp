@@ -22,7 +22,7 @@ LogNodeFactory &LogNodeFactory::inst() {
  * Initialize the pre allocated node table
  */
 void LogNodeFactory::initTable() {
-  LOG_();
+  LOG_DEBUG();
   // note: the defauly constructor is aleady called now,
   // just re-create the root node ...
 #if 0
@@ -79,7 +79,7 @@ LogNode *LogNodeFactory::createNode(const char* parent, const char* child, bool 
       // reset flag
       ret->_preAlloacted = false;
     }
-    //LOG_("aleady done");
+    //LOG_DEBUG("aleady done");
   }
 
 
@@ -107,7 +107,7 @@ int LogNodeFactory::searchNode(const char* nodeName) {
       break;
     }
   }
-  //LOG_("%s=>%d", nodeName, ret);
+  //LOG_DEBUG("%s=>%d", nodeName, ret);
   return ret;
 }
 
@@ -127,7 +127,7 @@ LogNode *LogNodeFactory::getFreeNode(int &index) {
     }
   }
 
-  //LOG_("index:%d", index);
+  //LOG_DEBUG("index:%d", index);
 
   if (ret == NULL ){
     printf("no room left for log node!\n");
@@ -147,15 +147,14 @@ LogNode *LogNodeFactory::getFreeNode(int &index) {
  */
 bool  LogNodeFactory::configureLevel(const char* confString) {
   bool ret = false;
-  LOG_("%s",confString);
+  LOG_DEBUG("%s",confString);
 
   // add prefix 'GLOBAL.' if not present
   bool useNewConfStr = false;
   char firstName[LOG_CATEGORY_NAME_SIZE_MAX];
   char newConfstr[LOG_CATEGORY_PATH_NAME_SIZE_MAX] =  { '\0' };
 
-  GET_FIRST_NAME_STR(confString, firstName);
-  if (strcmp(LOG_ROOT_NAME, firstName) != 0) {
+  if (strcmp(LOG_ROOT_NAME, getFirstNameStr(confString, firstName)) != 0) {
     strncat(newConfstr, LOG_ROOT_NAME, LOG_CATEGORY_PATH_NAME_SIZE_MAX);
     strncat(newConfstr, ".", LOG_CATEGORY_PATH_NAME_SIZE_MAX);
     strncat(newConfstr, confString, LOG_CATEGORY_PATH_NAME_SIZE_MAX);
@@ -163,11 +162,15 @@ bool  LogNodeFactory::configureLevel(const char* confString) {
     LOG_INFO("firstName:%s => conf:%s", firstName, newConfstr);
   }
 
+  // launch configuation level visitor
   ret = (getRootNode()->accept
          (*(new LogNodeVisitor_ConfigureLevel (useNewConfStr?newConfstr:confString))));
-  LOG_INFO("'%s' %s",confString, ret?"found":"NOT FOUND");
 
-  displayLevelTree();
+  // log if found
+  LOG_DEBUG("'%s' %s",confString, ret?"found":"NOT FOUND");
+  IF_LOG_INFO {
+    displayLevelTree();
+  }
 
   return ret;
 }
