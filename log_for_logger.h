@@ -31,17 +31,15 @@
 #define GLOBAL_LOG_ENABLE
 
 // define the max log level
-#define GLOBAL_LOG_LEVEL  LP_INFO
+#define GLOBAL_LOG_LEVEL  LP_NOTICE
 
 // macro for log => see log.h
 
-// optinally display function name
-//#define DISPLAY_FCT_NAME
 
 // ==================================================================================
 // internal engine - do not use this directly
 #undef LOG2
-#define LOG2(prio, fmt, ...)		  __LOG__(prio, fmt, ##__VA_ARGS__)
+#define LOG2(prio, fct, fmt, ...)		  __LOG__(prio, fct, fmt, ##__VA_ARGS__)
 
 #define min(a, b) (a < b?a:b)
 
@@ -51,20 +49,19 @@
 #define LOGGER_LOG_PATH "[LOGGER]"
 
 #ifdef GLOBAL_LOG_ENABLE
-#define __LOG__(priority, FMT, ...)                                     \
+#define __LOG__(priority, fct, FMT, ...)                                 \
 	if (_LOG_ISENABLED(priority)) {                                       \
     char header[LOG_HEADER_SIZE];                                       \
     snprintf(header, LOG_HEADER_SIZE, "%s:%04d:", basename_const(__FILE__), __LINE__); \
-    printf("\n%-45s[%-5s] %-15s", header, logLevelToString(priority), LOGGER_LOG_PATH); \
+    printf("\n%-30s[%-5s] %-15s", header, logLevelToString(priority), LOGGER_LOG_PATH); \
+    if (fct) {                                                          \
+      printf("%10s():", __FUNCTION__);                                  \
+    }                                                                   \
     printf("" FMT, ##__VA_ARGS__);                                      \
     fflush(stdout);                                                     \
   }
 #else
 #define __LOG__(priority, FMT, ...)
-#endif
-
-#ifdef DISPLAY_FCT_NAME
-  printf("%10s():", __FUNCTION__);
 #endif
 
 

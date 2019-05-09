@@ -9,12 +9,16 @@
 #include "log_macro.h"
 #include "LogNode.h"
 
-#define DISPLAY_FCT_NAME true
-//#define DISPLAY_FCT_NAME false
+/*
+   Formater function
+   Sample:
 
-// formater function
+   log_test.c:0153:              [NOTIC] [Main]          Hello - in main: !!!!!
+   log_test.c:0152:              [DEBUG] [Main]          _DOCTEST_ANON_FUNC_14() ENTER:test ENTER
+*/
 void _log_logEvent(LogNode *logNode, struct LogEvent* ev, ...) {
 #if 0
+  // TODO: add capability to define a formater per node
   struct LogCategory* cat = category;
   va_start(ev->ap, ev);
   while (1) {
@@ -29,6 +33,7 @@ void _log_logEvent(LogNode *logNode, struct LogEvent* ev, ...) {
   }
   va_end(ev->ap);
 #else
+  // unique formateur for all nodes
   char logPath[LOG_CATEGORY_NAME_SIZE_MAX];
   int logLevel = logNode?logNode->_logLevel:0;
   char header[LOG_HEADER_SIZE];
@@ -39,9 +44,11 @@ void _log_logEvent(LogNode *logNode, struct LogEvent* ev, ...) {
   logPath[0] = '[';
   logNode?logNode->getFullName(&logPath[1],LOG_CATEGORY_NAME_SIZE_MAX-1):"<out of bound>";
   snprintf(header, LOG_HEADER_SIZE, "%s:%04d:", basename_const(ev->fileName), ev->lineNum);
-  printf("\n%-25s[%-5s] %-15s %10s():",
-         header, logLevelToString(ev->priority), strncat(logPath,"]",LOG_CATEGORY_NAME_SIZE_MAX), \
-         DISPLAY_FCT_NAME?ev->functionName:"");
+  printf("\n%-30s[%-5s] %-15s ",
+         header, logLevelToString(ev->priority), strncat(logPath,"]", LOG_CATEGORY_NAME_SIZE_MAX));
+  if (ev->printFunctionName) {
+    printf("%10s() ", ev->functionName);
+  }
   vprintf(ev->fmt, ev->ap);
   fflush(stdout);
 

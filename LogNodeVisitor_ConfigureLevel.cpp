@@ -32,6 +32,7 @@ bool LogNodeVisitor_ConfigureLevel::visit(LogNode *logNode) {
 
   // log level really defined ?
   if ( logLevel >= 0 ) {
+    LOG_INFO("set %s:%d", logNode->_name, logLevel);
     // yes, set it
     logNode->_logLevel = logLevel;
     // mark the node to inherite its level to all its child
@@ -90,7 +91,7 @@ int LogNodeVisitor_ConfigureLevel::parseLevel(const char * configureString, int 
       if(nodeLevel == 0) {
         nodeLevel = stringToLogLevel(level); // try string conversion
       }
-      LOG_INFO("set %s:%d", nodeName, nodeLevel);
+      LOG_INFO("SET %s:%d", nodeName, nodeLevel);
     } else {
       // move pointer to next name
       checkChild = true;

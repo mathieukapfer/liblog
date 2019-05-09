@@ -10,8 +10,9 @@ struct LogEvent {
   LogNode* cat;
   int priority;
   const char* fileName;
-  const char* functionName;
   int lineNum;
+  bool printFunctionName;
+  const char* functionName;
   const char *fmt;
   va_list ap;
 };
