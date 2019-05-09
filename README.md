@@ -1,9 +1,9 @@
 # Log your application
 
-## 1) In your code,
-Put
-  * include "log.h"
-  * one macro  by section of code:
+## 1) Usage
+Put in your code,
+  * the include include "log.h"
+  * at least one macro for the entire file or each section of code  
   
             LOG_REGISTER("section_name", "subsection name", ...)
   
