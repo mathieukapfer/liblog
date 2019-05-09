@@ -17,14 +17,15 @@ ENABLE_LOG(NOTICE);
 /**
  * Parse the configuration string to extract the first name
  *
- * @param configureString  the configuration string:
-                           "category = 1",
-                           "category.subcategory = 1"
-                           "category.subcategory.anotherSubCategory = 1"
- * @param index            current position to parse into the configuration string
- * @param firstName        pointer to the first name
- * @param firstNameSize    size of first name
- * @param isLastName       true if the name is also the last
+ * @param configureString         The configuration string, can be:
+                                  "category = 1",
+                                  "category.subcategory = 1"
+                                  "category.subcategory.anotherSubCategory = 1"
+ * @param index                   current position to parse into the configuration string
+ * @param parsed.firstNameIndex   offset of the the first name
+ * @param parsed.firstNameSize    size of first name
+ * @param parsed.isLastName       true if the name is also the last
+ * @param parsed.levelIndex       offset of the level if we reach the last name
  */
 void getFirstName(const char * configureString, int &index, ConfigStringParsed &parsed) {
 
@@ -61,4 +62,22 @@ void getFirstName(const char * configureString, int &index, ConfigStringParsed &
            &configureString[ parsed.firstNameIndex], &configureString[index],
            parsed.firstNameSize, parsed.isLastName, index);
 
+}
+
+
+/**
+ * Fillup the first category name of 'configStr'
+ *
+ * @param configStr
+ * @param firstName
+ *
+ * @return
+ */char *getFirstNameStr(const char *configStr , char *firstName) {
+  ConfigStringParsed parsed;
+  int localIndex = 0;
+  getFirstName(configStr, localIndex, parsed);
+  strncpy(firstName, configStr + parsed.firstNameIndex,
+          min (parsed.firstNameSize, LOG_CATEGORY_NAME_SIZE_MAX ));
+  firstName[parsed.firstNameSize] = '\0';
+  return firstName;
 }

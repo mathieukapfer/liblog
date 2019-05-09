@@ -25,7 +25,7 @@ class LogNodeFactory {
   /// singleton
   static LogNodeFactory &inst();
 
-  /// public api for log node creation
+  /// public api for log node creation from variadic
   LogNode *getNode(const char* catName, bool preAllocated, ...);
 
   /// (re)define log level IN CODE !

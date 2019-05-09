@@ -1,17 +1,12 @@
 #ifndef PARSECONFIGURATIONSTRING_H
 #define PARSECONFIGURATIONSTRING_H
 
-#define GET_FIRST_NAME_STR(configStr, firstName) {                      \
-    ConfigStringParsed parsed;                                          \
-    int localIndex = 0;                                                 \
-    getFirstName(configStr, localIndex, parsed);                        \
-    strncpy(firstName, configStr + parsed.firstNameIndex, parsed.firstNameSize);                \
-    firstName[parsed.firstNameSize] = '\0';                             \
-  }
 
+// helper to use result of parsing
 #define GET_FIRST_NAME(configStr, parsed) &configStr[parsed.firstNameIndex]
 #define GET_LEVEL(configStr, parsed) &configStr[parsed.levelIndex]
 
+/* structure to store offset and size */
 struct ConfigStringParsed {
   int firstNameIndex;
   int firstNameSize;
@@ -19,6 +14,17 @@ struct ConfigStringParsed {
   bool isLastName;
 };
 
+/*
+   Parse the configuration string at current position.
+   NOTE: this functon do no allocation but only compute offset and size
+         use helper macro above to work with parsed srtucture.
+*/
 void getFirstName(const char * configureString, int &index, ConfigStringParsed &parsed);
+
+/*
+   copy the first category name of configureString into buf and return it
+   NOTE: the called should allocated the buf
+*/
+char *getFirstNameStr(const char * configureString, char *buf);
 
 #endif /* PARSECONFIGURATIONSTRING_H */

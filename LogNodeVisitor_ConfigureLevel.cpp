@@ -47,14 +47,14 @@ bool LogNodeVisitor_ConfigureLevel::visit(LogNode *logNode) {
     // configuration string and the index has been move at the beginning of child name
     // so it easy to check the existance of child and create it needed
     char childName[LOG_CATEGORY_NAME_SIZE_MAX];
-    GET_FIRST_NAME_STR(&_configureString[_currentIndex], childName);
+    getFirstNameStr(&_configureString[_currentIndex], childName);
     LOG_INFO("create prealloacted child:%s", childName);
 
     LogNodeFactory::inst().createNode(logNode->_name, childName, true);
   }
 #endif
 
-  LOG_("isFound:%d",isFound);
+  LOG_DEBUG("isFound:%d",isFound);
   return isFound;
 
 }
@@ -90,7 +90,7 @@ int LogNodeVisitor_ConfigureLevel::parseLevel(const char * configureString, int 
       if(nodeLevel == 0) {
         nodeLevel = stringToLogLevel(level); // try string conversion
       }
-      LOG_("set node:%d", nodeLevel);
+      LOG_INFO("set %s:%d", nodeName, nodeLevel);
     } else {
       // move pointer to next name
       checkChild = true;
