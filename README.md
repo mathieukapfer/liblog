@@ -2,23 +2,23 @@
 
 ## 1) In your code,
   * include "log.h"
-  * call one macro 'LOG_REGISTER(<path>)' by section of code
+  * call one macro 'LOG_REGISTER("section_name", "subsection name", ...)' by section of code
   
  Now you can log with level of priority "LOG_{level}({params})"
   * {level}:  NONE EMERG FATAL CRIT ERROR WARN NOTIC INFO DEBUG TRACE
   * {param}:  variadic list of parameters like printf()
 
-      #include "log.h"
-      LOG_REGISTER("MainFile");                <---------- Create a category for the entire file
+            #include "log.h"
+            LOG_REGISTER("MainFile");                <---------- Create a category for the entire file
 
-      int main(int argc, char *argv[]) {
-        LOG_REGISTER("Main");                  <---------- Create a sub category 'Main'
-        LOG_DEBUG("Hello - in main");          <---------- Log as DEBUG level
-          {
-            LOG_REGISTER("Main","Section");        <------ Create a sub sub category 'SectionOfMain'
-            LOG_INFO("Hello - inside section");    <------ Log as INFO level
-          }
-        }
+            int main(int argc, char *argv[]) {
+              LOG_REGISTER("Main");                  <---------- Create a sub category 'Main'
+              LOG_DEBUG("Hello - in main");          <---------- Log as DEBUG level
+                {
+                  LOG_REGISTER("Main","Section");        <------ Create a sub sub category 'SectionOfMain'
+                  LOG_INFO("Hello - inside section");    <------ Log as INFO level
+                }
+              }
 
        NOTE: LOG_<level>() is like printf() format
 
