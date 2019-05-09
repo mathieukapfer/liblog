@@ -14,6 +14,7 @@ Now you can log with level of priority
             LOG_{level}({params})            
   
 Sample:
+
             #include "log.h"
             LOG_REGISTER("MainFile");                <---------- Create a category for the entire file
 
