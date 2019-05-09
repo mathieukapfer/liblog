@@ -1,15 +1,12 @@
 # Log your application
 
 ## 1) In your code,
-        - include "log.h"
-        - call one macro 'LOG_REGISTER(<path>)' by section of code
-
-       Now you can log with level of priority
-
-        - LOG_<level>(<param>)
-             - <level>:  NONE EMERG FATAL CRIT ERROR WARN NOTIC INFO DEBUG TRACE
-             - <param>:  like printf()
-    ----------------------------------------------------------------------------
+  * include "log.h"
+  * call one macro 'LOG_REGISTER(<path>)' by section of code
+  
+ Now you can log with level of priority "LOG_{level}({params})"
+  * {level}:  NONE EMERG FATAL CRIT ERROR WARN NOTIC INFO DEBUG TRACE
+  * {param}:  variadic list of parameters like printf()
 
       #include "log.h"
       LOG_REGISTER("MainFile");                <---------- Create a category for the entire file
@@ -25,10 +22,10 @@
 
        NOTE: LOG_<level>() is like printf() format
 
-##  2) Provide log specification
-    -----------------------------------------------------------------------------
+##  2) Provide log specification    
 ###   2.1) By 'log.cnf' file (in same place as bin)
-
+Here after is a "log.cnf" sample
+ 
               # Both level format are supported:
               # Level as str: NONE EMERG FATAL CRIT ERROR WARN NOTIC INFO DEBUG TRACE
               # Level as int: 0,   1,    2,    3,   4,    5,   6,    7,   8,    9
@@ -40,7 +37,8 @@
               Main.Section:INFO  #  on a section by name
               Main.Section:4     #  on a section by int
 
-###   2.2) Without file system use in your code 'LOG_CONFIGURE(<path>,<level>)' macro
+###   2.2) By code 
+If you do not have file system, you can setup log level by insert macro 'LOG_CONFIGURE(<path>,<level>)' in you code
 
               LOG_CONFIGURE("Main:2");
               LOG_CONFIGURE("Main.SectionOfMain:3");
@@ -59,7 +57,6 @@
               NONE           0  ==> no log
 
 ##  3) Get log when you application is running
-    -----------------------------------------------------------------------------
 
 log_test.c:0068:         [NOTIC] [Main]                main():Hello - in main: !!!!!
 log_test.c:0069:         [NOTIC] [Main]                main():Hello - in main: 999
