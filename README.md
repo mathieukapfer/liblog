@@ -38,10 +38,11 @@ Here after is a "log.cnf" sample
               Main.Section:4     #  on a section by int
 
 ###   2.2) By code 
-If you do not have file system, you can setup log level by insert macro 'LOG_CONFIGURE(<path>,<level>)' in you code
-
+If you do not have file system, you can setup log level by insert macro 'LOG_CONFIGURE({path},{level})' in you code
+              voi main() {
               LOG_CONFIGURE("Main:2");
               LOG_CONFIGURE("Main.SectionOfMain:3");
+              ...
 
 ###   In both case, here is log level meaning:
 
