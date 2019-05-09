@@ -1,13 +1,19 @@
 # Log your application
 
 ## 1) In your code,
+Put
   * include "log.h"
-  * call one macro 'LOG_REGISTER("section_name", "subsection name", ...)' by section of code
+  * one macro  by section of code:
   
- Now you can log with level of priority "LOG_{level}({params})"
+            LOG_REGISTER("section_name", "subsection name", ...)
+  
+Now you can log with level of priority 
   * {level}:  NONE EMERG FATAL CRIT ERROR WARN NOTIC INFO DEBUG TRACE
   * {param}:  variadic list of parameters like printf()
-
+          
+            LOG_{level}({params})            
+  
+Sample:
             #include "log.h"
             LOG_REGISTER("MainFile");                <---------- Create a category for the entire file
 
@@ -19,8 +25,7 @@
                   LOG_INFO("Hello - inside section");    <------ Log as INFO level
                 }
               }
-
-       NOTE: LOG_<level>() is like printf() format
+       
 
 ##  2) Provide log specification    
 ###   2.1) By 'log.cnf' file (in same place as bin)
@@ -59,5 +64,5 @@ If you do not have file system, you can setup log level by insert macro 'LOG_CON
 
 ##  3) Get log when you application is running
 
-log_test.c:0068:         [NOTIC] [Main]                main():Hello - in main: !!!!!
-log_test.c:0069:         [NOTIC] [Main]                main():Hello - in main: 999
+           log_test.c:0068:         [NOTIC] [Main]                Hello - in main
+           log_test.c:0069:         [NOTIC] [Main][Section]       Hello - inside section
