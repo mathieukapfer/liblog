@@ -17,7 +17,9 @@ log_level.cpp
 log_level.h
 LogFile.cpp
 log_macro.h
-LogNodeFactory.h
+LogFacade.h
+LogFacade.cpp
+logNode/LogNodeFactory.h
 logNode/LogNodeFactory.cpp
 logNode/LogNodeVisitor_ShowTree.h
 logNode/LogNodeVisitor_ConfigureLevel.cpp

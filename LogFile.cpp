@@ -1,6 +1,6 @@
 #include <string.h>
 #include "LogFile.h"
-#include "LogNodeFactory.h"
+#include "LogFacade.h"
 
 #include "log_for_logger.h"
 ENABLE_LOG(INFO);
@@ -26,7 +26,7 @@ void LogFile::parseFile() {
 void LogFile::parseFileLine(char *buf) {
   bool namePathIsFound = false;
   LOG_INFO("line:'%s'",buf);
-  namePathIsFound = LogNodeFactory::inst().configureLevel(buf);
+  namePathIsFound = LogFacade::inst().configureLevel(buf);
   LOG_DEBUG("IS %sFOUND:%s\n", namePathIsFound?"":"NOT ", buf) ;
 #ifdef DEBUG_LOGGER_ON
   LogNodeFactory::inst().displayLevelTree();

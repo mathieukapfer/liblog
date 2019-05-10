@@ -11,7 +11,6 @@
 #include "MyClass3.h"
 #include "LogFile.h"
 
-
 #if 0
 // ca marche pas :0(
 #define CHECK_LEVEL__(agregat) {                                         \
@@ -44,13 +43,13 @@ LOG_REGISTER("Main");
 
 bool checkLevel(int* tableLevel, int tableSize) {
   bool ret;
-  ret = LogNodeFactory::inst().compareLevel(tableLevel, tableSize);
+  ret = LogFacade::inst().compareLevel(tableLevel, tableSize);
   if (ret == false)  {
-    LogNodeFactory::inst().printTable();
+    LogFacade::inst().printTable();
     //LOG_DISLAY_TREE();
   } else {
 #ifdef VERBOSE
-  LogNodeFactory::inst().printTable();
+  LogFacade::inst().printTable();
   //LOG_DISLAY_TREE();
 #endif
   }

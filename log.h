@@ -11,11 +11,11 @@
 
 #include "log_level.h"
 #include "log_macro.h"
-#include "LogNodeFactory.h"
+#include "LogFacade.h"
 
 /* register a category name to be logged - see note 1) above */
 #define LOG_REGISTER(catName, ...)                                     \
-  static LogNode *_defaultLogCategory = LogNodeFactory::inst().getNode(catName, false, ##__VA_ARGS__, 0);
+  static LogNode *_defaultLogCategory = LogFacade::inst().getNode(catName, false, ##__VA_ARGS__, 0);
 
 /* macro for log */
 #define LOG_TRACE(fmt, ...)     LOG2(LP_TRACE, false, "" fmt, ##__VA_ARGS__)
@@ -45,10 +45,10 @@
 
 /* for usage without file system */
 /* define log level - BY CODE - see note 2) above */
-#define LOG_CONFIGURE(conf)  LogNodeFactory::inst().configureLevel(conf);
+#define LOG_CONFIGURE(conf)  LogFacade::inst().configureLevel(conf);
 
 /* for support */
 /* display log level tree */
-#define LOG_DISLAY_TREE() LogNodeFactory::inst().displayLevelTree();
+#define LOG_DISLAY_TREE() LogFacade::inst().displayLevelTree();
 
 #endif /* LOG_H */

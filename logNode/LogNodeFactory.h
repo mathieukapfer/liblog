@@ -15,21 +15,15 @@
 
 #include "log_const.h"
 #include "LogNode.h"
-#ifdef LOG_CNF_FILE_ENABLE
-#include "LogFile.h"
-#endif
 
 class LogNodeFactory {
  public:
 
-  /// singleton
-  static LogNodeFactory &inst();
+  /// const
+  LogNodeFactory()
+    { initTable(); };
 
-  /// public api for log node creation from variadic
-  LogNode *getNode(const char* catName, bool preAllocated, ...);
-
-  /// (re)define log level IN CODE !
-  /// NOTE: By defaut, the file log.cnf in current directory is automatically parsed
+  /// define log level
   bool configureLevel(const char* confString);
 
   /// dislay log node tree
@@ -56,17 +50,7 @@ class LogNodeFactory {
   void printTable();
 
  private:
-  LogNodeFactory()
-#ifdef LOG_CNF_FILE_ENABLE
-    :_logFile(),_isLogFileParsed(false)
-#endif
-    { initTable(); };
   virtual ~LogNodeFactory() {};
-
-#ifdef LOG_CNF_FILE_ENABLE
-  LogFile _logFile;
-  bool _isLogFileParsed;
-#endif
 
   /// Factory with pre preallocated table
   ///  in order to allow setup directly on memory

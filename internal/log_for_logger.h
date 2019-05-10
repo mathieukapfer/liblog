@@ -12,6 +12,7 @@
 
 #include <stdio.h>
 
+#include "log_event.h"
 #include "log_const.h"
 #include "log_utils.h"
 #include "log_level.h"
