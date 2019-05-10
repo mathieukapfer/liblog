@@ -7,6 +7,8 @@
 #include "log_level.h"
 #include "log_utils.h"
 
+#include "logNode/LogNode.h"
+
 // stuff to create & send the log event
 #define _LOG_ISENABLED(catv, priority) \
   (catv->_logLevel >= priority)

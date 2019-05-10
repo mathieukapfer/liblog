@@ -10,7 +10,7 @@
 #ifndef LOGNODE_H
 #define LOGNODE_H
 
-#include "Node.h"
+#include "node/Node.h"
 #include "log_const.h"
 
 class LogNode: public Node {
