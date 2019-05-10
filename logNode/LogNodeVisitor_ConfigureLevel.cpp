@@ -51,7 +51,7 @@ bool LogNodeVisitor_ConfigureLevel::visit(LogNode *logNode) {
     getFirstNameStr(&_configureString[_currentIndex], childName);
     LOG_INFO("create prealloacted child:%s", childName);
 
-    LogNodeFactory::inst().createNode(logNode->_name, childName, true);
+    LogFacade::inst().createNode(logNode->_name, childName, true);
   }
 #endif
 
