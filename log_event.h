@@ -3,7 +3,7 @@
 
 #include <stdarg.h>
 
-// foward declaration
+// forward declaration
 class LogNode;
 
 struct LogEvent {

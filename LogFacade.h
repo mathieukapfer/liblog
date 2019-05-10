@@ -16,10 +16,9 @@
 #include "LogFile.h"
 #endif
 
-#include "LogNode.h"
-
 // forward declaration
 class LogNodeFactory;
+class LogNode;
 
 // declaration
 class LogFacade {
