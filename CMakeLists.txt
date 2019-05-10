@@ -1,3 +1,9 @@
+# use cmake test framework
+enable_testing()
+
+# force c++
+SET(CMAKE_C_COMPILER ${CMAKE_CXX_COMPILER})
+
 # library generation
 add_library(log STATIC
 log_const.h
@@ -24,6 +30,7 @@ parse/parseConfigurationString.cpp
 )
 
 # include dir
+include_directories(.)
 include_directories(node)
 include_directories(logNode)
 include_directories(parse)

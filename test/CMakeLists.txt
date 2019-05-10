@@ -1,4 +1,3 @@
-#set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 
 add_executable(test_log
 	log_test.c
@@ -14,7 +13,10 @@ add_test(
 
 # include dir
 include_directories(subdir)
+include_directories(doctest)
 
+# force c++11
+#set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 set_target_properties(test_log PROPERTIES COMPILE_FLAGS "-std=c++11" ) # "${CMAKE_CXX_FLAGS})
 #set_target_properties(test_log PROPERTIES COMPILE_FLAGS ${CMAKE_CXX_FLAGS})
 
