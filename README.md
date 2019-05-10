@@ -10,11 +10,11 @@ Put in your code,
   
             LOG_REGISTER("section_name", "subsection name", ...)
   
-Now you can log with level of priority 
+Now you can add log string with variadic parameters, organized by level of priority:
   * {level}:  NONE EMERG FATAL CRIT ERROR WARN NOTIC INFO DEBUG TRACE
-  * {param}:  variadic list of parameters like printf()
+  * {param}:  variadic list of parameters like **printf()**
           
-            LOG_{level}({params})            
+            LOG_{level} ( {params} )            
   
 Sample:
 
@@ -48,12 +48,13 @@ Here after is a "log.cnf" sample
 
 ###   2.2) By code 
 If you do not have file system, you can setup log level by insert macro 'LOG_CONFIGURE({path},{level})' in you code
-              voi main() {
+              
+              void main() {
               LOG_CONFIGURE("Main:2");
               LOG_CONFIGURE("Main.SectionOfMain:3");
               ...
 
-###   In both case, here is log level meaning:
+###   In both cases, here is log level meaning:
 
               TRACE          9  ==> higher verbose level
               DEBUG          8
@@ -68,5 +69,5 @@ If you do not have file system, you can setup log level by insert macro 'LOG_CON
 
 ##  3) Get log when you application is running
 
-           log_test.c:0068:         [NOTIC] [Main]                Hello - in main
-           log_test.c:0069:         [NOTIC] [Main][Section]       Hello - inside section
+           log_test.c:0068:         [DEBUG] [Main]                Hello - in main
+           log_test.c:0069:         [INFO ] [Main][Section]       Hello - inside section
