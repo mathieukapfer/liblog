@@ -4,7 +4,7 @@
 Put in your code,
   * the include
   
-            include "log.h"
+            #include "log.h"
              
   * at least one macro for the entire file or each section of code  
   
