@@ -9,7 +9,7 @@ add_library(log STATIC
 log_const.h
 log_event.h
 formater/log_event.cpp
-Node.h
+node/Node.h
 node/NodeVisitorI.h
 node/Node.cpp
 LogFile.h
@@ -25,7 +25,7 @@ logNode/LogNodeVisitor_ShowTree.h
 logNode/LogNodeVisitor_ConfigureLevel.cpp
 logNode/LogNodeVisitor_ConfigureLevel.h
 logNode/LogNode.cpp
-LogNode.h
+logNode/LogNode.h
 log.h
 internal/log_utils.cpp
 parse/parseConfigurationString.cpp
