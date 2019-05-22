@@ -1,10 +1,5 @@
 cmake_minimum_required(VERSION 3.0)
 
-# use cmake test framework
-if(_X86_)
-  enable_testing()
-endif()
-
 # cross compilation
 if(CROSS_COMPILE_M3)
   set(CMAKE_CXX_COMPILER arm-none-eabi-g++)
@@ -55,6 +50,8 @@ include_directories(formater)
 
 # sub dir
 if(_X86_)
+  # use cmake test framework
+  enable_testing()
   # add test subdir
   add_subdirectory(test)
 endif()
