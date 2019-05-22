@@ -9,6 +9,7 @@ add_executable(test_log
 add_test(
   NAME run_test_log
   COMMAND "${CMAKE_CURRENT_BINARY_DIR}/test_log"
+  WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
 )
 
 # include dir

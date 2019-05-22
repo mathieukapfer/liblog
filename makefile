@@ -2,7 +2,7 @@
 help: help-display
 
 build-x86:
-	mkdir -p build_x86; cd build_x86; cmake -D_X86_=ON ..; make
+	mkdir -p build_x86; cd build_x86; cmake -D_X86_=ON ..; make all test
 
 build-m3:
 	mkdir -p build_arm_m3; cd build_arm_m3; cmake -DCROSS_COMPILE_M3=ON ..; make
