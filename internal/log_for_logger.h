@@ -45,13 +45,13 @@
 #define min(a, b) (a < b?a:b)
 
 #undef _LOG_ISENABLED
-#define _LOG_ISENABLED(priority) (min(localLogLevel, GLOBAL_LOG_LEVEL) >= priority)
+#define _LOG_ISENABLED(dummy, priority) (min(localLogLevel, GLOBAL_LOG_LEVEL) >= priority)
 
 #define LOGGER_LOG_PATH "[LOGGER]"
 
 #ifdef GLOBAL_LOG_ENABLE
 #define __LOG__(priority, fct, FMT, ...)                                 \
-	if (_LOG_ISENABLED(priority)) {                                       \
+	if (_LOG_ISENABLED(void, priority)) {                                  \
     char header[LOG_HEADER_SIZE];                                       \
     snprintf(header, LOG_HEADER_SIZE, "%s:%04d:", basename_const(__FILE__), __LINE__); \
     printf("\n%-30s[%-5s] %-15s", header, logLevelToString(priority), LOGGER_LOG_PATH); \
