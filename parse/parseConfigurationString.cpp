@@ -72,7 +72,8 @@ void getFirstName(const char * configureString, int &index, ConfigStringParsed &
  * @param firstName
  *
  * @return
- */char *getFirstNameStr(const char *configStr , char *firstName) {
+ */
+char *getFirstNameStr(const char *configStr , char *firstName) {
   ConfigStringParsed parsed;
   int localIndex = 0;
   getFirstName(configStr, localIndex, parsed);
