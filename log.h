@@ -33,15 +33,15 @@
 #define LOG_EXIT(fmt, ...)              LOG2(LP_DEBUG, true,"EXIT: " fmt, ##__VA_ARGS__)
 
 /* macro to trigger action depend on log level */
-#define IF_LOG_TRACE if(_LOG_ISENABLED(LP_TRACE))
-#define IF_LOG_DEBUG if(_LOG_ISENABLED(LP_DEBUG))
-#define IF_LOG_INFO if(_LOG_ISENABLED(LP_INFO))
-#define IF_LOG_NOTICE if(_LOG_ISENABLED(LP_NOTICE))
-#define IF_LOG_WARNING if(_LOG_ISENABLED(LP_WARNING))
-#define IF_LOG_ERROR if(_LOG_ISENABLED(LP_ERROR))
-#define IF_LOG_CRITICAL if(_LOG_ISENABLED(LP_CRITICAL))
-#define IF_LOG_FATAL if(_LOG_ISENABLED(LP_FATAL))
-#define IF_LOG_EMERGENCY if(_LOG_ISENABLED(LP_EMERGENCY))
+#define IF_LOG_TRACE if(_LOG_ISENABLED(_defaultLogCategory, LP_TRACE))
+#define IF_LOG_DEBUG if(_LOG_ISENABLED(_defaultLogCategory, LP_DEBUG))
+#define IF_LOG_INFO if(_LOG_ISENABLED(_defaultLogCategory, LP_INFO))
+#define IF_LOG_NOTICE if(_LOG_ISENABLED(_defaultLogCategory, LP_NOTICE))
+#define IF_LOG_WARNING if(_LOG_ISENABLED(_defaultLogCategory, LP_WARNING))
+#define IF_LOG_ERROR if(_LOG_ISENABLED(_defaultLogCategory, LP_ERROR))
+#define IF_LOG_CRITICAL if(_LOG_ISENABLED_defaultLogCategory,LP_CRITICAL))
+#define IF_LOG_FATAL if(_LOG_ISENABLED(_defaultLogCategory, LP_FATAL))
+#define IF_LOG_EMERGENCY if(_LOG_ISENABLED(_defaultLogCategory, LP_EMERGENCY))
 
 /* for usage without file system */
 /* define log level - BY CODE - see note 2) above */
