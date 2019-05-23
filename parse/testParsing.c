@@ -2,7 +2,6 @@
 #define DOCTEST_CONFIG_TREAT_CHAR_STAR_AS_STRING
 #include "doctest.h"
 
-#include <assert.h>
 #include "parseConfigurationString.h"
 #include <string.h>
 
@@ -20,6 +19,7 @@ TEST_SUITE("Check paring") {
 
     //                             0123456789012345
     const char *configureString = "name1.bigname2:1";
+    char buf[100];
     ConfigStringParsed parsed;
 
     getFirstName(configureString, strIndex, parsed);
@@ -28,11 +28,14 @@ TEST_SUITE("Check paring") {
              &configureString[parsed.firstNameIndex], &configureString[strIndex],
              parsed.firstNameSize, parsed.isLastName, strIndex);
 
+    getFirstNameStr(configureString, buf);
+    CHECK(buf == "name1");
+
     CHECK(_CHECK_STRING(&configureString[parsed.firstNameIndex], "name1"));
     CHECK(parsed.firstNameSize == 5);
     CHECK(parsed.isLastName == false);
-    strIndex = parsed.firstNameSize + parsed.firstNameIndex + 1;
 
+    strIndex = parsed.firstNameSize + parsed.firstNameIndex + 1;
     getFirstName(configureString, strIndex, parsed);
 
     LOG_INFO("%s %s %d %d %d",

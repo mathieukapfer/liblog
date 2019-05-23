@@ -15,11 +15,17 @@ struct ConfigStringParsed {
 };
 
 /*
-   Parse the configuration string at current position.
+   Parse the configuration string at current position
    NOTE: this functon do no allocation but only compute offset and size
          use helper macro above to work with parsed srtucture.
 */
-void getFirstName(const char * configureString, int &index, ConfigStringParsed &parsed);
+/**
+ * Parse the configuration string at current position
+ *
+ * @param configureString in: the string to parse
+ * @param index           in: the current position in string to start the parsing
+ * @param parsed          out:
+ */void getFirstName(const char * configureString, int &index, ConfigStringParsed &parsed);
 
 /*
    copy the first category name of configureString into buf and return it
