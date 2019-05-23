@@ -1,5 +1,14 @@
-# use cmake test framework
-enable_testing()
+cmake_minimum_required(VERSION 3.0)
+
+# cross compilation
+if(CROSS_COMPILE_M3)
+  set(CMAKE_CXX_COMPILER arm-none-eabi-g++)
+  set(CMAKE_C_COMPILER arm-none-eabi-gcc)
+endif()
+
+if(CROSS_COMPILE_YOCTO)
+  # TODO
+endif()
 
 # force c++
 SET(CMAKE_C_COMPILER ${CMAKE_CXX_COMPILER})
@@ -40,4 +49,9 @@ include_directories(internal)
 include_directories(formater)
 
 # sub dir
-add_subdirectory(test)
+if(_X86_)
+  # use cmake test framework
+  enable_testing()
+  # add test subdir
+  add_subdirectory(test)
+endif()
