@@ -10,6 +10,9 @@ build-m3:
 build-a7:
 	mkdir -p build_arm_a7; cd build_arm_a7; cmake -DCROSS_COMPILE_A7=ON ..; make
 
+clean:
+	find . -iname "*cmake*" -not -name CMakeLists.txt -exec rm -rf {} \+
+	rm Makefile
 
 help-display:
 	@echo

@@ -36,7 +36,7 @@ logNode/LogNodeVisitor_ConfigureLevel.h
 logNode/LogNode.cpp
 logNode/LogNode.h
 log.h
-internal/log_utils.cpp
+log_internal/log_utils.cpp
 parse/parseConfigurationString.cpp
 )
 
@@ -45,7 +45,7 @@ include_directories(.)
 include_directories(node)
 include_directories(logNode)
 include_directories(parse)
-include_directories(internal)
+include_directories(log_internal)
 include_directories(formater)
 
 # sub dir
