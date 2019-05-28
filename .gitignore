@@ -17,4 +17,6 @@ CMakeLists_CompilerFlags.cmake
 CMakeLists_Smc.cmake
 CTestTestfile.cmake
 test_*
+!*.cpp
+!*.h
 Testing
