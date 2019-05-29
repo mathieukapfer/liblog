@@ -4,15 +4,32 @@
  * @date   Fri May 24 11:23:21 2019
  *
  * @brief  This is a standalone logger api with same api of liblog
- *         It can be included in your code without any dependency
- *         The switch to liblog implementation is easy (see libdem sample)
  *
- *         Usage:   LOG_<level>( {param} )
- *            where:
+ *         It can be included in your code without any dependency
+ *         and then switch to liblog implementation easily
+ *
+ *         Usage:
+
+                  // logger api
+                  #include "log.h"
+
+                  // set a name for all log in this file
+                  LOG_REGISTER("Main");
+
+                  int main(int argc, char *argv[])
+                  {
+                    LOG_ENTER();
+                    LOG_ENTER("with param");
+                    LOG_DEBUG("hello");
+                    LOG_DEBUG("hello %d", 999);
+                    return 0;
+                  }
+ *
+ *          Log syntaxe:  LOG_<level>( {param} )
+ *
  *                {level}: NONE EMERG FATAL CRIT ERROR WARN NOTIC INFO DEBUG TRACE
- *                {param}: variadic list of parameters like printf()
- *            sample:
- *                  LOG_INFO("this is a log %d",aInt);
+ *                {param}: format and variadic list of parameters like printf()
+ *
  *
  */
 
@@ -25,35 +42,7 @@
  */
 // #define LOG_ENABLE
 
-#ifndef LOG_ENABLE
-
-#define LOG_DEBUG(...)
-#define LOG_INFO(...)
-#define LOG_NOTICE(...)
-#define LOG_WARNING(...)
-#define LOG_ERROR(...)
-#define LOG_FATAL(...)
-#define LOG_FORCE(...)
-#define LOG_ENTER(...)
-#define LOG_EXIT(...)
-
-#define IF_LOG_TRACE
-#define IF_LOG_DEBUG
-#define IF_LOG_INFO
-#define IF_LOG_NOTICE
-#define IF_LOG_WARNING
-#define IF_LOG_ERROR
-#define IF_LOG_CRITICAL
-#define IF_LOG_FATAL
-#define IF_LOG_EMERGENCY
-
-/* stub of liblog api */
-#define LOG_REGISTER(catName, ...)
-#define LOG_CONFIGURE(conf);
-#define LOG_DISLAY_TREE();
-
-#else
-
+#ifdef LOG_ENABLE
 #include <stdio.h>
 #include <string.h>
 #include <string>
@@ -76,6 +65,9 @@
 #define TEST_LOG_FATAL     TEST_LOG_GLOBAL && true
 #define TEST_LOG_EMERGENCY TEST_LOG_GLOBAL && true
 #endif
+
+/* define category name */
+#define LOG_REGISTER(catName,...) static const char* logCatName = catName;
 
 /* macro for log with prefix FILE:LINE */
 #define LOG_TRACE(...)     LOG2("TRACE", false, "" ,__VA_ARGS__)
@@ -104,7 +96,7 @@
 #define IF_LOG_EMERGENCY if(TEST_LOG_EMERGENCY))
 
 /* stub of liblog api */
-#define LOG_REGISTER(catName, ...)
+#define LOG_REGISTER(catName,...) static const char* logCatName = catName;
 #define LOG_CONFIGURE(conf);
 #define LOG_DISLAY_TREE();
 
@@ -115,15 +107,41 @@
 
 #define LOG2(level, withFctName, prefixFct, ...)      \
   {                                                   \
-    printf("\n%s:%03d:%s %s%s%s",                     \
+    printf("\n%s:%03d:%s %s %s%s%s",                   \
            __FILENAME__, __LINE__,                    \
-           level,                                     \
+           logCatName, level,                            \
            withFctName?prefixFct:"",                  \
            withFctName?__FUNCTION__:"",               \
            withFctName?" ":"");                       \
     printf("" __VA_ARGS__);                           \
     fflush(stdout);                                   \
   }
+#else
+
+#define LOG_DEBUG(...)
+#define LOG_INFO(...)
+#define LOG_NOTICE(...)
+#define LOG_WARNING(...)
+#define LOG_ERROR(...)
+#define LOG_FATAL(...)
+#define LOG_FORCE(...)
+#define LOG_ENTER(...)
+#define LOG_EXIT(...)
+
+#define IF_LOG_TRACE
+#define IF_LOG_DEBUG
+#define IF_LOG_INFO
+#define IF_LOG_NOTICE
+#define IF_LOG_WARNING
+#define IF_LOG_ERROR
+#define IF_LOG_CRITICAL
+#define IF_LOG_FATAL
+#define IF_LOG_EMERGENCY
+
+/* stub of liblog api */
+#define LOG_REGISTER(catName,...);
+#define LOG_CONFIGURE(conf);
+#define LOG_DISLAY_TREE();
 
 #endif /* LOG_ENABLE */
 
