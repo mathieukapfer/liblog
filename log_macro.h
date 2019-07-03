@@ -1,7 +1,7 @@
 #ifndef LOG_MACRO_H
 #define LOG_MACRO_H
 
-#include <stdio.h>
+//#include <stdio.h>
 #include <stdarg.h>
 #include "log_event.h"
 #include "log_level.h"

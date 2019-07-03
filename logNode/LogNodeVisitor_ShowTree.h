@@ -11,7 +11,7 @@
 #ifndef LOGNODEVISITOR_SHOWTREE_H
 #define LOGNODEVISITOR_SHOWTREE_H
 
-#include <stdio.h>
+//#include <stdio.h>
 
 #include "LogNode.h"
 #include "NodeVisitorI.h"
