@@ -1,6 +1,6 @@
 #include "LogNode.h"
 #include <stddef.h>
-#include <stdio.h>
+//#include <stdio.h>
 #include <string.h>
 
 #include "log_for_logger.h"

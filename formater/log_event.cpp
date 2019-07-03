@@ -1,6 +1,12 @@
 #include <stdarg.h>
 #include <stdio.h>
-#include <libgen.h>
+
+#ifndef ENABLE_STDIO
+#define GLOBALLOGMESSAGE_SIZE 10
+char globalLogMessage[GLOBALLOGMESSAGE_SIZE];
+#endif
+
+//#include <libgen.h>
 #include <string.h>
 
 #include "log_utils.h"
@@ -37,6 +43,8 @@ void _log_logEvent(LogNode *logNode, struct LogEvent* ev, ...) {
   char logPath[LOG_CATEGORY_NAME_SIZE_MAX];
   int logLevel = logNode?logNode->_logLevel:0;
   char header[LOG_HEADER_SIZE];
+  char logMessage[LOG_MESSAGE_SIZE_MAX];
+  int pos=0;
 
   va_start(ev->ap, ev);
 
@@ -44,13 +52,19 @@ void _log_logEvent(LogNode *logNode, struct LogEvent* ev, ...) {
   logPath[0] = '[';
   logNode?logNode->getFullName(&logPath[1],LOG_CATEGORY_NAME_SIZE_MAX-1):"<out of bound>";
   snprintf(header, LOG_HEADER_SIZE, "%s:%04d:", basename_const(ev->fileName), ev->lineNum);
-  printf("\n%-30s[%-5s] %-15s ",
-         header, logLevelToString(ev->priority), strncat(logPath,"]", LOG_CATEGORY_NAME_SIZE_MAX));
+  pos +=snprintf(logMessage, LOG_MESSAGE_SIZE_MAX, "\n%-30s[%-5s] %-15s ",
+           header, logLevelToString(ev->priority), strncat(logPath,"]", LOG_CATEGORY_NAME_SIZE_MAX));
   if (ev->printFunctionName) {
-    printf("%10s() ", ev->functionName);
+    pos +=snprintf(logMessage, LOG_MESSAGE_SIZE_MAX, "%10s() ", ev->functionName);
   }
-  vprintf(ev->fmt, ev->ap);
+  vsnprintf(logMessage, LOG_MESSAGE_SIZE_MAX, ev->fmt, ev->ap);
+
+#ifdef ENABLE_STDIO
   fflush(stdout);
+  printf("%s", logMessage);
+#else
+  strncpy(globalLogMessage, logMessage, GLOBALLOGMESSAGE_SIZE);
+#endif
 
   // end of variadic
   va_end(ev->ap);

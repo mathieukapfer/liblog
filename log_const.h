@@ -29,9 +29,14 @@
 // max of "file:line" header
 #define LOG_HEADER_SIZE 50
 
+// max of "file:line" header
+#define LOG_MESSAGE_SIZE_MAX 50
+
 
 // User Option
 // -----------------------------------------------------------------
+
+#ifdef ENABLE_FILE_SYSTEM
 // Add the parsing of 'log.cfg' file at startup
 #define LOG_CNF_FILE_ENABLE
 
@@ -40,6 +45,8 @@
 
 // max size of line in configuration file
 #define LOG_LINE_SIZE_MAX 100
+
+#endif
 
 // Internal Option: for advanced user only
 // -----------------------------------------------------------------
