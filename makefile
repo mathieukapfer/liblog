@@ -17,6 +17,10 @@ clean:
 	find . -iname "*cmake*" -not -name CMakeLists.txt -exec rm -rf {} \+
 	rm Makefile
 
+index:
+	-rm TAGS; find . -name "*.*[hcp]" | xargs etags -a -l c++
+
+
 help-display:
 	@echo
 	@echo "Main targets:"

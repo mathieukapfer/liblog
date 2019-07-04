@@ -66,7 +66,7 @@ endif()
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O2 -std=c++11")
 if(CROSS_COMPILE_M3)
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fno-exceptions -fno-use-cxa-atexit -fno-threadsafe-statics -fpermissive -fno-unwind-tables  -D GCC_ARMCM3  -D inline=")
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -mcpu=cortex-m3 -mthumb -Og -fmessage-length=0 -fsigned-char -ffunction-sections -fdata-sections -fno-move-loop-invariants -Wall -Wextra  -g3 -fno-exceptions -fno-use-cxa-atexit -fno-threadsafe-statics -fpermissive -fno-unwind-tables  -D GCC_ARMCM3  -D inline=" )
   #set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fno-rtti")
 endif()
 
