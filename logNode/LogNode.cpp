@@ -43,10 +43,11 @@ LogNode::LogNode():
 bool LogNode::isFree() {
   int ret = false;
 #ifdef ALLOW_CONFIGURATION_BEFORE_DECLARATION
-  ret =  _name[0] == '\0';
+  ret = ( _name[0] == '\0');
 #else
-  ret = _name == NULL;
+  ret = (_name == NULL);
 #endif
+  return ret;
 }
 
 
