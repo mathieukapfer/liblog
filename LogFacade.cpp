@@ -9,7 +9,7 @@ LogFacade &LogFacade::inst() {
 
 
 LogFacade::LogFacade():
-    _logNodeFactory(new LogNodeFactory)
+  _logNodeFactory(new LogNodeFactory)
 #ifdef LOG_CNF_FILE_ENABLE
     ,_logFile(),_isLogFileParsed(false)
 #endif
@@ -61,7 +61,7 @@ LogNode *LogFacade::createNode(const char* parent, const char* child, bool preAl
 
 /// Define log level for a given path
 bool LogFacade::configureLevel(const char* confString) {
-  _logNodeFactory->configureLevel(confString);
+  return _logNodeFactory->configureLevel(confString);
 }
 
 /// dislay log node tree
@@ -73,11 +73,11 @@ void LogFacade::displayLevelTree() {
 /// api for test
 /// todo: put as private and use friend
 bool LogFacade::compareLevel(int *tableLevel, int tableSize) {
-  _logNodeFactory->compareLevel(tableLevel, tableSize);
+  return _logNodeFactory->compareLevel(tableLevel, tableSize);
 }
 
 /// For debug purpose: print the nodes table
 /// todo: put as private and use friend
 void LogFacade::printTable() {
-  _logNodeFactory->printTable();
+  return _logNodeFactory->printTable();
 }
