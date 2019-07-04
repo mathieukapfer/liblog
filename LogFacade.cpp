@@ -55,7 +55,7 @@ LogNode * LogFacade::getNode(const char* catName, bool preAllocated, ...) {
 
 /// internal api for log node creation
 LogNode *LogFacade::createNode(const char* parent, const char* child, bool preAllocated) {
-  _logNodeFactory->createNode(parent, child, preAllocated);
+  return _logNodeFactory->createNode(parent, child, preAllocated);
 }
 
 
