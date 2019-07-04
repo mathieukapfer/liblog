@@ -148,7 +148,7 @@ TEST_SUITE("Format") {
   static const char *msg = "!!!!!";
 
   // test log with parameter
-  LOG_ENTER("test enter");
+  LOG_ENTER("\ntest enter");
   LOG_NOTICE("Hello - in main: %s", msg);
   LOG_NOTICE("Hello - in main: %d", 999);
   LOG_NOTICE("Hello - in main: %s %d", msg, 999);

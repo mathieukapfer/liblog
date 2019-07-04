@@ -41,7 +41,7 @@ void _log_logEvent(LogNode *logNode, struct LogEvent* ev, ...) {
 #else
   // unique formateur for all nodes
   char logPath[LOG_CATEGORY_NAME_SIZE_MAX];
-  int logLevel = logNode?logNode->_logLevel:0;
+  //int logLevel = logNode?logNode->_logLevel:0;
   char header[LOG_HEADER_SIZE];
   char logMessage[LOG_MESSAGE_SIZE_MAX];
   int pos=0;

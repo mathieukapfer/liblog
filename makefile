@@ -20,6 +20,11 @@ clean:
 index:
 	-rm TAGS; find . -name "*.*[hcp]" | xargs etags -a -l c++
 
+.PHONY:test
+test:
+	cd build_x86; make
+	cd build_x86; make test_log
+	cd test; ../build_x86/test/test_log
 
 help-display:
 	@echo

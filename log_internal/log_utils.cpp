@@ -1,7 +1,6 @@
 #include "log_utils.h"
 
 const char * basename_const(const char * filename) {
-  char * ret = 0;
   int index = 0;
   int slash = -1; // keep this special value - see comment below
 

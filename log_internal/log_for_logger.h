@@ -29,7 +29,7 @@
 // Log level control
 // ======================
 // comment this line to kill all log
-//#define GLOBAL_LOG_ENABLE
+#define GLOBAL_LOG_ENABLE
 
 // define the max log level
 #define GLOBAL_LOG_LEVEL  LP_NOTICE
@@ -45,11 +45,11 @@
 #define min(a, b) (a < b?a:b)
 
 #undef _LOG_ISENABLED
-#define _LOG_ISENABLED(dummy, priority) (min(localLogLevel, GLOBAL_LOG_LEVEL) >= priority)
 
 #define LOGGER_LOG_PATH "[LOGGER]"
 
 #ifdef GLOBAL_LOG_ENABLE
+#define _LOG_ISENABLED(dummy, priority) (min(localLogLevel, GLOBAL_LOG_LEVEL) >= priority)
 #define __LOG__(priority, fct, FMT, ...)                                 \
 	if (_LOG_ISENABLED(void, priority)) {                                  \
     char header[LOG_HEADER_SIZE];                                       \
@@ -62,6 +62,7 @@
     fflush(stdout);                                                     \
   }
 #else
+#define _LOG_ISENABLED(dummy, priority) (false)
 #define __LOG__(priority, FMT, ...)
 #endif
 
