@@ -3,6 +3,7 @@
 #include <stddef.h>
 
 #include "log_for_logger.h"
+
 ENABLE_LOG(INFO);
 
 Node::Node(Node *p_parent):

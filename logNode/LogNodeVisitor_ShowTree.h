@@ -33,7 +33,6 @@ class LogNodeVisitor_ShowTree: public NodeVisitorI {
  private:
 
   bool visit(LogNode *logNode) {
-    bool ret = true;
     char buf[LOG_CATEGORY_PATH_NAME_SIZE_MAX];
     (logNode)->getFullName(buf,LOG_CATEGORY_PATH_NAME_SIZE_MAX);
 
@@ -43,6 +42,7 @@ class LogNodeVisitor_ShowTree: public NodeVisitorI {
            logNode->_logLevel,
            logNode->_preAlloacted?"// prealloacted":""
       );
+    // always return true in this case
     return true;
   }
 
