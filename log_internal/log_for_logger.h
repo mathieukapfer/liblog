@@ -23,13 +23,10 @@
 #undef LOG_CONFIGURE
 #undef LOG_DISLAY_TREE
 
-// define the local log level statically
-#define ENABLE_LOG(level) static int localLogLevel = LP_##level;
-
 // Log level control
 // ======================
 // comment this line to kill all log
-#define GLOBAL_LOG_ENABLE
+//#define GLOBAL_LOG_ENABLE
 
 // define the max log level
 #define GLOBAL_LOG_LEVEL  LP_NOTICE
@@ -49,7 +46,11 @@
 #define LOGGER_LOG_PATH "[LOGGER]"
 
 #ifdef GLOBAL_LOG_ENABLE
+// define the local log level statically
+#define ENABLE_LOG(level) static int localLogLevel = LP_##level;
+// helper
 #define _LOG_ISENABLED(dummy, priority) (min(localLogLevel, GLOBAL_LOG_LEVEL) >= priority)
+// formater
 #define __LOG__(priority, fct, FMT, ...)                                 \
 	if (_LOG_ISENABLED(void, priority)) {                                  \
     char header[LOG_HEADER_SIZE];                                       \
@@ -62,6 +63,7 @@
     fflush(stdout);                                                     \
   }
 #else
+#define ENABLE_LOG(level)
 #define _LOG_ISENABLED(dummy, priority) (false)
 #define __LOG__(priority, FMT, ...)
 #endif
