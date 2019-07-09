@@ -1,9 +1,11 @@
 #include <stdarg.h>
 #include <stdio.h>
 
+
 #ifndef ENABLE_STDIO
 #define GLOBALLOGMESSAGE_SIZE 1024
 char globalLogMessage[GLOBALLOGMESSAGE_SIZE];
+char* globalLogMessage_index=globalLogMessage;
 #endif
 
 //#include <libgen.h>
@@ -63,7 +65,12 @@ void _log_logEvent(LogNode *logNode, struct LogEvent* ev, ...) {
   fflush(stdout);
   printf("%s", logMessage);
 #else
-  strncpy(globalLogMessage, logMessage, GLOBALLOGMESSAGE_SIZE);
+ // enought place
+  if(globalLogMessage_index + LOG_MESSAGE_SIZE_MAX < globalLogMessage + GLOBALLOGMESSAGE_SIZE) {
+    // add log
+    strncpy(globalLogMessage_index, logMessage, GLOBALLOGMESSAGE_SIZE);
+    globalLogMessage_index += pos;
+  }
 #endif
 
   // end of variadic
