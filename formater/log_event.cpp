@@ -47,8 +47,8 @@ void _log_logEvent(LogNode *logNode, struct LogEvent* ev, ...) {
   char header[LOG_HEADER_SIZE];
   char logMessage[LOG_MESSAGE_SIZE_MAX];
   int pos=0;
-
-  va_start(ev->ap, ev);
+  va_list ap;
+  va_start(ap, ev);
 
   // compute log path
   logPath[0] = '[';
@@ -59,7 +59,7 @@ void _log_logEvent(LogNode *logNode, struct LogEvent* ev, ...) {
   if (ev->printFunctionName) {
     pos += snprintf(logMessage+pos, LOG_MESSAGE_SIZE_MAX, "%10s() ", ev->functionName);
   }
-  pos += vsnprintf(logMessage+pos, LOG_MESSAGE_SIZE_MAX, ev->fmt, ev->ap);
+  pos += vsnprintf(logMessage+pos, LOG_MESSAGE_SIZE_MAX, ev->fmt, ap);
 
 #ifdef ENABLE_STDIO
   fflush(stdout);
@@ -74,6 +74,6 @@ void _log_logEvent(LogNode *logNode, struct LogEvent* ev, ...) {
 #endif
 
   // end of variadic
-  va_end(ev->ap);
+  va_end(ap);
 #endif
 } // _log_logEvent
