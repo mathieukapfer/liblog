@@ -1,18 +1,26 @@
 cmake_minimum_required(VERSION 3.0)
 
+# for Yocto integration
+set(COMPILER_PATH "/usr/bin")
+
 # compiler and system option
 # ============================
 if(CROSS_COMPILE_M3)
   # M3 Free RTOS
-  set(CMAKE_CXX_COMPILER arm-none-eabi-g++)
-  set(CMAKE_C_COMPILER arm-none-eabi-gcc)
+  set(CMAKE_CXX_COMPILER ${COMPILER_PATH}/arm-none-eabi-g++)
+  set(CMAKE_C_COMPILER ${COMPILER_PATH}/arm-none-eabi-gcc)
+  # unset Yocto setup (done for A7!)
+  unset(CMAKE_CXX_FLAGS)
+  unset(CXXFLAGS)
+  unset(LDFLAGS)
+  unset(CMAKE_CXX_COMPILER_ARG1)
 elseif(CROSS_COMPILE_A7)
   # *** TO BE REWORKED DURING YOCTO INTEGRATION ***
   # A7 linux
   set(ENABLE_FILE_SYSTEM 1)
   set(ENABLE_STDIO 1)
-  set(CMAKE_CXX_COMPILER arm-none-eabi-g++)
-  set(CMAKE_C_COMPILER arm-none-eabi-gcc)
+  set(CMAKE_CXX_COMPILER ${COMPILER_PATH}/arm-none-eabi-g++)
+  set(CMAKE_C_COMPILER ${COMPILER_PATH}/arm-none-eabi-gcc)
 else()
   # X86 (unit test)
   set(ENABLE_FILE_SYSTEM 1)
