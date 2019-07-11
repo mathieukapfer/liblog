@@ -14,7 +14,7 @@ struct LogEvent {
   bool printFunctionName;
   const char* functionName;
   const char *fmt;
-  va_list ap;
+  /*va_list ap;*/
 };
 
 void _log_logEvent(LogNode *logNode, struct LogEvent *ev, ...);
