@@ -11,8 +11,9 @@ LogFacade &LogFacade::inst() {
 LogFacade::LogFacade():
   _logNodeFactory(new LogNodeFactory)
 #ifdef LOG_CNF_FILE_ENABLE
-    ,_logFile(),_isLogFileParsed(false)
+  ,_logFile(),_isLogFileParsed(false),
 #endif
+  _fifo(NULL)
     {};
 
 /**
@@ -80,4 +81,15 @@ bool LogFacade::compareLevel(int *tableLevel, int tableSize) {
 /// todo: put as private and use friend
 void LogFacade::printTable() {
   return _logNodeFactory->printTable();
+}
+
+
+/// use fifo instead of stdout
+void LogFacade::registerFifo(LogFifoI *fifo) {
+  _fifo = fifo;
+}
+
+/// getter on fifo
+LogFifoI * LogFacade::getFifo() {
+  return _fifo;
 }

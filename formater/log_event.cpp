@@ -1,13 +1,6 @@
 #include <stdarg.h>
 #include <stdio.h>
 
-
-#ifndef ENABLE_STDIO
-#define GLOBALLOGMESSAGE_SIZE 1024
-char globalLogMessage[GLOBALLOGMESSAGE_SIZE];
-char* globalLogMessage_index=globalLogMessage;
-#endif
-
 //#include <libgen.h>
 #include <string.h>
 
@@ -62,14 +55,14 @@ void _log_logEvent(LogNode *logNode, struct LogEvent* ev, ...) {
   pos += vsnprintf(logMessage+pos, LOG_MESSAGE_SIZE_MAX, ev->fmt, ap);
 
 #ifdef ENABLE_STDIO
+  // use stdout
   fflush(stdout);
   printf("%s", logMessage);
 #else
- // enought place
-  if(globalLogMessage_index + LOG_MESSAGE_SIZE_MAX < globalLogMessage + GLOBALLOGMESSAGE_SIZE) {
-    // add log
-    strncpy(globalLogMessage_index, logMessage, GLOBALLOGMESSAGE_SIZE);
-    globalLogMessage_index += pos;
+  // use fifo
+  LogFifoI fifo = LogFacade::inst()->getFifo();
+  if( fifo && !fifo->isFull() ) {
+    fifo->push(logMessage);
   }
 #endif
 

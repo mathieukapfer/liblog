@@ -16,6 +16,8 @@
 #include "LogFile.h"
 #endif
 
+#include "LogFifo.h"
+
 // forward declaration
 class LogNodeFactory;
 class LogNode;
@@ -33,6 +35,12 @@ class LogFacade {
 
   /// internal api for log node creation
   LogNode *createNode(const char* parent, const char* child, bool preAllocated);
+
+  /// use fifo instead of stdout
+  void registerFifo(LogFifoI *fifo);
+
+  /// getter on fifo
+  LogFifoI *getFifo();
 
   /// DO NOT USE THIS IF YOU HAVE "LOG_CNF_FILE_ENABLE"
   /// as the file log.cnf in current directory is automatically parsed
@@ -59,6 +67,9 @@ class LogFacade {
   LogFile _logFile;
   bool _isLogFileParsed;
 #endif
+
+  LogFifoI *_fifo;
+
 
 };
 
