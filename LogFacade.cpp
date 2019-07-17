@@ -9,9 +9,9 @@ LogFacade &LogFacade::inst() {
 
 
 LogFacade::LogFacade():
-  _logNodeFactory(new LogNodeFactory)
+  _logNodeFactory(new LogNodeFactory),
 #ifdef LOG_CNF_FILE_ENABLE
-  ,_logFile(),_isLogFileParsed(false),
+  _logFile(),_isLogFileParsed(false),
 #endif
   _fifo(NULL)
     {};

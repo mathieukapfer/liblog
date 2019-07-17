@@ -36,6 +36,7 @@ set(LIBLOG_COMMUN_SOURCES
   log_const.h
   log_event.h
   formater/log_event.cpp
+  formater/LogFifo.cpp
   node/Node.h
   node/NodeVisitorI.h
   node/Node.cpp

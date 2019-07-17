@@ -10,6 +10,11 @@
 #include "log_macro.h"
 #include "LogNode.h"
 
+#ifndef ENABLE_STDIO
+#include "LogFifoI.h"
+#include "LogFacade.h"
+#endif
+
 /*
    Formater function
    Sample:
@@ -60,8 +65,8 @@ void _log_logEvent(LogNode *logNode, struct LogEvent* ev, ...) {
   printf("%s", logMessage);
 #else
   // use fifo
-  LogFifoI fifo = LogFacade::inst()->getFifo();
-  if( fifo && !fifo->isFull() ) {
+  LogFifoI *fifo = LogFacade::inst().getFifo();
+  if( fifo && !(fifo->isFull()) ) {
     fifo->push(logMessage);
   }
 #endif
