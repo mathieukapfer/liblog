@@ -1,9 +1,11 @@
 #include "LogFifo.h"
 #include <stdio.h>
 
+
 int main(int argc, char *argv[]) {
 
-  LogFifo fifo;
+  LogMutexI dummyMutex;
+  LogFifo fifo(dummyMutex);
 
   // normal usage
   fifo.push("this is a log 1");

@@ -6,6 +6,7 @@
 #include <string.h>
 
 #include "LogFifoI.h"
+#include "LogMutexI.h"
 
 #define nbslot 32
 #define logMsgSizeMax 256
@@ -13,7 +14,7 @@
 class LogFifo: public LogFifoI {
 
  public:
-  LogFifo():_slotPush(-1), _slotPop(0) {
+  explicit LogFifo(LogMutexI &mutex):_mutex(mutex), _slotPush(-1), _slotPop(0) {
     memset(_logSlots, 0, sizeof(LogSlot) * nbslot);
   }
 
@@ -51,10 +52,10 @@ class LogFifo: public LogFifoI {
     char buf[logMsgSizeMax];
   };
 
+  LogMutexI &_mutex;
   LogSlot _logSlots[nbslot];
   int _slotPush;
   int _slotPop;
-
 };
 
 

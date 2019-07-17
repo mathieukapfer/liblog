@@ -1,6 +1,8 @@
 #ifndef LOG_FIFO_I_H
 #define LOG_FIFO_I_H
 
+#include <stdint.h>
+
 class LogFifoI {
 
  public:

@@ -13,6 +13,11 @@
 #include "log_macro.h"
 #include "LogFacade.h"
 
+#ifndef ENABLE_STDIO
+// no stdio, so provide fifo
+#include "LogFifo.h"
+#endif
+
 /* register a category name to be logged - see note 1) above */
 #define LOG_REGISTER(catName, ...)                                     \
   static LogNode *_defaultLogCategory = LogFacade::inst().getNode(catName, false, ##__VA_ARGS__, 0);
@@ -50,5 +55,8 @@
 /* for support */
 /* display log level tree */
 #define LOG_DISLAY_TREE() LogFacade::inst().displayLevelTree();
+
+/* for fifo instread of stdio */
+#define LOG_REGISTER_FIFO(fifo) LogFacade::inst().registerFifo(fifo);
 
 #endif /* LOG_H */
