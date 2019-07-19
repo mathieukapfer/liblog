@@ -66,7 +66,7 @@ void _log_logEvent(LogNode *logNode, struct LogEvent* ev, ...) {
 #else
   // use fifo
   LogFifoI *fifo = LogFacade::inst().getFifo();
-  if( fifo && !(fifo->isFull()) ) {
+  if( fifo && (fifo->isFull() == false) ) {
     fifo->push(logMessage);
   }
 #endif
