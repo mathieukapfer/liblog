@@ -25,14 +25,15 @@ bool LogFifo::push(LogMsg  msg) {
   bool ret = true;
   bool goAhead = false;
 
-  _mutex.Take();
-  if (!isFull()) {
-    // take next slot
-    _slotPush = (_slotPush + 1) % nbslot;
-    // continue
-    goAhead = true;
+  if(_mutex.Take()) {
+    if (!isFull()) {
+      // take next slot
+      _slotPush = (_slotPush + 1) % nbslot;
+      // continue
+      goAhead = true;
+    }
+    _mutex.Give();
   }
-  _mutex.Give();
 
   // update slot
   if (goAhead) {
@@ -102,13 +103,14 @@ void LogFifo::back(LogMsg &msg) {
 void LogFifo::pop() {
   LogSlot *slot;
 
-  _mutex.Take();
-  slot = &_logSlots[_slotPop];
-  if (slot->state == FULL) {
-    // update state
-    slot->state = FREE;
-    // update index
-    _slotPop = (_slotPop + 1) % nbslot;
-  }
+  if(_mutex.Take()) {
+    slot = &_logSlots[_slotPop];
+    if (slot->state == FULL) {
+      // update state
+      slot->state = FREE;
+      // update index
+      _slotPop = (_slotPop + 1) % nbslot;
+    }
   _mutex.Give();
+  }
 }
