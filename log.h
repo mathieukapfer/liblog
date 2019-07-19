@@ -20,7 +20,7 @@
 
 /* register a category name to be logged - see note 1) above */
 #define LOG_REGISTER(catName, ...)                                     \
-  static LogNode *_defaultLogCategory = LogFacade::inst().getNode(catName, false, ##__VA_ARGS__, 0);
+  static volatile LogNode *_defaultLogCategory = LogFacade::inst().getNode(catName, false, ##__VA_ARGS__, 0);
 
 /* macro for log */
 #define LOG_TRACE(fmt, ...)     LOG2(LP_TRACE, false, "" fmt, ##__VA_ARGS__)
