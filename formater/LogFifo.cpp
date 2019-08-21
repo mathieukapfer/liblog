@@ -62,7 +62,7 @@ bool LogFifo::push(char* msg) {
 }
 
 char *LogFifo::front() {
-  char * ret = "\0";
+  char * ret = (char *)"\0";
   if (!isEmpty() /*_slot->state == FULL*/) {
     ret = _logSlots[_slotPop].buf;
   }
@@ -70,7 +70,7 @@ char *LogFifo::front() {
 }
 
 char *LogFifo::back() {
-  char * ret = "\0";
+  char * ret = (char *)"\0";
   if (!isEmpty() /*_slot->state == FULL*/) {
     ret = _logSlots[_slotPush].buf;
   }
@@ -85,7 +85,7 @@ void LogFifo::front(LogMsg &msg) {
     msg.buf = _slot->buf;
   } else {
     msg.len = 0;
-    msg.buf = "\0";
+    msg.buf = (char *)"\0";
   }
 }
 
@@ -96,7 +96,7 @@ void LogFifo::back(LogMsg &msg) {
     msg.buf = slot->buf;
   } else {
     msg.len = 0;
-    msg.buf = "\0";
+    msg.buf = (char*)"\0";
   }
 }
 
