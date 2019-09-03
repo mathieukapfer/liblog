@@ -1,7 +1,12 @@
 cmake_minimum_required(VERSION 3.0)
 
-# for Yocto integration
-set(COMPILER_PATH "/usr/bin")
+# define project template
+project(liblog)
+
+# set cross compiler option
+if(STANDALONE_MODE)
+  include(CMakeLists_CompilerFlags.cmake)
+endif()
 
 # Library option
 # ============================
@@ -61,39 +66,6 @@ add_library(log STATIC ${LIBLOG_COMMUN_SOURCES} ${LIBLOG_FILE_SYSTEM})
 
 # Compilation option
 # ============================
-
-# define compiler & option ONLY in standalone mode
-# (else, keep option of parent module)
-if(STANDALONE_MODE)
-
-  if(CROSS_COMPILE_M3)
-    # M3 Free RTOS
-    set(CMAKE_CXX_COMPILER ${COMPILER_PATH}/arm-none-eabi-g++)
-    set(CMAKE_C_COMPILER ${COMPILER_PATH}/arm-none-eabi-gcc)
-    # unset Yocto setup (done for A7!)
-    ##### unset(CMAKE_CXX_FLAGS)
-    unset(CXXFLAGS)
-    unset(LDFLAGS)
-    unset(CMAKE_CXX_COMPILER_ARG1)
-  endif()
-
-  if(ENABLE_STDIO)
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -D ENABLE_STDIO")
-  endif()
-
-  #set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O2 -std=c++11")
-
-  if(CROSS_COMPILE_M3)
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -mcpu=cortex-m3 -mthumb -Og -fmessage-length=0 -fsigned-char -ffunction-sections -fdata-sections -fno-move-loop-invariants -Wall -Wextra  -g3 -fno-exceptions -fno-use-cxa-atexit -fno-threadsafe-statics -fpermissive -fno-unwind-tables  -D GCC_ARMCM3  -D inline=" )
-    #set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fno-rtti")
-  endif()
-
-  # enable debug
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -ggdb -g")
-
-  set_target_properties(log PROPERTIES COMPILE_FLAGS ${CMAKE_CXX_FLAGS})
-
-endif()
 
 
 # include dir
