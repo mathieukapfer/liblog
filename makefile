@@ -5,7 +5,7 @@ build-x86:
 	mkdir -p build_x86; cd build_x86; /usr/bin/cmake -D_X86_=ON ..; make all test
 
 config-m3:
-	mkdir -p build_arm_m3; cd build_arm_m3; /usr/bin/cmake -DCMAKE_TOOLCHAIN_FILE:PATH="..\CMakeLists_Compiler.cmake"  -DCROSS_COMPILE_M3=ON  VERBOSE=1 ..
+	mkdir -p build_arm_m3; cd build_arm_m3; /usr/bin/cmake -DCMAKE_TOOLCHAIN_FILE:PATH="..\CMakeLists_CrossCompiler.cmake"  -DCROSS_COMPILE_M3=ON  VERBOSE=1 ..
 
 build-m3: config-m3
 	cd build_arm_m3; make VERBOSE=1
@@ -32,5 +32,5 @@ help-display:
 	@echo "Main targets:"
 	@echo	"  make build-x86 : build for host "
 	@echo "  make build-m3  : crosscompilation for Free-RTOS M3 "
-	@echo	"  make build-a7  : crosscompilation for Linux A7 "
+	@echo	"  make build-a7  : crosscompilation for Linux A7  - [TODO !!!!] "
 	@echo
