@@ -5,7 +5,7 @@ build-x86:
 	mkdir -p build_x86; cd build_x86; /usr/bin/cmake -D_X86_=ON ..; make all test
 
 config-m3:
-	mkdir -p build_arm_m3; cd build_arm_m3; /usr/bin/cmake -DSTANDALONE_MODE=ON -DCROSS_COMPILE_M3=ON ..;
+	mkdir -p build_arm_m3; cd build_arm_m3; /usr/bin/cmake -DCMAKE_TOOLCHAIN_FILE:PATH="..\CMakeLists_Compiler.cmake"  -DCROSS_COMPILE_M3=ON  VERBOSE=1 ..
 
 build-m3: config-m3
 	cd build_arm_m3; make VERBOSE=1
@@ -15,7 +15,7 @@ build-a7:
 
 clean:
 	-rm -rf build_x86 build_arm_m3 build_arm_a7
-	-find . -iname "*cmake*" -not -name CMakeLists.txt -exec rm -rf {} \+
+	-find . -iname "*cmake*" -not -name "CMakeLists*" -exec rm -rf {} \+
 	-rm Makefile
 
 index:
