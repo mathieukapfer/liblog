@@ -1,10 +1,16 @@
 cmake_minimum_required(VERSION 3.0)
 
 # define project template
+# ============================
 project(liblog)
 
-# set cross compiler option
+# set compiler & flags IF NEEDED
+# (else keep setup from parent project or environement)
+# ======================================================
 if(STANDALONE_MODE)
+  if(CROSS_COMPILE_M3)
+    include(CMakeLists_CrossCompiler.cmake)
+  endif()
   include(CMakeLists_CompilerFlags.cmake)
 endif()
 
