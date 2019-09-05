@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.0)
 
 # define project template
 # ============================
-project(liblog)
+# project(liblog)
 
 # set compiler & flags IF NEEDED
 # (else keep setup from parent project or environement)
@@ -31,7 +31,7 @@ else()
 endif()
 
 # force c++
-SET(CMAKE_C_COMPILER ${CMAKE_CXX_COMPILER})
+# SET(CMAKE_C_COMPILER ${CMAKE_CXX_COMPILER})
 
 # library generation
 # ============================
