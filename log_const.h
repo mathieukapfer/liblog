@@ -31,7 +31,7 @@
 #define LOG_HEADER_SIZE 50
 
 // max of "file:line" header
-#define LOG_MESSAGE_SIZE_MAX 100
+#define LOG_MESSAGE_SIZE_MAX 255
 
 
 // User Option
