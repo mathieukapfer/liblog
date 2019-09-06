@@ -52,12 +52,12 @@ void _log_logEvent(LogNode *logNode, struct LogEvent* ev, ...) {
   logPath[0] = '[';
   logNode?logNode->getFullName(&logPath[1],LOG_CATEGORY_NAME_SIZE_MAX-1):"<out of bound>";
   snprintf(header, LOG_HEADER_SIZE, "%s:%04d:", basename_const(ev->fileName), ev->lineNum);
-  pos += snprintf(logMessage+pos, LOG_MESSAGE_SIZE_MAX, "\n%-30s[%-5s] %-15s ",
+  pos += snprintf(logMessage + pos, LOG_MESSAGE_SIZE_MAX - pos, "\n%-30s[%-5s] %-15s ",
            header, logLevelToString(ev->priority), strncat(logPath,"]", LOG_CATEGORY_NAME_SIZE_MAX));
   if (ev->printFunctionName) {
-    pos += snprintf(logMessage+pos, LOG_MESSAGE_SIZE_MAX, "%10s() ", ev->functionName);
+    pos += snprintf(logMessage + pos, LOG_MESSAGE_SIZE_MAX - pos, "%10s() ", ev->functionName);
   }
-  pos += vsnprintf(logMessage+pos, LOG_MESSAGE_SIZE_MAX, ev->fmt, ap);
+  pos += vsnprintf(logMessage + pos, LOG_MESSAGE_SIZE_MAX - pos, ev->fmt, ap);
 
 #ifdef ENABLE_STDIO
   // use stdout
