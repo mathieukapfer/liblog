@@ -1,6 +1,6 @@
 
 add_executable(test_log
-	log_test.c
+	log_test.cpp
 	MyClass.cpp
 	MyClass2.cpp
 	subdir/MyClass3.cpp
@@ -18,7 +18,7 @@ include_directories(doctest)
 
 # force c++11
 #set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
-set_target_properties(test_log PROPERTIES COMPILE_FLAGS "-std=c++11 -g" ) # "${CMAKE_CXX_FLAGS})
+#set_target_properties(test_log PROPERTIES COMPILE_FLAGS "${CMAKE_CXX_FLAGS} -std=gnu11 -std=c++11 -g" )
 #set_target_properties(test_log PROPERTIES COMPILE_FLAGS ${CMAKE_CXX_FLAGS})
 
 target_link_libraries(test_log log)
