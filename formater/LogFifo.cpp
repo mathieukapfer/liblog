@@ -4,7 +4,9 @@
 #define MIN(a, b) (a < b ? a: b)
 
 bool LogFifo::isEmpty() {
-  bool ret = false;
+  // NOTE: should return empty if semaphore is not taken
+  //       because consumer will test if(!empty()) {... process log ... }
+  bool ret = true;
   if(_mutex.Take()) {
     ret = (_logSlots[_slotPop].state <= BUZY);
     _mutex.Give();
