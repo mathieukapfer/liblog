@@ -40,7 +40,7 @@
  * DEFINE HERE THE GLOBAL LOG CONFIGURATION SWITCH
  *  => Uncomment this line to remove the log code
  */
-// #define LOG_ENABLE
+#define LOG_ENABLE
 
 #ifdef LOG_ENABLE
 #include <stdio.h>
