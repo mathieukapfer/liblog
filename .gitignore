@@ -13,8 +13,6 @@ build
 *_sm.cpp
 *_sm.h
 .vscode
-CMakeLists_CompilerFlags.cmake
-CMakeLists_Smc.cmake
 CTestTestfile.cmake
 test_*
 !*.cpp
