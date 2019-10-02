@@ -6,6 +6,7 @@
 #include "log_event.h"
 #include "log_level.h"
 #include "log_utils.h"
+#include "log_formater.h"
 
 #include "logNode/LogNode.h"
 
@@ -20,6 +21,12 @@
 		_log_logEvent( (LogNode*) catv, &_log_ev, ##__VA_ARGS__) ;                      \
 	}
 
-#define LOG2(prio, fct, fmt, ...)		  _LOG_(_defaultLogCategory, prio, fct, fmt, ##__VA_ARGS__)
+#define LOG2(prio, fct, fmt, ...)		  \
+  {                                                                     \
+    /* buffer for log formater function - see log_formater.h */         \
+    const int logBufSize = 255;                                         \
+    char logBuf[logBufSize];                                            \
+    _LOG_(_defaultLogCategory, prio, fct, fmt, ##__VA_ARGS__)           \
+  }
 
 #endif /* LOG_MACRO_H */
