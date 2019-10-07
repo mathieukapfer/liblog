@@ -156,4 +156,9 @@ TEST_SUITE("Format") {
 
   LOG_DISLAY_TREE();
   }
+
+  TEST_CASE("test tab as sring formater") {
+    uint16_t tab[] = { 1, 2, 3, 4, 5 };
+    LOG_DEBUG("\ntab:%s", LOG_TABLE_TO_STR(tab,5,0));
+  }
 }
