@@ -9,7 +9,7 @@
    NOTE: return the same pointer as buf, but filled with tab value as string
 */
 template <typename T>
-char * log_table2str(T tab[], int nb, int start, char *buf, int bufSize, const char *format) {
+char * log_table2str(T tab[], int nb, int start, char *buf, int bufSize, const char *format = "%d, ") {
   int pos = 0;
   pos += snprintf(buf + pos, bufSize - pos, "{");
   for (int i=start; i < nb + start; i++) {
