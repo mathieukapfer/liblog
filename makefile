@@ -47,8 +47,8 @@ test:
 help-display:
 	@echo
 	@echo "Main targets:"
-	@echo	"  make build-x86 : build for host "
-	@echo "  make build-m3  : crosscompilation for Free-RTOS M3 "
-	@echo	"  make build-a7  : crosscompilation for Linux A7  - [TODO !!!!] "
+	@echo "  make build-x86       : build for host"
+	@echo "  make build-m3        : crosscompilation for Free-RTOS M3 "
+	@echo "  make build-a7        : crosscompilation for Linux A7  - [TODO !!!!] "
 	@echo "  make install-local   : install lib and header in build dir"
 	@echo "  make install         : install lib and header in machine dir"
