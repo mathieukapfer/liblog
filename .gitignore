@@ -19,3 +19,4 @@ test_*
 !*.h
 Testing
 TAGS
+build*
