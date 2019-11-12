@@ -93,20 +93,21 @@ if(_X86_)
 endif()
 
 # install target with static lib and header
-install(FILES
-${CMAKE_CURRENT_SOURCE_DIR}/log_const.h
-${CMAKE_CURRENT_SOURCE_DIR}/log_event.h
-${CMAKE_CURRENT_SOURCE_DIR}/LogFacade.h
-${CMAKE_CURRENT_SOURCE_DIR}/LogFifo.h
-${CMAKE_CURRENT_SOURCE_DIR}/LogFifoI.h
-${CMAKE_CURRENT_SOURCE_DIR}/LogFile.h
-${CMAKE_CURRENT_SOURCE_DIR}/log_formater.h
-${CMAKE_CURRENT_SOURCE_DIR}/log.h
-${CMAKE_CURRENT_SOURCE_DIR}/log_level.h
-${CMAKE_CURRENT_SOURCE_DIR}/log_macro.h
-${CMAKE_CURRENT_SOURCE_DIR}/LogMutexI.h
-${CMAKE_CURRENT_SOURCE_DIR}/log_utils.h
-  DESTINATION liblog/include)
+# install(FILES
+# ${CMAKE_CURRENT_SOURCE_DIR}/log_const.h
+# ${CMAKE_CURRENT_SOURCE_DIR}/log_event.h
+# ${CMAKE_CURRENT_SOURCE_DIR}/LogFacade.h
+# ${CMAKE_CURRENT_SOURCE_DIR}/LogFifo.h
+# ${CMAKE_CURRENT_SOURCE_DIR}/LogFifoI.h
+# ${CMAKE_CURRENT_SOURCE_DIR}/LogFile.h
+# ${CMAKE_CURRENT_SOURCE_DIR}/log_formater.h
+# ${CMAKE_CURRENT_SOURCE_DIR}/log.h
+# ${CMAKE_CURRENT_SOURCE_DIR}/log_level.h
+# ${CMAKE_CURRENT_SOURCE_DIR}/log_macro.h
+# ${CMAKE_CURRENT_SOURCE_DIR}/LogMutexI.h
+# ${CMAKE_CURRENT_SOURCE_DIR}/log_utils.h
+# ${CMAKE_CURRENT_SOURCE_DIR}/logNode/LogNode.h
+#   DESTINATION liblog/include)
 
-install(TARGETS log
-  ARCHIVE DESTINATION liblog/lib/static)
+# install(TARGETS log
+#   ARCHIVE DESTINATION liblog/lib/static)
