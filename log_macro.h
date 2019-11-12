@@ -26,6 +26,7 @@
     /* buffer for log formater function - see log_formater.h */         \
     const int logBufSize = 255;                                         \
     char logBuf[logBufSize];                                            \
+    (void) logBuf;                                                      \
     _LOG_(_defaultLogCategory, prio, fct, fmt, ##__VA_ARGS__)           \
   }
 
