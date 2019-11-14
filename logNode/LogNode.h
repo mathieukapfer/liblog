@@ -22,7 +22,7 @@ class LogNode: public Node {
 
   /// wrapper to get 'parent()' with right type
   LogNode *getParent() {
-    return dynamic_cast<LogNode *>(Node::getParent());
+    return static_cast<LogNode *>(Node::getParent());
   };
 
   /// get the complete name stared by parents's name
