@@ -4,31 +4,7 @@ cmake_minimum_required(VERSION 3.0)
 # ============================
 # project(liblog)
 
-# set compiler & flags IF NEEDED
-# (else keep setup from parent project or environement)
-# ======================================================
-if(STANDALONE_MODE)
-  if(CROSS_COMPILE_M3)
-    include(CMakeLists_CrossCompiler.cmake)
-  endif()
-  include(CMakeLists_CompilerFlags.cmake)
-endif()
-
-# Library option
-# ============================
-if(CROSS_COMPILE_M3)
-  message("Set liblog option for M3: disable file system and stdio")
-elseif(CROSS_COMPILE_A7)
-  # A7 linux
-  message("Set liblog option for A7: enable file system and stdio")
-  set(ENABLE_FILE_SYSTEM 1)
-  set(ENABLE_STDIO 1)
-else()
-  # X86 (unit test)
-  message("Set liblog option for x86: enable file system and stdio")
-  set(ENABLE_FILE_SYSTEM 1)
-  set(ENABLE_STDIO 1)
-endif()
+include(CMakeLists_LogConfig.txt)
 
 # force c++
 # SET(CMAKE_C_COMPILER ${CMAKE_CXX_COMPILER})
@@ -61,7 +37,6 @@ set(LIBLOG_COMMUN_SOURCES
   )
 
 if(ENABLE_FILE_SYSTEM)
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -D ENABLE_FILE_SYSTEM")
   set(LIBLOG_FILE_SYSTEM
     LogFile.h
     LogFile.cpp
@@ -69,9 +44,6 @@ if(ENABLE_FILE_SYSTEM)
 endif()
 
 add_library(log STATIC ${LIBLOG_COMMUN_SOURCES} ${LIBLOG_FILE_SYSTEM})
-
-# Compilation option
-# ============================
 
 
 # include dir

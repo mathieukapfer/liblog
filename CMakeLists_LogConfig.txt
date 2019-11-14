@@ -1,0 +1,25 @@
+# Library option
+# ============================
+if(CROSS_COMPILE_M3)
+  message("Set liblog option for M3: disable file system and stdio")
+elseif(CROSS_COMPILE_A7)
+  # A7 linux
+  message("Set liblog option for A7: enable file system and stdio")
+  set(ENABLE_FILE_SYSTEM 1)
+  set(ENABLE_STDIO 1)
+else()
+  # X86 (unit test)
+  message("Set liblog option for x86: enable file system and stdio")
+  set(ENABLE_FILE_SYSTEM 1)
+  set(ENABLE_STDIO 1)
+endif()
+
+# Define compilation flag according to library option
+# ============================
+if(ENABLE_FILE_SYSTEM)
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -D ENABLE_FILE_SYSTEM")
+endif()
+
+if(ENABLE_STDIO)
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -D ENABLE_STDIO")
+endif()
