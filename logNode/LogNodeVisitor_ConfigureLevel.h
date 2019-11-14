@@ -25,7 +25,7 @@ class LogNodeVisitor_ConfigureLevel: public NodeVisitorI {
 
   /// wrapper to private visitor
   virtual bool visit(Node *node) {
-    LogNode *logNode = dynamic_cast<LogNode *>(node);
+    LogNode *logNode = static_cast<LogNode *>(node);
     return visit(logNode);
   }
 

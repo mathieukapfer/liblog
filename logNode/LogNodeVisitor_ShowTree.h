@@ -23,7 +23,7 @@ class LogNodeVisitor_ShowTree: public NodeVisitorI {
   virtual ~LogNodeVisitor_ShowTree() {};
 
   virtual bool visit(Node *node) {
-    LogNode *logNode = dynamic_cast<LogNode *>(node);
+    LogNode *logNode = static_cast<LogNode *>(node);
     return visit(logNode);
   }
 
