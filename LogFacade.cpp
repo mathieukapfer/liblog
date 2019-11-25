@@ -2,6 +2,13 @@
 #include "LogFacade.h"
 #include "LogNodeFactory.h"
 
+#ifdef LOG_CNF_FILE_ENABLE
+#include "LogConfFile.h"
+#else
+#include "LogConfMem.h"
+#endif
+
+
 LogFacade &LogFacade::inst() {
   static LogFacade inst;
   return inst;
@@ -11,8 +18,11 @@ LogFacade &LogFacade::inst() {
 LogFacade::LogFacade():
   _logNodeFactory(new LogNodeFactory),
 #ifdef LOG_CNF_FILE_ENABLE
-  _logFile(),_isLogFileParsed(false),
+  _logConf(* new LogConfFile()),
+#else
+  _logConf(* new LogConfMem())
 #endif
+  _isLogConfParsed(false),
   _fifo(NULL)
     {};
 
@@ -35,13 +45,11 @@ LogNode * LogFacade::getNode(const char* catName, bool preAllocated, ...) {
   const char* parent = LOG_ROOT_NAME;
   LogNode* ret = NULL;
 
-#ifdef LOG_CNF_FILE_ENABLE
-  // parse file now if needed
-  if (_isLogFileParsed == false) {
-    _isLogFileParsed = true;
-    _logFile.parseFile();
+  // parse Conf now if needed
+  if (_isLogConfParsed == false) {
+    _isLogConfParsed = true;
+    _logConf.parseConf();
   }
-#endif
 
   while (cat) {
     ret = _logNodeFactory->createNode(parent, cat, false);

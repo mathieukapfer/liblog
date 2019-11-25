@@ -31,6 +31,8 @@ set(LIBLOG_COMMUN_SOURCES
   logNode/LogNodeVisitor_ConfigureLevel.h
   logNode/LogNode.cpp
   logNode/LogNode.h
+  LogConf.cpp
+  LogConf.h
   log.h
   log_internal/log_utils.cpp
   parse/parseConfigurationString.cpp
@@ -38,8 +40,8 @@ set(LIBLOG_COMMUN_SOURCES
 
 if(ENABLE_FILE_SYSTEM)
   set(LIBLOG_FILE_SYSTEM
-    LogFile.h
-    LogFile.cpp
+    LogConfFile.h
+    LogConfFile.cpp
     )
 endif()
 

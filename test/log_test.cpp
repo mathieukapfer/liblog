@@ -9,7 +9,7 @@
 #include "MyClass.h"
 #include "MyClass2.h"
 #include "MyClass3.h"
-#include "LogFile.h"
+#include "LogConfFile.h"
 
 #if 0
 // ca marche pas :0(
