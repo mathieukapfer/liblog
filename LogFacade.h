@@ -12,10 +12,7 @@
 #define LOGFACADE_H
 
 #include "log_const.h"
-#ifdef LOG_CNF_FILE_ENABLE
-#include "LogFile.h"
-#endif
-
+#include "LogConf.h"
 #include "LogFifoI.h"
 
 // forward declaration
@@ -63,10 +60,8 @@ class LogFacade {
   virtual ~LogFacade() {};
 
   LogNodeFactory *_logNodeFactory;
-#ifdef LOG_CNF_FILE_ENABLE
-  LogFile _logFile;
-  bool _isLogFileParsed;
-#endif
+  LogConf &_logConf;
+  bool _isLogConfParsed;
 
   LogFifoI *_fifo;
 

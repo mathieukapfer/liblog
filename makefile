@@ -11,8 +11,9 @@ build-x86:
 # clean target
 clean:
 	-rm -rf ${BUILD_X86_DIR}
-	-find . -iname "*cmake*" -not -name "CMakeLists*" -exec rm -rf {} \+
-	-rm Makefile
+
+#-find . -iname "*cmake*" -not -name "CMakeLists*" -exec rm -rf {} \+
+#	-rm Makefile
 
 # tag for emacs
 index:
