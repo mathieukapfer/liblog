@@ -62,7 +62,7 @@ include_directories(formater)
 
 # sub dir
 # ============================
-if(_X86_ OR _UNIT_TEST_)
+if(_X86_ OR _DO_UNIT_TEST_)
   # use cmake test framework
   enable_testing()
   # add test subdir
