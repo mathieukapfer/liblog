@@ -17,8 +17,12 @@ class LogConfFile : public LogConf {
  private:
   void parseFile();
 
-  // cnf file related method
+  // cnf file
   FILE* fd;
+
+#ifdef ENABLE_COPY_CONF_TO_MEM
+  char * _copyOfConfigurationFileInMem;
+#endif
 
 };
 

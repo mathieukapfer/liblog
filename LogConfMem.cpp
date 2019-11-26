@@ -4,8 +4,6 @@
 
 ENABLE_LOG(DEBUG);
 
-extern char * LOG_CONF_MEM_PTR;
-
 LogConfMem::LogConfMem() {};
 
 LogConfMem::~LogConfMem() {};
@@ -20,4 +18,5 @@ void LogConfMem::parseConf() {
       parseLine(line);
     line = strtok_r(NULL,"\n",&saveptr);
   }
+
 };

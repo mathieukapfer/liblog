@@ -3,6 +3,9 @@
 
 #include "LogConf.h"
 
+// this is the location of configuration strings buffer
+extern char * LOG_CONF_MEM_PTR;
+
 class LogConfMem: public LogConf {
 
  public:

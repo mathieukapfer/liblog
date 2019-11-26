@@ -11,7 +11,12 @@
 #include "MyClass3.h"
 #include "LogConfFile.h"
 
-// need to link test with conf in memory
+#ifdef ENABLE_COPY_CONF_TO_MEM
+// define a void buffer to receive the conf strings
+char MEM_PTR[500];
+const char * LOG_CONF_MEM_PTR =  MEM_PTR;
+#else
+// define the conf strings into mem
 const char cfg[] = {
   "# this is a comment \n"
   " # this is a comment with space before\n"
@@ -24,8 +29,9 @@ const char cfg[] = {
   "Main.MyClass2            :ERROR(4)\n"
   "Main.MyClass3            :WARN(5)\n"
 };
-
+// get the above filled buffer
 const char * LOG_CONF_MEM_PTR = cfg;
+#endif
 
 
 #if 0
@@ -74,10 +80,16 @@ bool checkLevel(int* tableLevel, int tableSize) {
 }
 
 //int main(int argc, char *argv[]) {
-TEST_SUITE("Configuration") {
+TEST_SUITE("Configure global") {
 
 #ifdef ENABLE_FILE_SYSTEM
   TEST_CASE("by file") {
+
+#ifdef ENABLE_COPY_CONF_TO_MEM
+    const char sep[] = "\n===========================================\n";
+    printf("\n\nCONF COPY TO MEM:%s%s%s", sep, LOG_CONF_MEM_PTR, sep);
+#endif
+
     // test display tree
     LOG_DISLAY_TREE();
 
@@ -86,6 +98,7 @@ TEST_SUITE("Configuration") {
 
     // check default level
     CHECK_LEVEL(1, 2, 3, 4, 5);
+
   }
 #else
   TEST_CASE("by mem") {
@@ -100,6 +113,10 @@ TEST_SUITE("Configuration") {
     CHECK_LEVEL(1, 2, 3, 4, 5);
   }
 #endif
+}
+
+TEST_SUITE("Configure by code ") {
+
   TEST_CASE("by code with int") {
     // test level configuration by int
     for (int level=0; level <= LP_TRACE; level++) {
