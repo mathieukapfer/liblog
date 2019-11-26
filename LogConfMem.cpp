@@ -1,5 +1,8 @@
 #include <string.h>
 #include "LogConfMem.h"
+#include "log_for_logger.h"
+
+ENABLE_LOG(DEBUG);
 
 extern char * LOG_CONF_MEM_PTR;
 
@@ -11,11 +14,10 @@ LogConfMem::~LogConfMem() {};
 void LogConfMem::parseConf() {
   char *saveptr;
   char * line = strtok_r(strdup(LOG_CONF_MEM_PTR),"\n", &saveptr);
+  char cp ;
 
   while(line) {
-    if (line[0] != '#' && strlen(line) > 1) {
       parseLine(line);
-    }
     line = strtok_r(NULL,"\n",&saveptr);
   }
 };

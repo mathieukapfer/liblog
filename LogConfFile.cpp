@@ -24,8 +24,6 @@ void LogConfFile::parseConf() {
     // read line
     if (fd) {
       while (fgets(str, sizeof(buf), fd) != NULL) {
-        if (buf[0] != '#' && strlen(buf) > 1) {
-          //LOG_INFO("line: %s",buf);
           parseLine(buf);
         }
       }

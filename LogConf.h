@@ -11,8 +11,12 @@ class LogConf {
   virtual void parseConf() = 0;
 
  protected:
-  // parse one line ended by '\n'
+  // parse line including check
   void parseLine(char *buf);
+
+ private:
+  // parse line without check
+  void _parseLine(char *buf);
 
 };
 
