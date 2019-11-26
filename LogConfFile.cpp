@@ -4,17 +4,12 @@
 
 #include "log_for_logger.h"
 
-#ifdef ENABLE_COPY_CONF_TO_MEM
-// get the pointer to buffer that will cointains the configuration file content
-#include "LogConfMem.h"
-#endif
-
 ENABLE_LOG(INFO);
 
 LogConfFile::LogConfFile():
   fd(0)
 #ifdef ENABLE_COPY_CONF_TO_MEM
-  ,_copyOfConfigurationFileInMem(LOG_CONF_MEM_PTR)
+  ,_copyOfConfigurationFileInMem(NULL)
 #endif
 {};
 
@@ -39,7 +34,7 @@ void LogConfFile::parseConf() {
             strncpy(_copyOfConfigurationFileInMem, buf, LOG_LINE_SIZE_MAX);
             _copyOfConfigurationFileInMem += strnlen(buf, LOG_LINE_SIZE_MAX);
           } else {
-            LOG_NOTICE("do not copy to mem (%p)",_copyOfConfigurationFileInMem);
+            //LOG_WARNING("do not copy to mem (%p)",_copyOfConfigurationFileInMem);
         }
 #endif
           parseLine(buf);
