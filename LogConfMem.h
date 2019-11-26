@@ -1,6 +1,8 @@
 #ifndef LOGCONFMEM_H
 #define LOGCONFMEM_H
 
+#include "LogConf.h"
+
 class LogConfMem: public LogConf {
 
  public:

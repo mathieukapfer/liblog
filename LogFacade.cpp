@@ -20,7 +20,7 @@ LogFacade::LogFacade():
 #ifdef LOG_CNF_FILE_ENABLE
   _logConf(* new LogConfFile()),
 #else
-  _logConf(* new LogConfMem())
+  _logConf(* new LogConfMem()),
 #endif
   _isLogConfParsed(false),
   _fifo(NULL)
