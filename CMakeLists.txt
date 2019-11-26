@@ -39,13 +39,16 @@ set(LIBLOG_COMMUN_SOURCES
   )
 
 if(ENABLE_FILE_SYSTEM)
-  set(LIBLOG_FILE_SYSTEM
+  set(LIBLOG_CONF
     LogConfFile.h
-    LogConfFile.cpp
-    )
+    LogConfFile.cpp)
+else()
+  set(LIBLOG_CONF
+    LogConfMem.h
+    LogConfMem.cpp)
 endif()
 
-add_library(log STATIC ${LIBLOG_COMMUN_SOURCES} ${LIBLOG_FILE_SYSTEM})
+add_library(log STATIC ${LIBLOG_COMMUN_SOURCES} ${LIBLOG_CONF})
 
 
 # include dir
@@ -59,7 +62,7 @@ include_directories(formater)
 
 # sub dir
 # ============================
-if(_X86_)
+if(_X86_ OR _UNIT_TEST_)
   # use cmake test framework
   enable_testing()
   # add test subdir

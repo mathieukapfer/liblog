@@ -11,6 +11,22 @@
 #include "MyClass3.h"
 #include "LogConfFile.h"
 
+const char cfg[] = {
+  "# this is a comment \n"
+  "GLOBAL                   :EMERG(1)\n"
+  "GLOBAL                   :EMERG\n"
+  "GLOBAL                   :1\n"
+  "Main                     :FATAL(2)\n"
+  "Main.MyClass1            :CRIT(3)\n"
+  "Main.MyClass2            :ERROR(4)\n"
+  "Main.MyClass3            :WARN(5)\n"
+  " # this is not a comment \n"
+};
+
+const char * LOG_CONF_MEM_PTR = cfg;
+
+
+
 #if 0
 // ca marche pas :0(
 #define CHECK_LEVEL__(agregat) {                                         \
@@ -58,6 +74,8 @@ bool checkLevel(int* tableLevel, int tableSize) {
 
 //int main(int argc, char *argv[]) {
 TEST_SUITE("Configuration") {
+
+#ifdef ENABLE_FILE_SYSTEM
   TEST_CASE("by file") {
     // test display tree
     LOG_DISLAY_TREE();
@@ -67,9 +85,20 @@ TEST_SUITE("Configuration") {
 
     // check default level
     CHECK_LEVEL(1, 2, 3, 4, 5);
-
   }
+#else
+  TEST_CASE("by mem") {
 
+    // test display tree
+    LOG_DISLAY_TREE();
+
+    // test log emergency
+    LOG_EMERGENCY("ENTER");
+
+    // check default level
+    CHECK_LEVEL(1, 2, 3, 4, 5);
+  }
+#endif
   TEST_CASE("by code with int") {
     // test level configuration by int
     for (int level=0; level <= LP_TRACE; level++) {

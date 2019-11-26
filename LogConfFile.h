@@ -22,6 +22,4 @@ class LogConfFile : public LogConf {
 
 };
 
-
-
 #endif /* LOGFILE_H */

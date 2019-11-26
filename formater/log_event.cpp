@@ -73,7 +73,7 @@ void _log_logEvent(LogNode *logNode, struct LogEvent* ev, ...) {
   snprintf(header, LOG_HEADER_SIZE, "%s:%04d:", basename_const(ev->fileName), ev->lineNum);
 
   // compute log header
-  SNPRINTF_APPEND(pos, "\n%-30s[%-5s] %-15s ", header, logLevelToString(ev->priority),
+  SNPRINTF_APPEND(pos, "\n%-30s[<%-5s>] %-15s ", header, logLevelToString(ev->priority),
                   strncat(logPath,"]", LOG_CATEGORY_NAME_SIZE_MAX));
   if (ev->printFunctionName) {
      SNPRINTF_APPEND(pos, "%10s() ", ev->functionName);

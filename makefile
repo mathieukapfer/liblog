@@ -1,5 +1,6 @@
 # dir
 BUILD_X86_DIR=build_x86
+BUILD_X86_NO_FS_DIR=build_x86_nofs
 
 # main target
 help: help-display
@@ -8,9 +9,13 @@ help: help-display
 build-x86:
 	mkdir -p ${BUILD_X86_DIR}; cd ${BUILD_X86_DIR}; cmake -D_X86_=ON ..; make all test
 
+# build target with M3 configuration for unit test
+build-x86-no-fs:
+	mkdir -p ${BUILD_X86_NO_FS_DIR}; cd ${BUILD_X86_NO_FS_DIR}; cmake -DCROSS_COMPILE_M3=ON -D_UNIT_TEST_=ON ..; make all test
+
 # clean target
 clean:
-	-rm -rf ${BUILD_X86_DIR}
+	-rm -rf ${BUILD_X86_DIR} ${BUILD_X86_NO_FS_DIR}
 
 #-find . -iname "*cmake*" -not -name "CMakeLists*" -exec rm -rf {} \+
 #	-rm Makefile
