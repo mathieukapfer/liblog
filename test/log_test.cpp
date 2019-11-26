@@ -11,8 +11,11 @@
 #include "MyClass3.h"
 #include "LogConfFile.h"
 
+// need to link test with conf in memory
 const char cfg[] = {
   "# this is a comment \n"
+  " # this is a comment with space before\n"
+  " \t# this is a comment with space & tab before\n"
   "GLOBAL                   :EMERG(1)\n"
   "GLOBAL                   :EMERG\n"
   "GLOBAL                   :1\n"
@@ -20,11 +23,9 @@ const char cfg[] = {
   "Main.MyClass1            :CRIT(3)\n"
   "Main.MyClass2            :ERROR(4)\n"
   "Main.MyClass3            :WARN(5)\n"
-  " # this is not a comment \n"
 };
 
 const char * LOG_CONF_MEM_PTR = cfg;
-
 
 
 #if 0

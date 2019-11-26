@@ -44,10 +44,10 @@
 // log configuration file name
 #define LOG_CNF_FILE_NAME    "log.cfg"
 
-// max size of line in configuration file
-#define LOG_LINE_SIZE_MAX 100
-
 #endif
+
+// max size of line in configuration string (from file or mem)
+#define LOG_LINE_SIZE_MAX 100
 
 // Internal Option: for advanced user only
 // -----------------------------------------------------------------

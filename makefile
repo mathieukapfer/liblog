@@ -28,9 +28,14 @@ index:
 .PHONY:test
 
 test:
+	@echo "Check conf from file"
 	cd ${BUILD_X86_DIR}; make
 	cd ${BUILD_X86_DIR}; make test_log
 	cd test; ../${BUILD_X86_DIR}/test/test_log
+	@echo "Check conf from memory"
+	cd ${BUILD_X86_NO_FS_DIR}; make
+	cd ${BUILD_X86_NO_FS_DIR}; make test_log
+	cd test; ../${BUILD_X86_NO_FS_DIR}/test/test_log
 
 help-display:
 	@echo
