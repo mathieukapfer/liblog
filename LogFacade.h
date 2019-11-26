@@ -39,6 +39,14 @@ class LogFacade {
   /// getter on fifo
   LogFifoI *getFifo();
 
+  /// refresh log configuration
+  void refreshConf();
+
+  /// (re)define at run time the memory addr where the configuration file is copied
+#ifdef ENABLE_COPY_CONF_TO_MEM
+  void registerMemConfAddr(char * newAddr);
+#endif
+
   /// DO NOT USE THIS IF YOU HAVE "LOG_CNF_FILE_ENABLE"
   /// as the file log.cnf in current directory is automatically parsed
   /// line by line with this method:
@@ -59,8 +67,11 @@ class LogFacade {
   LogFacade();
   virtual ~LogFacade() {};
 
+  /// read conf
+  void readConf();
+
   LogNodeFactory *_logNodeFactory;
-  LogConf &_logConf;
+  LogConf *_logConf;
   bool _isLogConfParsed;
 
   LogFifoI *_fifo;

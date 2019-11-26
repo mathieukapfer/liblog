@@ -14,6 +14,13 @@ class LogConfFile : public LogConf {
   // parse the full configuration data
   virtual void parseConf();
 
+  // define memory addr where the configuration file is copied
+#ifdef ENABLE_COPY_CONF_TO_MEM
+  void updateMemConfAddr(char * newAddr) {
+    _copyOfConfigurationFileInMem = newAddr;
+  }
+#endif
+
  private:
   void parseFile();
 

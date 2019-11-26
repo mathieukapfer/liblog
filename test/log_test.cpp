@@ -14,7 +14,7 @@
 #ifdef ENABLE_COPY_CONF_TO_MEM
 // define a void buffer to receive the conf strings
 char MEM_PTR[500];
-const char * LOG_CONF_MEM_PTR =  MEM_PTR;
+//const char * LOG_CONF_MEM_PTR =  MEM_PTR;
 #else
 // define the conf strings into mem
 const char cfg[] = {
@@ -60,8 +60,6 @@ const char * LOG_CONF_MEM_PTR = cfg;
   CHECK(ret == true);                                         \
   }                                                           \
 
-LOG_REGISTER("Main");
-
 //#define VERBOSE
 
 bool checkLevel(int* tableLevel, int tableSize) {
@@ -86,15 +84,15 @@ TEST_SUITE("Configure global") {
   TEST_CASE("by file") {
 
 #ifdef ENABLE_COPY_CONF_TO_MEM
+    // register the local buffer to receive the copy of conf
+    LOG_REGISTER_MEM_CONF_ADDR(MEM_PTR);
+
     const char sep[] = "\n===========================================\n";
-    printf("\n\nCONF COPY TO MEM:%s%s%s", sep, LOG_CONF_MEM_PTR, sep);
+    printf("\n\nCONF COPY TO MEM:%s%s%s", sep, MEM_PTR, sep);
 #endif
 
-    // test display tree
+// test display tree
     LOG_DISLAY_TREE();
-
-    // test log emergency
-    LOG_EMERGENCY("ENTER");
 
     // check default level
     CHECK_LEVEL(1, 2, 3, 4, 5);
@@ -105,9 +103,6 @@ TEST_SUITE("Configure global") {
 
     // test display tree
     LOG_DISLAY_TREE();
-
-    // test log emergency
-    LOG_EMERGENCY("ENTER");
 
     // check default level
     CHECK_LEVEL(1, 2, 3, 4, 5);
@@ -194,6 +189,8 @@ TEST_SUITE("Format") {
   TEST_CASE("check printf format") {
   static const char *msg = "!!!!!";
 
+  LOG_REGISTER("TestFormat");
+
   // test log with parameter
   LOG_ENTER("\ntest enter");
   LOG_NOTICE("Hello - in main: %s", msg);
@@ -205,6 +202,8 @@ TEST_SUITE("Format") {
   }
 
   TEST_CASE("test tab as sring formater") {
+    LOG_REGISTER("TestFormat");
+
     uint16_t tab[] = { 1, 2, 3, 4, 5 };
     LOG_DEBUG("\ntab:%s", LOG_TABLE_TO_STR(tab,5,0));
   }

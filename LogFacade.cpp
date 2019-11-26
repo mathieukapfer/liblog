@@ -18,13 +18,41 @@ LogFacade &LogFacade::inst() {
 LogFacade::LogFacade():
   _logNodeFactory(new LogNodeFactory),
 #ifdef LOG_CNF_FILE_ENABLE
-  _logConf(* new LogConfFile()),
+  _logConf(new LogConfFile()),
 #else
-  _logConf(* new LogConfMem()),
+  _logConf(new LogConfMem()),
 #endif
   _isLogConfParsed(false),
   _fifo(NULL)
     {};
+
+/*
+ * refresh log configuration (force read agai)
+ */
+void LogFacade::refreshConf() {
+  _isLogConfParsed = false;
+  readConf();
+}
+/*
+ * read conf
+ */
+void LogFacade::readConf() {
+  // parse conf now if needed
+  if (_isLogConfParsed == false) {
+    _isLogConfParsed = true;
+    _logConf->parseConf();
+  }
+}
+
+/*
+ * (re)define at run time the memory addr where the configuration file is copied
+ */
+#ifdef ENABLE_COPY_CONF_TO_MEM
+void LogFacade::registerMemConfAddr(char * newAddr) {
+  static_cast<LogConfFile*>(_logConf)->updateMemConfAddr(newAddr);
+  refreshConf();
+}
+#endif
 
 /**
  * This is the main service of the class:
@@ -45,15 +73,11 @@ LogNode * LogFacade::getNode(const char* catName, bool preAllocated, ...) {
   const char* parent = LOG_ROOT_NAME;
   LogNode* ret = NULL;
 
-  // parse Conf now if needed
-  if (_isLogConfParsed == false) {
-    _isLogConfParsed = true;
-    _logConf.parseConf();
-  }
+  readConf();
 
   while (cat) {
     ret = _logNodeFactory->createNode(parent, cat, false);
-    // cumpute next pair (parent, child)
+    // compute next pair (parent, child)
     parent = cat;
     cat = va_arg(vl, const char*);
   }
