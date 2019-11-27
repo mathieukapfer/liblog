@@ -17,6 +17,10 @@ struct LogEvent {
   /*va_list ap;*/
 };
 
+/// log with header
 void _log_logEvent(LogNode *logNode, struct LogEvent *ev, ...);
+
+/// log output api
+void _log(const char * format, ...);
 
 #endif /* LOG_EVENT_H */

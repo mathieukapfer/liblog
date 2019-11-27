@@ -81,17 +81,7 @@ void _log_logEvent(LogNode *logNode, struct LogEvent* ev, ...) {
   // compute log body
   VSNPRINTF_APPEND(pos, ev->fmt, ap);
 
-#ifdef ENABLE_STDIO
-  // use stdout
-  fflush(stdout);
-  printf("%s", logMessage);
-#else
-  // use fifo
-  LogFifoI *fifo = LogFacade::inst().getFifo();
-  if( fifo && (fifo->isFull() == false) ) {
-    fifo->push(logMessage);
-  }
-#endif
+  _log(logMessage);
 
   // end of variadic
   va_end(ap);
@@ -109,3 +99,26 @@ void _log_logEvent(LogNode *logNode, struct LogEvent* ev, ...) {
 #endif
 
 } // _log_logEvent
+
+
+void _log(const char * format, ...) {
+
+  char msg[LOG_MESSAGE_SIZE_MAX];
+  va_list ap;
+
+  va_start(ap, format);
+  vsnprintf(msg, LOG_MESSAGE_SIZE_MAX, format, ap);
+  va_end(ap);
+
+#ifdef ENABLE_STDIO
+  // use stdout
+  fflush(stdout);
+  printf("%s", msg);
+#else
+  // use fifo
+  LogFifoI *fifo = LogFacade::inst().getFifo();
+  if( fifo && (fifo->isFull() == false) ) {
+    fifo->push(msg);
+  }
+#endif
+}
