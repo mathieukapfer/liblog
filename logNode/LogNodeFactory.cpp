@@ -125,7 +125,7 @@ LogNode *LogNodeFactory::getFreeNode(int &index) {
   //LOG_DEBUG("index:%d", index);
 
   if (ret == NULL ){
-    printf("no room left for log node!\n");
+    LOG_ERROR("no room left for log node!\n");
   }
   return ret;
 }
@@ -175,9 +175,9 @@ bool  LogNodeFactory::configureLevel(const char* confString) {
  *
  */
 void LogNodeFactory::displayLevelTree() {
-  printf("\nDisplay spec:\n");
+  _log("\n*Display spec:\n");
   getRootNode()->accept(*(new LogNodeVisitor_ShowTree));
-  printf("\n");
+  _log("\n*");
 }
 
 /**
@@ -186,13 +186,13 @@ void LogNodeFactory::displayLevelTree() {
  */
 void LogNodeFactory::printTable() {
   int index;
-  printf("\n");
+  _log("\n");
 
   for(index=0; index < _logNodeTable_SIZE; index++) {
     if (_logNodeTable[index].isFree()) {
       break;
     } else {
-      printf("[%d] %s->%s:%d \n", index,
+      _log("[%d] %s->%s:%d \n", index,
              _logNodeTable[index]._name,
              _logNodeTable[index].getParent()?_logNodeTable[index].getParent()->_name:"-",
              _logNodeTable[index]._logLevel);
