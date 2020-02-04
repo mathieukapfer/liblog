@@ -43,7 +43,11 @@
 
 /* same as above but with function name and prefix ENTER / EXIT*/
 #define LOG_ENTER(fmt, ...)             LOG2(LP_DEBUG, true,"ENTER:" fmt, ##__VA_ARGS__)
+#define LOG_ENTER_(fmt, ...)            LOG2(LP_INFO, true,"ENTER:" fmt, ##__VA_ARGS__)
+#define LOG_ENTER__(fmt, ...)           LOG2(LP_NOTICE, true,"ENTER:" fmt, ##__VA_ARGS__)
 #define LOG_EXIT(fmt, ...)              LOG2(LP_DEBUG, true,"EXIT: " fmt, ##__VA_ARGS__)
+#define LOG_EXIT_(fmt, ...)             LOG2(LP_INFO, true,"EXIT: " fmt, ##__VA_ARGS__)
+#define LOG_EXIT__(fmt, ...)            LOG2(LP_NOTICE, true,"EXIT: " fmt, ##__VA_ARGS__)
 
 /* macro to trigger action depend on log level */
 #define IF_LOG_TRACE if(_LOG_ISENABLED(_defaultLogCategory, LP_TRACE))
