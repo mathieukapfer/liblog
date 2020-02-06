@@ -32,8 +32,8 @@ Sample:
        
 
 ##  2) Provide log specification    
-###   2.1) By 'log.cnf' file (in same place as bin)
-Here after is a "log.cnf" sample
+###   2.1) By 'log.cfg' file (in same place as bin)
+Here after is a "log.cfg" sample
  
               # Both level format are supported:
               # Level as str: NONE EMERG FATAL CRIT ERROR WARN NOTIC INFO DEBUG TRACE
