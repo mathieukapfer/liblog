@@ -112,8 +112,8 @@ void _log(const char * format, ...) {
 
 #ifdef ENABLE_STDIO
   // use stdout
-  fflush(stdout);
   printf("%s", msg);
+  fflush(stdout);
 #else
   // use fifo
   LogFifoI *fifo = LogFacade::inst().getFifo();
