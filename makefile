@@ -64,4 +64,5 @@ help-display:
 
 
 index:
-	-rm TAGS;	find . -name "*.*[hcp]" | xargs etags -a -lc
+	-rm TAGS;
+	find . -name "*.*[hcp]" | xargs etags -a -lc

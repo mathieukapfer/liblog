@@ -12,7 +12,7 @@
 
 // stuff to create & send the log event
 #define _LOG_ISENABLED(catv, priority) \
-  (catv->_logLevel >= priority)
+  (((LogNode *)catv)->_logLevel >= priority)
 
 #define _LOG_(catv, priority, fct, fmt, ...)                            \
 	if (_LOG_ISENABLED(catv, priority)) {                                 \

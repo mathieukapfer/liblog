@@ -8,15 +8,23 @@
 #include "LogConfMem.h"
 #endif
 
+class LogFacade_priv {
+
+ public:
+  LogFacade_priv():
+    _logNodeFactory(new LogNodeFactory)
+  {};
+  
+  LogNodeFactory *_logNodeFactory;
+};
 
 LogFacade &LogFacade::inst() {
   static LogFacade inst;
   return inst;
 }
 
-
 LogFacade::LogFacade():
-  _logNodeFactory(new LogNodeFactory),
+  priv(new LogFacade_priv),
 #ifdef LOG_CNF_FILE_ENABLE
   _logConf(new LogConfFile()),
 #else
@@ -24,7 +32,7 @@ LogFacade::LogFacade():
 #endif
   _isLogConfParsed(false),
   _fifo(NULL)
-    {};
+{};
 
 /*
  * refresh log configuration (force read agai)
@@ -65,7 +73,7 @@ void LogFacade::registerMemConfAddr(char * newAddr) {
  *
  * @return the child node
  */
-LogNode * LogFacade::getNode(const char* catName, bool preAllocated, ...) {
+void * LogFacade::getNode(const char* catName, bool preAllocated, ...) {
 
   va_list vl;
   va_start(vl,preAllocated);
@@ -76,43 +84,43 @@ LogNode * LogFacade::getNode(const char* catName, bool preAllocated, ...) {
   readConf();
 
   while (cat) {
-    ret = _logNodeFactory->createNode(parent, cat, false);
+    ret = priv->_logNodeFactory->createNode(parent, cat, false);
     // compute next pair (parent, child)
     parent = cat;
     cat = va_arg(vl, const char*);
   }
 
   va_end(vl);
-  return ret;
+  return (void *)ret;
 }
 
 /// internal api for log node creation
-LogNode *LogFacade::createNode(const char* parent, const char* child, bool preAllocated) {
-  return _logNodeFactory->createNode(parent, child, preAllocated);
+void *LogFacade::createNode(const char* parent, const char* child, bool preAllocated) {
+  return (void *)priv->_logNodeFactory->createNode(parent, child, preAllocated);
 }
 
 
 /// Define log level for a given path
 bool LogFacade::configureLevel(const char* confString) {
-  return _logNodeFactory->configureLevel(confString);
+  return priv->_logNodeFactory->configureLevel(confString);
 }
 
 /// dislay log node tree
 void LogFacade::displayLevelTree() {
-  _logNodeFactory->displayLevelTree();
+  priv->_logNodeFactory->displayLevelTree();
 }
 
 
 /// api for test
 /// todo: put as private and use friend
 bool LogFacade::compareLevel(int *tableLevel, int tableSize) {
-  return _logNodeFactory->compareLevel(tableLevel, tableSize);
+  return priv->_logNodeFactory->compareLevel(tableLevel, tableSize);
 }
 
 /// For debug purpose: print the nodes table
 /// todo: put as private and use friend
 void LogFacade::printTable() {
-  return _logNodeFactory->printTable();
+  return priv->_logNodeFactory->printTable();
 }
 
 

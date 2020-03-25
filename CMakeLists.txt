@@ -12,40 +12,26 @@ include(CMakeLists_LogConfig.txt)
 # library generation
 # ============================
 set(LIBLOG_COMMUN_SOURCES
-  log_const.h
-  log_event.h
-  formater/log_event.cpp
-  formater/LogFifo.cpp
-  node/Node.h
-  node/NodeVisitorI.h
-  node/Node.cpp
-  log_level.cpp
-  log_level.h
-  log_macro.h
-  LogFacade.h
-  LogFacade.cpp
-  logNode/LogNodeFactory.h
-  logNode/LogNodeFactory.cpp
-  logNode/LogNodeVisitor_ShowTree.h
-  logNode/LogNodeVisitor_ConfigureLevel.cpp
-  logNode/LogNodeVisitor_ConfigureLevel.h
-  logNode/LogNode.cpp
-  logNode/LogNode.h
-  LogConf.cpp
-  LogConf.h
-  log.h
-  log_internal/log_utils.cpp
-  parse/parseConfigurationString.cpp
-  )
+src/conf/parser/parseConfigurationString.cpp
+src/conf/LogConf.cpp
+src/logNode/LogNodeVisitor_ConfigureLevel.cpp
+src/logNode/LogNode.cpp
+src/logNode/LogNodeFactory.cpp
+src/logForLogger/log_utils.cpp
+src/node/Node.cpp
+src/formater/LogFifo.cpp
+src/formater/log_event.cpp
+src/formater/test_fifo.cpp
+log_level.cpp
+LogFacade.cpp
+)
 
 if(ENABLE_FILE_SYSTEM)
   set(LIBLOG_CONF
-    LogConfFile.h
-    LogConfFile.cpp)
+    src/conf/LogConfFile.cpp)
 else()
   set(LIBLOG_CONF
-    LogConfMem.h
-    LogConfMem.cpp)
+    src/conf/LogConfMem.cpp)
 endif()
 
 add_library(log STATIC ${LIBLOG_COMMUN_SOURCES} ${LIBLOG_CONF})
@@ -53,12 +39,16 @@ add_library(log STATIC ${LIBLOG_COMMUN_SOURCES} ${LIBLOG_CONF})
 
 # include dir
 # ============================
+
 include_directories(.)
-include_directories(node)
-include_directories(logNode)
+include_directories(src)
+include_directories(src/conf)
+include_directories(src/conf/parser)
+include_directories(src/logNode)
+include_directories(src/logForLogger)
+include_directories(src/node)
+include_directories(src/formater)
 include_directories(parse)
-include_directories(log_internal)
-include_directories(formater)
 
 # sub dir
 # ============================

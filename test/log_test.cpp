@@ -10,6 +10,7 @@
 #include "MyClass2.h"
 #include "MyClass3.h"
 #include "LogConfFile.h"
+#include "LogFacade.h"
 
 #ifdef ENABLE_COPY_CONF_TO_MEM
 // define a void buffer to receive the conf strings
@@ -188,6 +189,7 @@ TEST_SUITE("Format") {
 
   TEST_CASE("check printf format") {
   static const char *msg = "!!!!!";
+  const float myFloat = 1.1234;
 
   LOG_REGISTER("TestFormat");
 
@@ -195,7 +197,8 @@ TEST_SUITE("Format") {
   LOG_ENTER("\ntest enter");
   LOG_NOTICE("Hello - in main: %s", msg);
   LOG_NOTICE("Hello - in main: %d", 999);
-  LOG_NOTICE("Hello - in main: %s %d", msg, 999);
+  LOG_NOTICE("Hello - in main: %s %d %f", msg, 999, myFloat);
+  LOG_DEBUG("Hello - in main: %s %d %f", msg, 999, myFloat);
   LOG_EXIT("test exit");
 
   LOG_DISLAY_TREE();

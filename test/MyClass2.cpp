@@ -10,11 +10,11 @@ MyClass2::MyClass2() {
 
 void MyClass2::aMethode() {
   // register
-  LOG_REGISTER("Main","MyClass2","aMethode");
+  LOG_REGISTER("MyClass2","aMethode2");
 
   {
     // register
-    LOG_REGISTER("Main","MyClass2","aMethode","block");
+    LOG_REGISTER("aMethode2","block2");
     LOG_INFO("inside block")
   }
 
