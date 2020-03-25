@@ -16,8 +16,7 @@
 #include "LogFifoI.h"
 
 // forward declaration
-class LogNodeFactory;
-class LogNode;
+class LogFacade_priv;
 
 // declaration
 class LogFacade {
@@ -28,10 +27,10 @@ class LogFacade {
   static LogFacade &inst();
 
   /// public api for log node creation from variadic
-  LogNode *getNode(const char* catName, bool preAllocated, ...);
+  void *getNode(const char* catName, bool preAllocated, ...);
 
   /// internal api for log node creation
-  LogNode *createNode(const char* parent, const char* child, bool preAllocated);
+  void *createNode(const char* parent, const char* child, bool preAllocated);
 
   /// use fifo instead of stdout
   void registerFifo(LogFifoI *fifo);
@@ -70,10 +69,10 @@ class LogFacade {
   /// read conf
   void readConf();
 
-  LogNodeFactory *_logNodeFactory;
+  LogFacade_priv *priv;
+
   LogConf *_logConf;
   bool _isLogConfParsed;
-
   LogFifoI *_fifo;
 
 
