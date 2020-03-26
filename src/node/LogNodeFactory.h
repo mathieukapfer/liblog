@@ -62,7 +62,7 @@ class LogNodeFactory {
   void initTable();
 
   /// Return the table index of the node with name "nodeName". return -1 if not exist
-  int searchNode(const char* nodeName);
+  int searchNode(const char* nodeName, const char *parent = NULL);
 
   /// Get the next free node in node table
   LogNode * getFreeNode(int &index);

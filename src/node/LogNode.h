@@ -31,6 +31,9 @@ class LogNode: public Node {
   /// is free
   bool isFree();
 
+  /// 
+  bool hasSameName(const char* name);
+
 #ifdef ALLOW_CONFIGURATION_BEFORE_DECLARATION
   char _name[LOG_CATEGORY_NAME_SIZE_MAX];
 #else
