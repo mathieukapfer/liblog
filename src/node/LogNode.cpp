@@ -71,3 +71,8 @@ char * LogNode::getFullName(char *p_fullName, int p_size) {
   }
   return p_fullName;
 };
+
+
+bool LogNode::hasSameName(const char* name) {
+  return (name != NULL && strcmp(_name, name) == 0);
+}

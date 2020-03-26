@@ -40,7 +40,7 @@ void LogNodeFactory::initTable() {
  */
 LogNode *LogNodeFactory::createNode(const char* parent, const char* child, bool preAllocated) {
   int parentIndex = searchNode(parent);
-  int childIndex = searchNode(child);
+  int childIndex = searchNode(child, parent);
   bool creation = false;
   LogNode* ret;
 
@@ -89,15 +89,18 @@ LogNode *LogNodeFactory::createNode(const char* parent, const char* child, bool 
  * @return -1: no node with the given name exist
  *         >0: the index of node  with the given name
  */
-int LogNodeFactory::searchNode(const char* nodeName) {
+int LogNodeFactory::searchNode(const char* nodeName, const char *parent) {
   int ret = -1;
   int index;
 
- // check if already exit
+ // check if node already exist
   for(index=0; index < _logNodeTable_SIZE; index++) {
-    if(_logNodeTable[index]._name &&
-       strcmp(_logNodeTable[index]._name, nodeName) == 0) {
-      ret = index;
+    if(_logNodeTable[index].hasSameName(nodeName)) {
+      // check parent if non null or same parent
+      if (parent == NULL || _logNodeTable[index].getParent()->hasSameName(parent))  {
+	ret = index;
+	break;
+      }    
     } else if (_logNodeTable[index].isFree()) {
       break;
     }
