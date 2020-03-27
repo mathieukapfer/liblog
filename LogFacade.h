@@ -38,7 +38,8 @@ class LogFacade {
 
   /// getter to log level
   bool isLogEnabled(LogNode *logNode, int priority);
-  
+  int getLogLevel(LogNode *catv);
+
   /// refresh log configuration
   void refreshConf();
 
