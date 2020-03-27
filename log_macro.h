@@ -8,18 +8,20 @@
 #include "log_utils.h"
 #include "log_formater.h"
 
-#include "logNode/LogNode.h"
+#include "LogFacade.h"
+
+class LogNode;
 
 // stuff to create & send the log event
 #define _LOG_ISENABLED(catv, priority) \
-  (((LogNode *)catv)->_logLevel >= priority)
+  LogFacade::inst().isLogEnabled((LogNode*) catv, priority)
 
 #define _LOG_(catv, priority, fct, fmt, ...)                            \
-	if (_LOG_ISENABLED(catv, priority)) {                                 \
-		struct LogEvent _log_ev =                                  \
-      {(LogNode*) catv, priority, __FILE__, __LINE__, fct, __FUNCTION__, fmt};   \
-		_log_logEvent( (LogNode*) catv, &_log_ev, ##__VA_ARGS__) ;                      \
-	}
+  if (_LOG_ISENABLED(catv, priority)) {                                 \
+    struct LogEvent _log_ev =						\
+      {(LogNode*) catv, priority, __FILE__, __LINE__, fct, __FUNCTION__, fmt}; \
+    _log_logEvent( (LogNode*) catv, &_log_ev, ##__VA_ARGS__) ;		\
+  }
 
 #define LOG2(prio, fct, fmt, ...)		  \
   {                                                                     \

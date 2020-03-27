@@ -12,18 +12,20 @@ include(CMakeLists_LogConfig.txt)
 # library generation
 # ============================
 set(LIBLOG_COMMUN_SOURCES
-src/conf/parser/parseConfigurationString.cpp
-src/conf/LogConf.cpp
-src/logNode/LogNodeVisitor_ConfigureLevel.cpp
-src/logNode/LogNode.cpp
-src/logNode/LogNodeFactory.cpp
-src/logForLogger/log_utils.cpp
-src/node/Node.cpp
-src/formater/LogFifo.cpp
-src/formater/log_event.cpp
-src/formater/test_fifo.cpp
-log_level.cpp
-LogFacade.cpp
+./src/fifo/LogFifo.cpp
+./src/fifo/test_fifo.cpp
+./src/conf/parser/parseConfigurationString.cpp
+./src/conf/LogConf.cpp
+./src/conf/LogConfMem.cpp
+./src/conf/LogConfFile.cpp
+./src/logForLogger/log_utils.cpp
+./src/node/LogNodeVisitor_ConfigureLevel.cpp
+./src/node/LogNode.cpp
+./src/node/Node.cpp
+./src/node/LogNodeFactory.cpp
+./src/formater/log_event.cpp
+./src/LogFacade.cpp
+./log_level.cpp
 )
 
 if(ENABLE_FILE_SYSTEM)
@@ -44,8 +46,8 @@ include_directories(.)
 include_directories(src)
 include_directories(src/conf)
 include_directories(src/conf/parser)
-include_directories(src/logNode)
 include_directories(src/logForLogger)
+include_directories(src/fifo)
 include_directories(src/node)
 include_directories(src/formater)
 include_directories(parse)

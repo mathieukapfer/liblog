@@ -13,11 +13,6 @@
 #include "log_macro.h"
 #include "LogFacade.h"
 
-#ifndef ENABLE_STDIO
-// no stdio, so provide fifo
-#include "LogFifo.h"
-#endif
-
 // keep volatile qualifier for cross compilation (needed by M3, check if needed by A7)
 //#ifndef __i386__
 #ifdef __arm__

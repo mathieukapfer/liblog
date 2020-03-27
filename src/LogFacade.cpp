@@ -1,6 +1,12 @@
 #include <stdarg.h>
 #include "LogFacade.h"
 #include "LogNodeFactory.h"
+#include "LogConf.h"
+#include "LogNode.h"
+#include "LogFifoI.h"
+
+#include "log_const.h"
+
 
 #ifdef LOG_CNF_FILE_ENABLE
 #include "LogConfFile.h"
@@ -12,10 +18,21 @@ class LogFacade_priv {
 
  public:
   LogFacade_priv():
-    _logNodeFactory(new LogNodeFactory)
+    _logNodeFactory(new LogNodeFactory),
+#ifdef LOG_CNF_FILE_ENABLE
+    _logConf(new LogConfFile()),
+#else
+    _logConf(new LogConfMem()),
+#endif
+  _isLogConfParsed(false),
+  _fifo(NULL)
   {};
   
   LogNodeFactory *_logNodeFactory;
+  LogConf *_logConf;
+  bool _isLogConfParsed;
+  LogFifoI *_fifo;
+
 };
 
 LogFacade &LogFacade::inst() {
@@ -24,21 +41,14 @@ LogFacade &LogFacade::inst() {
 }
 
 LogFacade::LogFacade():
-  priv(new LogFacade_priv),
-#ifdef LOG_CNF_FILE_ENABLE
-  _logConf(new LogConfFile()),
-#else
-  _logConf(new LogConfMem()),
-#endif
-  _isLogConfParsed(false),
-  _fifo(NULL)
+  priv(new LogFacade_priv)
 {};
 
 /*
  * refresh log configuration (force read agai)
  */
 void LogFacade::refreshConf() {
-  _isLogConfParsed = false;
+  priv->_isLogConfParsed = false;
   readConf();
 }
 /*
@@ -46,9 +56,9 @@ void LogFacade::refreshConf() {
  */
 void LogFacade::readConf() {
   // parse conf now if needed
-  if (_isLogConfParsed == false) {
-    _isLogConfParsed = true;
-    _logConf->parseConf();
+  if (priv->_isLogConfParsed == false) {
+    priv->_isLogConfParsed = true;
+    priv->_logConf->parseConf();
   }
 }
 
@@ -57,7 +67,7 @@ void LogFacade::readConf() {
  */
 #ifdef ENABLE_COPY_CONF_TO_MEM
 void LogFacade::registerMemConfAddr(char * newAddr) {
-  static_cast<LogConfFile*>(_logConf)->updateMemConfAddr(newAddr);
+  static_cast<LogConfFile*>(priv->_logConf)->updateMemConfAddr(newAddr);
   refreshConf();
 }
 #endif
@@ -126,10 +136,16 @@ void LogFacade::printTable() {
 
 /// use fifo instead of stdout
 void LogFacade::registerFifo(LogFifoI *fifo) {
-  _fifo = fifo;
+  priv->_fifo = fifo;
 }
 
 /// getter on fifo
 LogFifoI * LogFacade::getFifo() {
-  return _fifo;
+  return priv->_fifo;
+}
+
+
+/// getter to log level
+bool LogFacade::isLogEnabled(LogNode *catv, int priority) {
+  return(catv->_logLevel >= priority);
 }
