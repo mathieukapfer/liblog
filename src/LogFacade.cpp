@@ -149,3 +149,7 @@ LogFifoI * LogFacade::getFifo() {
 bool LogFacade::isLogEnabled(LogNode *catv, int priority) {
   return(catv->_logLevel >= priority);
 }
+
+int LogFacade::getLogLevel(LogNode *catv) {
+  return(catv->_logLevel);
+}
