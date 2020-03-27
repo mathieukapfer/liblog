@@ -1,7 +1,7 @@
 #include <string.h>
 #include "LogConfFile.h"
 #include "LogFacade.h"
-
+#include "log_const.h"
 #include "log_for_logger.h"
 
 ENABLE_LOG(INFO);

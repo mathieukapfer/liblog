@@ -16,8 +16,6 @@ set(LIBLOG_COMMUN_SOURCES
 ./src/fifo/test_fifo.cpp
 ./src/conf/parser/parseConfigurationString.cpp
 ./src/conf/LogConf.cpp
-./src/conf/LogConfMem.cpp
-./src/conf/LogConfFile.cpp
 ./src/logForLogger/log_utils.cpp
 ./src/node/LogNodeVisitor_ConfigureLevel.cpp
 ./src/node/LogNode.cpp

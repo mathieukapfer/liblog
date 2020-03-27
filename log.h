@@ -11,6 +11,7 @@
 
 #include "log_level.h"
 #include "log_macro.h"
+#include "log_const.h"
 #include "LogFacade.h"
 
 // keep volatile qualifier for cross compilation (needed by M3, check if needed by A7)
