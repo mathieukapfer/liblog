@@ -11,12 +11,10 @@
 #ifndef LOGFACADE_H
 #define LOGFACADE_H
 
-#include "log_const.h"
-#include "LogConf.h"
-#include "LogFifoI.h"
-
 // forward declaration
 class LogFacade_priv;
+class LogNode;
+class LogFifoI;
 
 // declaration
 class LogFacade {
@@ -38,6 +36,9 @@ class LogFacade {
   /// getter on fifo
   LogFifoI *getFifo();
 
+  /// getter to log level
+  bool isLogEnabled(LogNode *logNode, int priority);
+  
   /// refresh log configuration
   void refreshConf();
 
@@ -70,11 +71,6 @@ class LogFacade {
   void readConf();
 
   LogFacade_priv *priv;
-
-  LogConf *_logConf;
-  bool _isLogConfParsed;
-  LogFifoI *_fifo;
-
 
 };
 
