@@ -1,5 +1,9 @@
 cmake_minimum_required(VERSION 3.0)
 
+# debug
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g")
+
+
 # define project template
 # ============================
 # project(liblog)
@@ -17,6 +21,7 @@ set(LIBLOG_COMMUN_SOURCES
 ./src/conf/parser/parseConfigurationString.cpp
 ./src/conf/LogConf.cpp
 ./src/logForLogger/log_utils.cpp
+./src/node/ConfigureLevel.cpp
 ./src/node/LogNodeVisitor_ConfigureLevel.cpp
 ./src/node/LogNode.cpp
 ./src/node/Node.cpp

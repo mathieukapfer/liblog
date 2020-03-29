@@ -52,6 +52,7 @@ class LogFacade {
   /// as the file log.cnf in current directory is automatically parsed
   /// line by line with this method:
   bool configureLevel(const char* confString);
+  bool configureLevelNew(const char* confString);
 
   /// dislay log node tree
   void displayLevelTree();

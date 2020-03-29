@@ -11,6 +11,8 @@
 #include "LogNodeVisitor_ConfigureLevel.h"
 #include "parseConfigurationString.h"
 
+#include "ConfigureLevel.h"
+
 ENABLE_LOG(DEBUG);
 
 /**
@@ -161,7 +163,7 @@ bool  LogNodeFactory::configureLevel(const char* confString) {
   }
 
   // launch configuation level visitor
-  ret = (getRootNode()->accept
+  ret = (getRootNode()->acceptAll
          (*(new LogNodeVisitor_ConfigureLevel (useNewConfStr?newConfstr:confString))));
 
   // log if found
@@ -179,7 +181,7 @@ bool  LogNodeFactory::configureLevel(const char* confString) {
  */
 void LogNodeFactory::displayLevelTree() {
   _log("\n*Display spec:\n");
-  getRootNode()->accept(*(new LogNodeVisitor_ShowTree));
+  getRootNode()->acceptAll(*(new LogNodeVisitor_ShowTree));
   _log("\n*");
 }
 
@@ -202,4 +204,24 @@ void LogNodeFactory::printTable() {
         }
   }
 
+}
+
+
+bool LogNodeFactory::configureLevelNew(const char* confString) {
+
+  LogNode * logNode = NULL;
+  
+  // search first 
+  logNode = static_cast<LogNode *>
+    (getRootNode()->searchFirstSibling
+      (* (new ConfigureLevel::SearchNodeWithName(confString))));
+ 
+
+  if (logNode) {
+    LOG_INFO("Node found: '%'s (confString:%s)", logNode->_name, confString);
+  } else {
+    LOG_INFO("Node not found with %s", confString);
+  }
+
+  return (logNode != NULL);
 }

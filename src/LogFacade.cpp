@@ -115,6 +115,12 @@ bool LogFacade::configureLevel(const char* confString) {
   return priv->_logNodeFactory->configureLevel(confString);
 }
 
+/// Define log level for a given path - new impl.
+bool LogFacade::configureLevelNew(const char* confString) {
+  return priv->_logNodeFactory->configureLevelNew(confString);
+}
+
+
 /// dislay log node tree
 void LogFacade::displayLevelTree() {
   priv->_logNodeFactory->displayLevelTree();
@@ -153,3 +159,4 @@ bool LogFacade::isLogEnabled(LogNode *catv, int priority) {
 int LogFacade::getLogLevel(LogNode *catv) {
   return(catv->_logLevel);
 }
+

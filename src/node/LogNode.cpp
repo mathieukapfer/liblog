@@ -4,7 +4,7 @@
 #include <string.h>
 
 #include "log_for_logger.h"
-ENABLE_LOG(INFO);
+ENABLE_LOG(DEBUG);
 
 /// const
 LogNode::LogNode(LogNode *p_parent, const char *p_name):
@@ -74,5 +74,6 @@ char * LogNode::getFullName(char *p_fullName, int p_size) {
 
 
 bool LogNode::hasSameName(const char* name) {
+  LOG_ENTER("%s",_name);
   return (name != NULL && strcmp(_name, name) == 0);
 }
