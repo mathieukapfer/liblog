@@ -1,18 +1,28 @@
-#ifndef NODEVISITOR_H
-#define NODEVISITOR_H
+#ifndef NODEVISITORI_H
+#define NODEVISITORI_H
 
 #include "Node.h"
 
+/// visitor that return bool
 class NodeVisitorI {
  public:
-  NodeVisitorI() {};
-  virtual ~NodeVisitorI() {};
 
+  // mandatory visitor
   virtual bool visit(Node *node) = 0;
 
-  virtual void newSibling() = 0;
-  virtual void newChild() = 0;
+  // optional visitor prcessing
+  virtual void newSibling() {};
+  virtual void newChild() {};
+};
+
+/// visitor that return Node pointer
+class NodeVisitor2I {
+ public:
+
+  // mandatory visitor
+  virtual Node * visit(Node *node) = 0;
+
 };
 
 
-#endif /* NODEVISITOR_H */
+#endif

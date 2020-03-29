@@ -4,6 +4,7 @@
 #include <stddef.h>
 
 class NodeVisitorI;
+class NodeVisitor2I;
 
 class Node {
  public:
@@ -13,18 +14,29 @@ class Node {
   explicit Node(Node *p_parent);
   virtual ~Node() {};
 
-  //
-  void addChild(Node *child);
+  // build
+  virtual void addChild(Node *child);
 
-  //
-  bool accept(NodeVisitorI &visitor);
+  // visit
+  virtual bool acceptAll(NodeVisitorI &visitor);
+  virtual bool acceptChildOnly(NodeVisitorI &visitor);
 
-  //
-  Node *getParent() { return _parent;};
+  // search
+  virtual Node *searchFirstSibling(NodeVisitor2I &visitor);
 
- private:
+  // read
+  virtual Node *getParent() { return _parent;};
+
+ protected:
+
   Node *_parent;
   Node *_firstChild, *_nextSibling;
 };
 
 #endif /* NODE_H */
+
+
+
+
+
+

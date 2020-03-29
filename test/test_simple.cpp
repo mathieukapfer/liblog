@@ -7,7 +7,7 @@ std::map<std::string, void *> mapLogNode;
 void saveNode(char * tag, void * logNode) {
   if (mapLogNode.count(tag) > 0) {
     // already exist then add suffix
-    mapLogNode[std::string(tag) + "-" + std::to_string(mapLogNode.count(tag))] = logNode;
+    mapLogNode[std::string(tag) + "(" + std::to_string(mapLogNode.count(tag)) + ")"] = logNode;
   } else {
     mapLogNode[std::string(tag)] = logNode;
   }
@@ -39,7 +39,7 @@ int main(int argc, char *argv[]) {
   GET_LOG_LEVEL("Main");
   GET_LOG_LEVEL("module1");
   GET_LOG_LEVEL("submodule1");
-  GET_LOG_LEVEL("submodule1-1");
+  GET_LOG_LEVEL("submodule1(1)");
 
   // bug!
   // => create new node (ok) but change all node with same name regardless the parent !
@@ -49,6 +49,10 @@ int main(int argc, char *argv[]) {
   //LOG_CONFIGURE("Main.module1:0");
   GET_LOG_LEVEL("module1");
   GET_LOG_LEVEL("submodule1");
+
+  /// test configure level
+  LogFacade::inst().configureLevelNew("submodule1");
+  LogFacade::inst().configureLevelNew(LOG_ROOT_NAME);
   
   return 0;
 }

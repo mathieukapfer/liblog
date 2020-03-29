@@ -29,16 +29,37 @@ void Node::addChild(Node *child) {
   }
 
 
-bool Node::accept(NodeVisitorI &visitor) {
+bool Node::acceptAll(NodeVisitorI &visitor) {
   bool ret = false;
   ret |= visitor.visit(this);
   if (_firstChild != NULL) {
     visitor.newChild();
-    ret |= _firstChild->accept(visitor);
+    ret |= _firstChild->acceptAll(visitor);
   }
   if (_nextSibling != NULL) {
     visitor.newSibling();
-    ret |= _nextSibling->accept(visitor);
+    ret |= _nextSibling->acceptAll(visitor);
+  }
+  LOG_DEBUG("ret:%d",ret);
+  return ret;
+}
+
+bool Node::acceptChildOnly(NodeVisitorI &visitor) {
+  bool ret = false;
+  ret |= visitor.visit(this);
+  if (_firstChild != NULL) {
+    visitor.newChild();
+    ret |= _firstChild->acceptChildOnly(visitor);
+  }
+  LOG_DEBUG("ret:%d",ret);
+  return ret;
+}
+
+Node * Node::searchFirstSibling(NodeVisitor2I &visitor) {
+  Node * ret = NULL;
+  ret = visitor.visit(this);
+  if (_nextSibling != NULL && ret == NULL) {
+    ret = _nextSibling->searchFirstSibling(visitor);
   }
   LOG_DEBUG("ret:%d",ret);
   return ret;

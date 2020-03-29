@@ -15,15 +15,11 @@
 
 class LogNode: public Node {
  public:
+
   /// const & dest
   LogNode();
   LogNode(LogNode *p_parent, const char *p_name);
   virtual ~LogNode() {};
-
-  /// wrapper to get 'parent()' with right type
-  LogNode *getParent() {
-    return static_cast<LogNode *>(Node::getParent());
-  };
 
   /// get the complete name stared by parents's name
   char* getFullName(char *p_fullName, int p_size);
@@ -33,6 +29,17 @@ class LogNode: public Node {
 
   /// 
   bool hasSameName(const char* name);
+
+  ///  overload inherited methode
+  LogNode *getParent() {
+    return static_cast<LogNode *>(Node::getParent());
+  };
+  /*
+  LogNode * searchFirstSibling(NodeVisitor2I &visitor) {
+    return static_cast<LogNode *>(Node::searchFirstSibling(visitor));
+  }
+  */
+  
 
 #ifdef ALLOW_CONFIGURATION_BEFORE_DECLARATION
   char _name[LOG_CATEGORY_NAME_SIZE_MAX];
