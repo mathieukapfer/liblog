@@ -25,7 +25,7 @@
 #define LOG_CATEGORY_PATH_NAME_SIZE_MAX 100
 
 // size of pre allocated table of node
-#define LOG_CATEGORY_NODE_MAX 50
+#define LOG_CATEGORY_NODE_MAX 100
 
 // max of "file:line" header
 #define LOG_HEADER_SIZE 50
