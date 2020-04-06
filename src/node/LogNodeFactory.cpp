@@ -53,15 +53,21 @@ LogNode *LogNodeFactory::createNode(const char* parent, const char* child, bool 
   } else {
     if (parentIndex < 0) {
       // create parent first - with root as parent by default
-      new (getFreeNode(parentIndex)) LogNode(&(_logNodeTable[0]), parent);
-      creation = true;
+      ret = getFreeNode(parentIndex);
+      if (ret) {
+        new (ret) LogNode(&(_logNodeTable[0]), parent);
+        creation = true;
+      }
     }
     // create child
     ret = getFreeNode(childIndex);
-    new (ret) LogNode(&(_logNodeTable[parentIndex]), child);
-    creation = true;
+    if (ret) {
+      new (ret) LogNode(&(_logNodeTable[parentIndex]), child);
+      creation = true;
+    }
   }
 
+  if (ret)
   if (creation) {
     if (preAllocated == true) {
       // mark node as prealloacted
@@ -100,8 +106,8 @@ int LogNodeFactory::searchNode(const char* nodeName, const char *parent) {
     if(_logNodeTable[index].hasSameName(nodeName)) {
       // check parent if non null or same parent
       if (parent == NULL || _logNodeTable[index].getParent()->hasSameName(parent))  {
-	ret = index;
-	break;
+        ret = index;
+        break;
       }    
     } else if (_logNodeTable[index].isFree()) {
       break;

@@ -1,7 +1,17 @@
 cmake_minimum_required(VERSION 3.0)
 
-# debug
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g")
+# compilation flags
+# ============================
+
+# add debug if needed
+if (DEBUG)
+  message("enable debug flag")
+  set(COMMON_FLAGS "${COMMON_FLAGS} -g -ggdb")
+endif()
+
+# apply compilation option
+set(CMAKE_C_FLAGS   "${CMAKE_C_FLAGS}   ${COMMON_C_FLAGS} ${COMMON_FLAGS} ${CROSS_FLAGS}")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${COMMON_CPP_FLAGS} ${COMMON_FLAGS} ${CROSS_FLAGS}")
 
 
 # define project template
