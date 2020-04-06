@@ -10,7 +10,7 @@ all:build-x86 build-x86-conf-m3 build-x86-conf-a7
 
 # build target
 build-x86:
-	mkdir -p ${BUILD_X86_DIR}; cd ${BUILD_X86_DIR}; cmake -D_X86_=ON ..; make all test
+	mkdir -p ${BUILD_X86_DIR}; cd ${BUILD_X86_DIR}; cmake -D_X86_=ON -DDEBUG=ON ..; make all test
 
 # build target with M3 configuration for unit test
 build-x86-conf-m3:
