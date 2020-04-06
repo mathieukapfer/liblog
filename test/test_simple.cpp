@@ -13,17 +13,31 @@ void saveNode(char * tag, void * logNode) {
   }
 }
 
+
+
+#define TEST_STRING "%s, %d, %f","this is a test", 999, 1.234
+#define LOG_TEST                   \
+  LOG_TRACE(TEST_STRING)                      \
+  LOG_DEBUG (TEST_STRING)                       \
+  LOG_INFO (TEST_STRING)                        \
+  LOG_NOTICE (TEST_STRING)                      \
+  LOG_WARNING (TEST_STRING)                     \
+  LOG_ERROR (TEST_STRING)                       \
+  LOG_CRITICAL (TEST_STRING)                    \
+  LOG_FATAL (TEST_STRING)                       \
+  LOG_EMERGENCY (TEST_STRING)                   \
+
 #define LOG_REGISTER_(tag1)					\
   LOG_REGISTER(tag1); saveNode(tag1, _defaultLogCategory);	\
-  LOG_DISLAY_TREE();
+  LOG_DISLAY_TREE(); LOG_TEST; 
 
 #define LOG_REGISTER__(tag1, tag2)					\
   LOG_REGISTER(tag1, tag2); saveNode(tag2, _defaultLogCategory);	\
-  LOG_DISLAY_TREE();
+  LOG_DISLAY_TREE(); LOG_TEST; 
 
 #define LOG_REGISTER___(tag1, tag2, tag3)				\
   LOG_REGISTER(tag1, tag2, tag3); saveNode(tag3, _defaultLogCategory);	\
-  LOG_DISLAY_TREE();
+  LOG_DISLAY_TREE(); LOG_TEST; 
 
 #define GET_LOG_LEVEL(tag)						\
   printf ("\n => %s:%d", tag, LogFacade::inst().getLogLevel((LogNode *) mapLogNode[std::string(tag)]));
