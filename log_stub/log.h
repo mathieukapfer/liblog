@@ -70,30 +70,30 @@
 #define LOG_REGISTER(catName,...) static const char* logCatName = catName;
 
 /* macro for log with prefix FILE:LINE */
-#define LOG_TRACE(...)     LOG2("TRACE", false, "" ,__VA_ARGS__)
-#define LOG_DEBUG(...)     LOG2("DEBUG", false, "" ,__VA_ARGS__)
-#define LOG_INFO(...)      LOG2("INFO", false, "" ,__VA_ARGS__)
-#define LOG_NOTICE(...)    LOG2("NOTICE", false, "" ,__VA_ARGS__)
-#define LOG_WARNING(...)   LOG2("WARNING", false, "" ,__VA_ARGS__)
-#define LOG_ERROR(...)     LOG2("ERROR", false, "" ,__VA_ARGS__)
-#define LOG_CRITICAL(...)  LOG2("CRITICAL", false, "" ,__VA_ARGS__)
-#define LOG_FATAL(...)     LOG2("FATAL", false, "" ,__VA_ARGS__)
-#define LOG_EMERGENCY(...) LOG2("EMERGENCY", false, "" ,__VA_ARGS__)
+#define LOG_TRACE(...)     if(TEST_LOG_TRACE) LOG2("TRACE", false, "" ,__VA_ARGS__)
+#define LOG_DEBUG(...)     if(TEST_LOG_DEBUG) LOG2("DEBUG", false, "" ,__VA_ARGS__)
+#define LOG_INFO(...)      if(TEST_LOG_INFO) LOG2("INFO", false, "" ,__VA_ARGS__)
+#define LOG_NOTICE(...)    if(TEST_LOG_NOTICE) LOG2("NOTICE", false, "" ,__VA_ARGS__)
+#define LOG_WARNING(...)   if(TEST_LOG_WARNING) LOG2("WARNING", false, "" ,__VA_ARGS__)
+#define LOG_ERROR(...)     if(TEST_LOG_ERROR) LOG2("ERROR", false, "" ,__VA_ARGS__)
+#define LOG_CRITICAL(...)  if(TEST_LOG_CRITICAL) LOG2("CRITICAL", false, "" ,__VA_ARGS__)
+#define LOG_FATAL(...)     if(TEST_LOG_FATAL) LOG2("FATAL", false, "" ,__VA_ARGS__)
+#define LOG_EMERGENCY(...) if(TEST_LOG_EMERGENCY) LOG2("EMERGENCY", false, "" ,__VA_ARGS__)
 
 /* macro for log with prefix ENTER|EXIT and FILE:LINE:FUNCTION */
 #define LOG_ENTER(...)     LOG2("DEBUG", true,"ENTER:" ,__VA_ARGS__)
 #define LOG_EXIT(...)      LOG2("DEBUG", true,"EXIT: " ,__VA_ARGS__)
 
 /* macro to trigger action depend on log level */
-#define IF_LOG_TRACE     if(TEST_LOG_TRACE))
-#define IF_LOG_DEBUG     if(TEST_LOG_DEBUG))
-#define IF_LOG_INFO      if(TEST_LOG_INFO))
-#define IF_LOG_NOTICE    if(TEST_LOG_NOTICE))
-#define IF_LOG_WARNING   if(TEST_LOG_WARNING))
-#define IF_LOG_ERROR     if(TEST_LOG_ERROR))
-#define IF_LOG_CRITICAL  if(TEST_LOG_CRITICAL))
-#define IF_LOG_FATAL     if(TEST_LOG_FATAL))
-#define IF_LOG_EMERGENCY if(TEST_LOG_EMERGENCY))
+#define IF_LOG_TRACE     if(TEST_LOG_TRACE)
+#define IF_LOG_DEBUG     if(TEST_LOG_DEBUG)
+#define IF_LOG_INFO      if(TEST_LOG_INFO)
+#define IF_LOG_NOTICE    if(TEST_LOG_NOTICE)
+#define IF_LOG_WARNING   if(TEST_LOG_WARNING)
+#define IF_LOG_ERROR     if(TEST_LOG_ERROR)
+#define IF_LOG_CRITICAL  if(TEST_LOG_CRITICAL)
+#define IF_LOG_FATAL     if(TEST_LOG_FATAL)
+#define IF_LOG_EMERGENCY if(TEST_LOG_EMERGENCY)
 
 /* stub of liblog api */
 #define LOG_REGISTER(catName,...) static const char* logCatName = catName;
