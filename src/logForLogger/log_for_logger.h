@@ -26,7 +26,7 @@
 // Log level control
 // ======================
 // comment this line to kill all log
-#define GLOBAL_LOG_ENABLE
+// #define GLOBAL_LOG_ENABLE
 
 // define the max log level
 #define GLOBAL_LOG_LEVEL  LP_DEBUG
