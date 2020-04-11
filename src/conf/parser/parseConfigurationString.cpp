@@ -8,11 +8,12 @@
  *
  */
 
+#include <stdlib.h>
 #include <string.h>
 #include "log_for_logger.h"
 #include "parseConfigurationString.h"
 
-ENABLE_LOG(NOTICE);
+ENABLE_LOG(DEBUG);
 
 /**
  * Parse the configuration string to extract the first name
@@ -27,7 +28,7 @@ ENABLE_LOG(NOTICE);
  * @param parsed.isLastName       true if the name is also the last
  * @param parsed.levelIndex       offset of the level if we reach the last name
  */
-void getFirstName(const char * configureString, int &index, ConfigStringParsed &parsed) {
+bool getFirstName(const char * configureString, int &index, ConfigStringParsed &parsed) {
 
   const char *start, *name, *sep, *eq, *level;
   const char *cp = configureString;
@@ -62,6 +63,7 @@ void getFirstName(const char * configureString, int &index, ConfigStringParsed &
            &configureString[ parsed.firstNameIndex], &configureString[index],
            parsed.firstNameSize, parsed.isLastName, index);
 
+  return parsed.isLastName;
 }
 
 
@@ -81,4 +83,28 @@ char *getFirstNameStr(const char *configStr , char *firstName) {
           min (parsed.firstNameSize, LOG_CATEGORY_NAME_SIZE_MAX ));
   firstName[parsed.firstNameSize] = '\0';
   return firstName;
+}
+
+
+/**
+ * Fillup the first category name of 'configStr'
+ *
+ * @param configStr
+ * @param firstName
+ *
+ * @return
+ */
+int getFirstNameStr_(const char *configStr , char *firstName, int &currentIndex) {
+  ConfigStringParsed parsed;
+
+  getFirstName(configStr, currentIndex, parsed);
+  
+  strncpy(firstName, configStr + parsed.firstNameIndex,
+          min (parsed.firstNameSize, LOG_CATEGORY_NAME_SIZE_MAX ));
+  
+  firstName[parsed.firstNameSize] = '\0';
+
+  currentIndex = parsed.firstNameSize + parsed.firstNameIndex + 1;
+  
+  return (parsed.isLastName?atoi(&configStr[parsed.levelIndex]):-1);
 }

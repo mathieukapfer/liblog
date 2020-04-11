@@ -215,14 +215,32 @@ void LogNodeFactory::printTable() {
 
 bool LogNodeFactory::configureLevelNew(const char* confString) {
 
-  LogNode * logNode = NULL;
+  static const bool IS_LAST_NAME= true;
   
-  // search first 
-  logNode = static_cast<LogNode *>
-    (getRootNode()->searchFirstSibling
-      (* (new ConfigureLevel::SearchNodeWithName(confString))));
- 
+  LogNode * logNode = getRootNode();
+  int  strIndex = 0;
+  char currentName[LOG_CATEGORY_PATH_NAME_SIZE_MAX];
+  int level;
+    
+  //
+  do {
+    // get current name from configuration string
+    level =  getFirstNameStr_(confString, currentName, strIndex);
+    LOG_INFO(">%s:%d ", currentName, level);
+    
+    // search a sibling node with this name 
+    logNode = static_cast<LogNode *>
+      (logNode->acceptFirstSibling
+       (* (new ConfigureLevel::SearchNodeWithName(currentName))));
 
+    // find it, then continue with the child if there is still name in configuration string
+    if(logNode && level < 0 ) {
+      logNode = static_cast<LogNode *>(logNode->getFirstChild());
+    }
+    
+  } while(level < 0 && logNode != NULL);
+
+  
   if (logNode) {
     LOG_INFO("Node found: '%'s (confString:%s)", logNode->_name, confString);
   } else {

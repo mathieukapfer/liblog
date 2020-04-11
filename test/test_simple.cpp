@@ -2,6 +2,8 @@
 #include <map>
 #include <string>
 
+LOG_REGISTER("TestSimple");
+
 std::map<std::string, void *> mapLogNode;
 
 void saveNode(char * tag, void * logNode) {
@@ -65,9 +67,23 @@ int main(int argc, char *argv[]) {
   GET_LOG_LEVEL("submodule1");
 
   /// test configure level
+  LOG_INFO("configureLevelNew('submodule1')");
   LogFacade::inst().configureLevelNew("submodule1");
-  LogFacade::inst().configureLevelNew(LOG_ROOT_NAME);
+  
+  LOG_INFO("configureLevelNew('LOG_ROOT_NAME')");
+  LogFacade::inst().configureLevelNew(LOG_ROOT_NAME ":1");
+  
+  LOG_INFO("configureLevelNew('GLOBAL.Main.module2')");
+  LogFacade::inst().configureLevelNew("GLOBAL.Main.module2");
+
+  LOG_INFO("configureLevelNew('GLOBAL.Main.module2.submodule1')");
+  LogFacade::inst().configureLevelNew("GLOBAL.Main.module2.submodule1:7");
   
   return 0;
 }
+
+
+
+
+
 

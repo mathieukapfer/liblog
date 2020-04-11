@@ -35,8 +35,8 @@ class LogNode: public Node {
     return static_cast<LogNode *>(Node::getParent());
   };
   /*
-  LogNode * searchFirstSibling(NodeVisitor2I &visitor) {
-    return static_cast<LogNode *>(Node::searchFirstSibling(visitor));
+  LogNode * acceptFirstSibling(NodeVisitor2I &visitor) {
+    return static_cast<LogNode *>(Node::acceptFirstSibling(visitor));
   }
   */
   
