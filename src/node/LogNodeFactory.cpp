@@ -9,7 +9,7 @@
 #include "LogNodeFactory.h"
 #include "LogNodeVisitor_ShowTree.h"
 #include "LogNodeVisitor_ConfigureLevel.h"
-#include "parseConfigurationString.h"
+#include "parseConfString.h"
 
 #include "ConfigureLevel.h"
 

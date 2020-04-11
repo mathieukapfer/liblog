@@ -1,5 +1,5 @@
 /**
- * @file   parseConfigurationString.c
+ * @file   parseConfString.c
  * @author Mathieu <mathieu@debian>
  * @date   Tue May  7 09:51:46 2019
  *
@@ -11,9 +11,9 @@
 #include <stdlib.h>
 #include <string.h>
 #include "log_for_logger.h"
-#include "parseConfigurationString.h"
+#include "parseConfString.h"
 
-ENABLE_LOG(DEBUG);
+ENABLE_LOG(NOTICE);
 
 /**
  * Parse the configuration string to extract the first name

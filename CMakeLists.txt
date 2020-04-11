@@ -28,7 +28,7 @@ include(CMakeLists_LogConfig.txt)
 set(LIBLOG_COMMUN_SOURCES
 ./src/fifo/LogFifo.cpp
 ./src/fifo/test_fifo.cpp
-./src/conf/parser/parseConfigurationString.cpp
+./src/conf/parser/parseConfString.cpp
 ./src/conf/LogConf.cpp
 ./src/logForLogger/log_utils.cpp
 ./src/node/ConfigureLevel.cpp
