@@ -13,6 +13,19 @@ ENABLE_LOG(INFO)
 
 TEST_SUITE("Check paring") {
 
+  TEST_CASE("getFirstNameStr_") {
+
+    char buf[100];
+    const char *configureString = "name1.toto.zozo.momo:1";
+    int current_index = 0;
+    int ret = -1;
+    
+    do {
+      ret = getFirstNameStr_(configureString, buf, current_index);
+      LOG_INFO("%s:%d", buf, ret);
+    } while (ret < 0 );
+      
+  }
   TEST_CASE("simple case") {
 
     int strIndex = 0;

@@ -55,11 +55,12 @@ bool Node::acceptChildOnly(NodeVisitorI &visitor) {
   return ret;
 }
 
-Node * Node::searchFirstSibling(NodeVisitor2I &visitor) {
+Node * Node::acceptFirstSibling(NodeVisitor2I &visitor) {
   Node * ret = NULL;
   ret = visitor.visit(this);
   if (_nextSibling != NULL && ret == NULL) {
-    ret = _nextSibling->searchFirstSibling(visitor);
+    LOG_DEBUG("search next sibling")
+    ret = _nextSibling->acceptFirstSibling(visitor);
   }
   LOG_DEBUG("ret:%d",ret);
   return ret;

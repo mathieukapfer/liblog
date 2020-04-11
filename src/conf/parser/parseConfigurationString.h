@@ -22,15 +22,20 @@ struct ConfigStringParsed {
 /**
  * Parse the configuration string at current position
  *
- * @param configureString in: the string to parse
- * @param index           in: the current position in string to start the parsing
+ * @param configureString in : the string to parse
+ * @param index           in : the current position in string to start the parsing
  * @param parsed          out:
- */void getFirstName(const char * configureString, int &index, ConfigStringParsed &parsed);
+ * @return value             : is last name
+ */
+bool getFirstName(const char * configureString, int &index, ConfigStringParsed &parsed);
 
 /*
    copy the first category name of configureString into buf and return it
    NOTE: the called should allocated the buf
 */
 char *getFirstNameStr(const char * configureString, char *buf);
+
+int getFirstNameStr_(const char *configStr , char *firstName, int &currentIndex);
+
 
 #endif /* PARSECONFIGURATIONSTRING_H */

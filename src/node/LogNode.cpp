@@ -74,6 +74,6 @@ char * LogNode::getFullName(char *p_fullName, int p_size) {
 
 
 bool LogNode::hasSameName(const char* name) {
-  LOG_ENTER("%s",_name);
+  LOG_ENTER("%s vs %s",name, _name);
   return (name != NULL && strcmp(_name, name) == 0);
 }

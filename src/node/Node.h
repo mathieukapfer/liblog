@@ -22,10 +22,13 @@ class Node {
   virtual bool acceptChildOnly(NodeVisitorI &visitor);
 
   // search
-  virtual Node *searchFirstSibling(NodeVisitor2I &visitor);
+  virtual Node *acceptFirstSibling(NodeVisitor2I &visitor);
 
   // read
   virtual Node *getParent() { return _parent;};
+
+    // read
+  virtual Node *getFirstChild() { return _firstChild;};
 
  protected:
 
