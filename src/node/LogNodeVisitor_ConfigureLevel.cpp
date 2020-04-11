@@ -5,7 +5,7 @@
 #include "log_for_logger.h"
 #include "LogNodeVisitor_ConfigureLevel.h"
 #include "LogNodeFactory.h"
-#include "parseConfigurationString.h"
+#include "parseConfString.h"
 
 ENABLE_LOG(INFO);
 

@@ -5,14 +5,16 @@
 #include "LogNode.h"
 #include "LogFifoI.h"
 
-#include "log_const.h"
-
+#include "log_for_logger.h"
 
 #ifdef LOG_CNF_FILE_ENABLE
 #include "LogConfFile.h"
 #else
 #include "LogConfMem.h"
 #endif
+
+#include "log_const.h"
+ENABLE_LOG(INFO)
 
 class LogFacade_priv {
 
@@ -117,6 +119,7 @@ bool LogFacade::configureLevel(const char* confString) {
 
 /// Define log level for a given path - new impl.
 bool LogFacade::configureLevelNew(const char* confString) {
+  LOG_ENTER__("*** %s ***",confString);
   return priv->_logNodeFactory->configureLevelNew(confString);
 }
 

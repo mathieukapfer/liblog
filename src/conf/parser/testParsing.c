@@ -2,7 +2,7 @@
 #define DOCTEST_CONFIG_TREAT_CHAR_STAR_AS_STRING
 #include "doctest.h"
 
-#include "parseConfigurationString.h"
+#include "parseConfString.h"
 #include <string.h>
 
 #include "log_for_logger.h"
