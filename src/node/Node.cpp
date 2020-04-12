@@ -44,12 +44,13 @@ bool Node::acceptAll(NodeVisitorI &visitor) {
   return ret;
 }
 
-bool Node::acceptChildOnly(NodeVisitorI &visitor) {
+bool Node::acceptAllChildren(NodeVisitorI &visitor) {
   bool ret = false;
   ret |= visitor.visit(this);
   if (_firstChild != NULL) {
     visitor.newChild();
-    ret |= _firstChild->acceptChildOnly(visitor);
+    // accept all node of each children
+    ret | _firstChild->acceptAll(visitor);
   }
   LOG_DEBUG("ret:%d",ret);
   return ret;

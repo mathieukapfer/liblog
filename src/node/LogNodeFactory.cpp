@@ -32,6 +32,28 @@ void LogNodeFactory::initTable() {
 }
 
 /**
+ * Create a child node of given parent
+ *
+ * @param parent : the parent node
+ * @param child  : the name of child node
+ *
+ * @return the child node
+ */
+LogNode *LogNodeFactory::createChildNode(LogNode * parent, const char* child, int level, bool preAllocated) {
+  LogNode * ret;
+  int dummy;
+  ret = getFreeNode(dummy);
+  if (ret) {
+    new (ret) LogNode(parent, child);
+    ret->_preAlloacted = preAllocated;
+    ret->_logLevel = level<0?parent->_logLevel:level;
+  }
+  LOG_EXIT_("%s->%s:%d", parent->_name, child, ret->_logLevel);
+  return ret;
+}
+
+
+/**
  * Create a pair of node parent & child, starting by parent node.
  * NOTE: the node is created only if it do not already exist !
  *
@@ -218,34 +240,76 @@ bool LogNodeFactory::configureLevelNew(const char* confString) {
   static const bool IS_LAST_NAME= true;
   
   LogNode * logNode = getRootNode();
+  LogNode * logNodeParent = getRootNode();
   int  strIndex = 0;
   char currentName[LOG_CATEGORY_PATH_NAME_SIZE_MAX];
   int level;
-    
-  //
-  do {
-    // get current name from configuration string
-    level =  getFirstNameStr_(confString, currentName, strIndex);
-    LOG_INFO(">%s:%d ", currentName, level);
-    
+  bool isLastName = false;;  
+
+  // 'GLOBAL' is optional in at the beginning of conf String
+  if (isFirstName_RootName(confString) == false) {
+    // 'GLOBAL' not present, start with children directly
+    logNode =  static_cast<LogNode *>(logNode->getFirstChild());
+  }
+  
+  // search configuration string path in node tree
+  while(!isLastName) {
+
+    // get current category name from configuration string
+    isLastName = getFirstNameStr_(confString, currentName, level, strIndex);
+    LOG_INFO(">%s:%d ", currentName, level);    
+
+    if (logNode) {
     // search a sibling node with this name 
     logNode = static_cast<LogNode *>
       (logNode->acceptFirstSibling
        (* (new ConfigureLevel::SearchNodeWithName(currentName))));
 
-    // find it, then continue with the child if there is still name in configuration string
-    if(logNode && level < 0 ) {
+    // find it, then continue with the next child
+    if(logNode && !isLastName) {
+      logNodeParent = logNode;
       logNode = static_cast<LogNode *>(logNode->getFirstChild());
     }
-    
-  } while(level < 0 && logNode != NULL);
-
+    }
+  } 
   
   if (logNode) {
     LOG_INFO("Node found: '%'s (confString:%s)", logNode->_name, confString);
-  } else {
-    LOG_INFO("Node not found with %s", confString);
+    // propagate level to all children
+    setConfigrationLevel(logNode, level);
+  } 
+#ifdef ALLOW_CONFIGURATION_BEFORE_DECLARATION
+  else {
+    LOG_INFO("Node not found with %s (%s) : create it", currentName, confString);
+
+    // create node
+    logNodeParent = createChildNode(logNodeParent, currentName, level, true);
+
+    //... and continue until end of conf string
+    while(!isLastName) { 
+      // get next name 
+      isLastName =  getFirstNameStr_(confString, currentName, level, strIndex);
+      
+      // create node
+      logNodeParent = createChildNode(logNodeParent, currentName, level, true);
+    } 
   }
+#endif
 
   return (logNode != NULL);
 }
+
+
+void LogNodeFactory::setConfigrationLevel(LogNode * logNode, int level) {
+  LOG_ENTER("%s,%d",logNode->_name, level);
+  logNode->acceptAllChildren(* (new ConfigureLevel::SetLevel(level)));
+}
+
+
+
+
+
+
+
+
+

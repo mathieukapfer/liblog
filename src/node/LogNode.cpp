@@ -16,7 +16,7 @@ LogNode::LogNode(LogNode *p_parent, const char *p_name):
   _inherited(false),
   _preAlloacted(false)
 {
-  LOG_DEBUG("LogNode:%s->%s", p_name, p_parent?p_parent->_name:"-");
+  LOG_DEBUG("LogNode:%s->%s", p_parent?p_parent->_name:"-", p_name);
 #ifdef ALLOW_CONFIGURATION_BEFORE_DECLARATION
   strncpy(_name, p_name, LOG_CATEGORY_NAME_SIZE_MAX);
 #endif
@@ -33,7 +33,6 @@ LogNode::LogNode():
   _logLevel(DEFAULT_LOG_LEVEL),
   _inherited(false)
 {
-  LOG_DEBUG("LogNode (NULL)");
 #ifdef ALLOW_CONFIGURATION_BEFORE_DECLARATION
   _name[0] = '\0';
 #endif

@@ -19,7 +19,7 @@ class Node {
 
   // visit
   virtual bool acceptAll(NodeVisitorI &visitor);
-  virtual bool acceptChildOnly(NodeVisitorI &visitor);
+  virtual bool acceptAllChildren(NodeVisitorI &visitor);
 
   // search
   virtual Node *acceptFirstSibling(NodeVisitor2I &visitor);

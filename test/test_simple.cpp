@@ -13,7 +13,7 @@ void saveNode(char * tag, void * logNode) {
   }
 }
 
-
+LOG_REGISTER("TestSimple");
 
 #define TEST_STRING "%s, %d, %f","this is a test", 999, 1.234
 #define LOG_TEST                   \
@@ -42,9 +42,15 @@ void saveNode(char * tag, void * logNode) {
 #define GET_LOG_LEVEL(tag)						\
   printf ("\n => %s:%d", tag, LogFacade::inst().getLogLevel((LogNode *) mapLogNode[std::string(tag)]));
 
+#define TEST_CONFIGURATON_STRING(str) \
+  LOG_EMERGENCY("*** test configuration string: %s",str);                 \
+  LogFacade::inst().configureLevelNew(str);  \
+  LOG_DISLAY_TREE();
+
 int main(int argc, char *argv[]) {
 
   { LOG_REGISTER_  ("Main1");};
+  { LOG_REGISTER__ ("Main1","module0");};
   { LOG_REGISTER_  ("Main2");};
   { LOG_REGISTER_  ("Main3");};
   { LOG_REGISTER_  ("Main");};
@@ -52,6 +58,7 @@ int main(int argc, char *argv[]) {
   { LOG_REGISTER___("Main","module1","submodule1"); };  
   { LOG_REGISTER__ ("Main","module2"); }; 
   { LOG_REGISTER___("Main","module2","submodule1"); }; 
+  { LOG_REGISTER___("submodule1","a","b"); }; 
 
   GET_LOG_LEVEL("Main");
   GET_LOG_LEVEL("module1");
@@ -68,13 +75,23 @@ int main(int argc, char *argv[]) {
   GET_LOG_LEVEL("submodule1");
 
   /// test configure level
-  LogFacade::inst().configureLevelNew("submodule1");
-  
-  LogFacade::inst().configureLevelNew("GLOBAL:1");
-  
-  LogFacade::inst().configureLevelNew("GLOBAL.Main.module2");
+  TEST_CONFIGURATON_STRING("GLOBAL:1");
 
-  LogFacade::inst().configureLevelNew("GLOBAL.Main.module2.submodule1:7");
+  TEST_CONFIGURATON_STRING("GLOBAL:2");
+
+  TEST_CONFIGURATON_STRING("aaa:7");
+
+  TEST_CONFIGURATON_STRING("a.b.c.d.e:2");
+  
+  TEST_CONFIGURATON_STRING("GLOBAL:1");
+
+  TEST_CONFIGURATON_STRING("GLOBAL.Main1:2");
+
+  TEST_CONFIGURATON_STRING("GLOBAL.Main:3");
+
+  TEST_CONFIGURATON_STRING("GLOBAL.Main.module2:4");
+
+  TEST_CONFIGURATON_STRING("GLOBAL.Main.module2.submodule1:5");
   
   return 0;
 }
