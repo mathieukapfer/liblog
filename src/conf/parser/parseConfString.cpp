@@ -12,6 +12,7 @@
 #include <string.h>
 #include "log_for_logger.h"
 #include "parseConfString.h"
+#include "log_level.h"
 
 ENABLE_LOG(NOTICE);
 
@@ -85,6 +86,13 @@ char *getFirstNameStr(const char *configStr , char *firstName) {
   return firstName;
 }
 
+/// shortcut
+bool isFirstName_RootName(const char *configStr) {
+  char *firstName;
+  getFirstNameStr(configStr, firstName);
+  return (strncmp(firstName, LOG_ROOT_NAME, sizeof(LOG_ROOT_NAME)) == 0);
+}
+
 
 /**
  * Fillup the first category name of 'configStr'
@@ -92,9 +100,9 @@ char *getFirstNameStr(const char *configStr , char *firstName) {
  * @param configStr
  * @param firstName
  *
- * @return
+ * @return true if is is the last name
  */
-int getFirstNameStr_(const char *configStr , char *firstName, int &currentIndex) {
+bool getFirstNameStr_(const char *configStr , char *firstName, int &level, int &currentIndex) {
   ConfigStringParsed parsed;
 
   getFirstName(configStr, currentIndex, parsed);
@@ -105,6 +113,15 @@ int getFirstNameStr_(const char *configStr , char *firstName, int &currentIndex)
   firstName[parsed.firstNameSize] = '\0';
 
   currentIndex = parsed.firstNameSize + parsed.firstNameIndex + 1;
+
+  if (parsed.isLastName) {
+    level = atoi(&configStr[parsed.levelIndex]);
+    if (level == 0) {
+      level = stringToLogLevel( &configStr[parsed.levelIndex] );
+    }
+  } else {
+    level = -1;
+  }
   
-  return (parsed.isLastName?atoi(&configStr[parsed.levelIndex]):-1);
+  return parsed.isLastName;
 }

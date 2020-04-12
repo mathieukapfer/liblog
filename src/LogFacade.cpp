@@ -57,6 +57,7 @@ void LogFacade::refreshConf() {
  * read conf
  */
 void LogFacade::readConf() {
+  LOG_ENTER__();
   // parse conf now if needed
   if (priv->_isLogConfParsed == false) {
     priv->_isLogConfParsed = true;
@@ -114,7 +115,8 @@ void *LogFacade::createNode(const char* parent, const char* child, bool preAlloc
 
 /// Define log level for a given path
 bool LogFacade::configureLevel(const char* confString) {
-  return priv->_logNodeFactory->configureLevel(confString);
+  //return priv->_logNodeFactory->configureLevel(confString);
+  return configureLevelNew(confString);
 }
 
 /// Define log level for a given path - new impl.

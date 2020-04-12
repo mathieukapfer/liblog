@@ -19,11 +19,12 @@ TEST_SUITE("Check paring") {
     const char *configureString = "name1.toto.zozo.momo:1";
     int current_index = 0;
     int ret = -1;
+    int level;
     
     do {
-      ret = getFirstNameStr_(configureString, buf, current_index);
-      LOG_INFO("%s:%d", buf, ret);
-    } while (ret < 0 );
+      ret = getFirstNameStr_(configureString, buf, level, current_index);
+      LOG_INFO("%s:%d (last:%d)", buf, level, ret);
+    } while (!ret);
       
   }
   TEST_CASE("simple case") {

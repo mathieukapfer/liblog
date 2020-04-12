@@ -73,6 +73,11 @@ class LogNodeFactory {
     return &_logNodeTable[0];
   }
 
+  /// Set configuration level of all nodes in branch
+  void setConfigrationLevel(LogNode * logNode, int level);
+
+  /// Create a child node 
+  LogNode *createChildNode(LogNode * parent, const char* child, int level, bool preAllocated);
 };
 
 

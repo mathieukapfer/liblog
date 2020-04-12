@@ -35,7 +35,9 @@ bool getFirstName(const char * configureString, int &index, ConfigStringParsed &
 */
 char *getFirstNameStr(const char * configureString, char *buf);
 
-int getFirstNameStr_(const char *configStr , char *firstName, int &currentIndex);
+bool getFirstNameStr_(const char *configStr , char *firstName, int &level, int &currentIndex);
+
+bool isFirstName_RootName(const char *configStr);
 
 
 #endif /* PARSECONFIGURATIONSTRING_H */
