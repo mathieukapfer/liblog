@@ -13,7 +13,11 @@ ENABLE_LOG(INFO)
 
 TEST_SUITE("Check paring") {
 
-  TEST_CASE("getFirstNameStr_") {
+  TEST_CASE("isFirstName=RootName") {
+    CHECK(isFirstName_RootName("toto.titi") ==  false);
+    CHECK(isFirstName_RootName("GLOBAL.toto.titi") ==  true);
+  }
+    TEST_CASE("getFirstNameStr_") {
 
     char buf[100];
     const char *configureString = "name1.toto.zozo.momo:1";

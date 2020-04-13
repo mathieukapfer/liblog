@@ -14,7 +14,7 @@
 #include "parseConfString.h"
 #include "log_level.h"
 
-ENABLE_LOG(NOTICE);
+ENABLE_LOG(INFO);
 
 /**
  * Parse the configuration string to extract the first name
@@ -88,9 +88,12 @@ char *getFirstNameStr(const char *configStr , char *firstName) {
 
 /// shortcut
 bool isFirstName_RootName(const char *configStr) {
-  char *firstName;
-  getFirstNameStr(configStr, firstName);
-  return (strncmp(firstName, LOG_ROOT_NAME, sizeof(LOG_ROOT_NAME)) == 0);
+  ConfigStringParsed parsed;
+  int localIndex = 0;
+  getFirstName(configStr, localIndex, parsed);
+  return (memcmp(LOG_ROOT_NAME,
+                 &configStr[parsed.firstNameIndex],
+                 parsed.firstNameSize) == 0);
 }
 
 
