@@ -2,42 +2,62 @@
 #define PARSECONFIGURATIONSTRING_H
 
 
-// helper to use result of parsing
-#define GET_FIRST_NAME(configStr, parsed) &configStr[parsed.firstNameIndex]
-#define GET_LEVEL(configStr, parsed) &configStr[parsed.levelIndex]
+/*
+ 'Cat' means log category
 
+  This is the string separte by dot in configure string
+
+  example:
+
+              "category = 1",
+              "category.subcategory = 1"
+              "category.subcategory.anotherSubCategory = 1"
+*/
+
+#include "log_const.h"
+
+class ConfigurationStringParser {
+ public:
+  ConfigurationStringParser(const char *configureString):
+    _configStr(configureString),
+    _currentIndex(0),
+    _levelStr(NULL)
+    {}
+  
+  virtual ~ConfigurationStringParser() {};
+
+  /// parse and return the first category name
+  bool getFirstCatStr(char **cat);
+
+  /// parse and return the next category name
+  bool getNextCatStr(char **cat);
+
+  /// get log level as int
+  int getLevel();
+
+  /// special helper 
+  bool isStartingWithRoot();
+
+ private:
+  
 /* structure to store offset and size */
 struct ConfigStringParsed {
-  int firstNameIndex;
-  int firstNameSize;
+  int firstCatIndex;
+  int firstCatSize;
   int levelIndex;
-  bool isLastName;
+  bool isLastCat;
 };
 
-/*
-   Parse the configuration string at current position
-   NOTE: this functon do no allocation but only compute offset and size
-         use helper macro above to work with parsed srtucture.
-*/
-/**
- * Parse the configuration string at current position
- *
- * @param configureString in : the string to parse
- * @param index           in : the current position in string to start the parsing
- * @param parsed          out:
- * @return value             : is last name
- */
-bool getFirstName(const char * configureString, int &index, ConfigStringParsed &parsed);
+  bool parseAtPos(int pos, ConfigStringParsed &parsed);
+  
+  char _buf[LOG_CATEGORY_PATH_NAME_SIZE_MAX];
 
-/*
-   copy the first category name of configureString into buf and return it
-   NOTE: the called should allocated the buf
-*/
-char *getFirstNameStr(const char * configureString, char *buf);
-
-bool getFirstNameStr_(const char *configStr , char *firstName, int &level, int &currentIndex);
-
-bool isFirstName_RootName(const char *configStr);
+  const char *_configStr;
+  const char *_levelStr;
+  
+  int  _currentIndex;
+  
+};
 
 
 #endif /* PARSECONFIGURATIONSTRING_H */

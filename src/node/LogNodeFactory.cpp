@@ -210,13 +210,15 @@ bool LogNodeFactory::configureLevelNew(const char* confString) {
   
   LogNode * logNode = getRootNode();
   LogNode * logNodeParent = getRootNode();
-  int  strIndex = 0;
-  char currentName[LOG_CATEGORY_PATH_NAME_SIZE_MAX];
-  int level = -1;
-  bool isLastName = false;;  
 
+  char *currentName;
+  int level = -1;
+  bool isLastName = false;
+
+  ConfigurationStringParser parser(confString);
+  
   // 'GLOBAL' is optional in at the beginning of conf String
-  if (isFirstName_RootName(confString) == false) {
+  if (parser.isStartingWithRoot() == false) {
     // 'GLOBAL' not present, start with children directly
     logNode =  static_cast<LogNode *>(logNode->getFirstChild());
   }
@@ -225,25 +227,27 @@ bool LogNodeFactory::configureLevelNew(const char* confString) {
   while(!isLastName) {
 
     // get current category name from configuration string
-    isLastName = getFirstNameStr_(confString, currentName, level, strIndex);
+    isLastName =  parser.getNextCatStr(&currentName);
     LOG_INFO(">%s:%d ", currentName, level);    
 
     if (logNode) {
-    // search a sibling node with this name 
-    logNode = static_cast<LogNode *>
-      (logNode->acceptFirstSibling
-       (* (new ConfigureLevel::SearchNodeWithName(currentName))));
+      // search a sibling node with this name 
+      logNode = static_cast<LogNode *>
+        (logNode->acceptFirstSibling
+         (* (new ConfigureLevel::SearchNodeWithName(currentName))));
 
-    // find it, then continue with the next child
-    if(logNode && !isLastName) {
-      logNodeParent = logNode;
-      logNode = static_cast<LogNode *>(logNode->getFirstChild());
-    } else {
-      // leave loop
-      break;
-    }
+      // find it, then continue with the next child
+      if(logNode && !isLastName) {
+        logNodeParent = logNode;
+        logNode = static_cast<LogNode *>(logNode->getFirstChild());
+      } else {
+        // leave loop
+        break;
+      }
     }
   } 
+
+  level = parser.getLevel();
   
   if (logNode) {
     LOG_INFO("Node found: '%'s (confString:%s)", logNode->_name, confString);
@@ -260,7 +264,7 @@ bool LogNodeFactory::configureLevelNew(const char* confString) {
     //... and continue until end of conf string
     while(!isLastName) { 
       // get next name 
-      isLastName =  getFirstNameStr_(confString, currentName, level, strIndex);
+      isLastName =  parser.getNextCatStr(&currentName);
       
       // create node
       logNodeParent = createChildNode(logNodeParent, currentName, level, true);
