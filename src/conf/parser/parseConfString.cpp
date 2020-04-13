@@ -14,123 +14,128 @@
 #include "parseConfString.h"
 #include "log_level.h"
 
+// helper
+#define GET_CURRENT_CAT_SIZE parsed.firstCatSize
+#define GET_CURRENT_CAT_NAME &_configStr[parsed.firstCatIndex]
+#define GET_LEVEL            &_configStr[parsed.levelIndex]
+
+
 ENABLE_LOG(INFO);
 
 /**
- * Parse the configuration string to extract the first name
+ * Parse the configuration string 
  *
- * @param configureString         The configuration string, can be:
-                                  "category = 1",
-                                  "category.subcategory = 1"
-                                  "category.subcategory.anotherSubCategory = 1"
- * @param index                   current position to parse into the configuration string
- * @param parsed.firstNameIndex   offset of the the first name
- * @param parsed.firstNameSize    size of first name
- * @param parsed.isLastName       true if the name is also the last
- * @param parsed.levelIndex       offset of the level if we reach the last name
+ * @param index           int : current position to parse into the configuration string
+ * @param parsed          out : information of parsing:
+ *         - firstCatIndex    : offset of the the first category name
+ *         - firstCatSize     : size of first category name
+ *         - isLastCat        : true if the category name is also the last
+ *         - levelIndex       : offset of the level
  */
-bool getFirstName(const char * configureString, int &index, ConfigStringParsed &parsed) {
+bool ConfigurationStringParser::parseAtPos(int pos, ConfigStringParsed &parsed) {
 
   const char *start, *name, *sep, *eq, *level;
-  const char *cp = configureString;
+  const char *cp = _configStr;
 
   // move cp to current position
-  cp += index;
+  cp += pos;
   start = cp;
 
   // remove space bebore name
   cp += strspn(cp, " ");
   name = cp;
+
   // detect separator position
   cp += strcspn(cp, ".: ");
   sep = cp;
+
   // detect colon position
   cp += strcspn(cp, ": ");
   eq = cp;
+
   // move to level
   cp += strspn(cp, ": ");
   level = cp;
 
+  // save it
+  _levelStr = level;
+
   // populate the output
-  parsed.firstNameSize = (sep - name);
-  parsed.firstNameIndex = name - start + index;
-  parsed.isLastName = (sep == eq);
-  parsed.levelIndex = level - start + index;
+  parsed.firstCatSize  = (sep - name);
+  parsed.firstCatIndex = name - start + pos;
+  parsed.isLastCat     = (sep == eq);
+  parsed.levelIndex    = level - start + pos;
 
   // move index
   // index += (sep - start) + 1;
 
   LOG_INFO("'%s' '%s' %d %d %d",
-           &configureString[ parsed.firstNameIndex], &configureString[index],
-           parsed.firstNameSize, parsed.isLastName, index);
+           GET_CURRENT_CAT_NAME, &_configStr[pos],
+           parsed.firstCatSize, parsed.isLastCat, pos);
 
-  return parsed.isLastName;
+  return parsed.isLastCat;
 }
 
 
-/**
- * Fillup the first category name of 'configStr'
- *
- * @param configStr
- * @param firstName
- *
- * @return
- */
-char *getFirstNameStr(const char *configStr , char *firstName) {
-  ConfigStringParsed parsed;
-  int localIndex = 0;
-  getFirstName(configStr, localIndex, parsed);
-  strncpy(firstName, configStr + parsed.firstNameIndex,
-          min (parsed.firstNameSize, LOG_CATEGORY_NAME_SIZE_MAX ));
-  firstName[parsed.firstNameSize] = '\0';
-  return firstName;
-}
 
 /// shortcut
-bool isFirstName_RootName(const char *configStr) {
+bool ConfigurationStringParser::isStartingWithRoot() {
   ConfigStringParsed parsed;
   int localIndex = 0;
-  getFirstName(configStr, localIndex, parsed);
-  return (memcmp(LOG_ROOT_NAME,
-                 &configStr[parsed.firstNameIndex],
-                 parsed.firstNameSize) == 0);
+  parseAtPos(localIndex, parsed);
+  return (memcmp(LOG_ROOT_NAME, GET_CURRENT_CAT_NAME, GET_CURRENT_CAT_SIZE) == 0);
 }
 
 
 /**
- * Fillup the first category name of 'configStr'
+ * Provide the current category name of 'configStr' 
+ *  and move internal pointer to next category name 
+ *  then next called will return the next category
  *
- * @param configStr    in     : the config string to parse
- * @param firstName    in out : buffer to receive the copy of first name of config string 
- * @param level        out    : level of config string if last last name is reach, else -1
- * @param currentIndex in out : keep trace of last position parsed in confiug string
- *
- * @return true if the last name is reach - in this case, level is also parsed
+ * @param  firstCat    out : first name  
+ * @return true if the last name is reach 
  */
-bool getFirstNameStr_(const char *configStr , char *firstName, int &level, int &currentIndex) {
+bool ConfigurationStringParser::getNextCatStr(char **cat) {
   ConfigStringParsed parsed;
 
-  // parse config string
-  getFirstName(configStr, currentIndex, parsed);
+  // parse at current positon
+  parseAtPos(_currentIndex, parsed);
 
-  // put a copy of string in given buffer 
-  strncpy(firstName, configStr + parsed.firstNameIndex,
-          min (parsed.firstNameSize, LOG_CATEGORY_NAME_SIZE_MAX ));
+  // fill buf with first cat found
+  strncpy(_buf, _configStr + parsed.firstCatIndex,
+          min (GET_CURRENT_CAT_SIZE, LOG_CATEGORY_NAME_SIZE_MAX ));
   
-  firstName[parsed.firstNameSize] = '\0';
+  _buf[GET_CURRENT_CAT_SIZE] = '\0';
 
-  // rewind to last position parsed
-  currentIndex = parsed.firstNameSize + parsed.firstNameIndex + 1;
+  *cat = _buf;
 
-  // parse level is last name reach
-  if (parsed.isLastName) {
-    level = atoi(&configStr[parsed.levelIndex]);
-    if (level == 0) {
-      level = stringToLogLevel( &configStr[parsed.levelIndex] );
-    }
+  // move index to last position parsed
+  _currentIndex = GET_CURRENT_CAT_SIZE + parsed.firstCatIndex + 1;
+    
+  return parsed.isLastCat;
+}
+
+/// parse and return the first category name
+bool ConfigurationStringParser::getFirstCatStr(char **cat) {
+  // reset the current 
+  _currentIndex = 0;
+  // call parser
+  return getNextCatStr(cat);
+}
+
+/// if parsed, then return level value of configuration string
+int ConfigurationStringParser::getLevel() {
+  int ret;
+
+  // check level is present
+  if (_levelStr > 0) {
+    // convert ascii to int
+    ret  = atoi(_levelStr);
+    if (ret == 0) {
+      // convert level string to iny
+      ret  = stringToLogLevel( _levelStr );
+    }    
   } else {
-    level = -1;
+    ret = -1;
   }
-  
-  return parsed.isLastName;
 }

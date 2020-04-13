@@ -9,94 +9,57 @@
 
 ENABLE_LOG(INFO)
 
-#define _CHECK_STRING(str, ref) (strncmp(str, ref, strlen(ref)) == 0)
+#define STRING_EQUAL(str, ref) (strncmp(str, ref, strlen(ref)) == 0)
 
-TEST_SUITE("Check paring") {
+TEST_SUITE("Check parsing") {
 
   TEST_CASE("isFirstName=RootName") {
-    CHECK(isFirstName_RootName("toto.titi") ==  false);
-    CHECK(isFirstName_RootName("GLOBAL.toto.titi") ==  true);
+    {
+      ConfigurationStringParser parser("toto.titi");    
+      CHECK(parser.isStartingWithRoot() ==  false);
+    }
+    {
+     ConfigurationStringParser parser("GLOBAL.toto.titi");    
+      CHECK(parser.isStartingWithRoot() ==  true);
+    }
   }
-    TEST_CASE("getFirstNameStr_") {
+  TEST_CASE("getNextCatStr strep ") {
 
-    char buf[100];
-    const char *configureString = "name1.toto.zozo.momo:1";
-    int current_index = 0;
-    int ret = -1;
-    int level;
+    #define STRING1 "name"
+    #define STRING2 "subname"
+    #define STRING3 "subsubname"
+    #define STRING_LEVEL "9"
     
-    do {
-      ret = getFirstNameStr_(configureString, buf, level, current_index);
-      LOG_INFO("%s:%d (last:%d)", buf, level, ret);
-    } while (!ret);
+    ConfigurationStringParser parser("    " STRING1 "." STRING2 "." STRING3 ":" STRING_LEVEL);
+    char *cat;
+
+    parser.getNextCatStr(&cat);
+    CHECK(STRING_EQUAL(cat, STRING1));
+
+    parser.getNextCatStr(&cat);
+    CHECK(STRING_EQUAL(cat, STRING2));
+
+    parser.getNextCatStr(&cat);
+    CHECK(STRING_EQUAL(cat, STRING3));
+
+    CHECK(parser.getLevel() == 9);
+}
+      
+  TEST_CASE("getNextCatStr loop") {
+
+    ConfigurationStringParser parser("    name1.toto.zozo.momo:9");
+    char *cat;
+
+    while (parser.getNextCatStr(&cat) == false) {
+      LOG_INFO("%s:%d (last:%d)", cat, parser.getLevel());
+    } 
       
   }
-  TEST_CASE("simple case") {
-
-    int strIndex = 0;
-
-    //                             0123456789012345
-    const char *configureString = "name1.bigname2:1";
-    char buf[100];
-    ConfigStringParsed parsed;
-
-    getFirstName(configureString, strIndex, parsed);
-
-    LOG_INFO("%s %s %d %d %d",
-             &configureString[parsed.firstNameIndex], &configureString[strIndex],
-             parsed.firstNameSize, parsed.isLastName, strIndex);
-
-    getFirstNameStr(configureString, buf);
-    CHECK(buf == "name1");
-
-    CHECK(_CHECK_STRING(&configureString[parsed.firstNameIndex], "name1"));
-    CHECK(parsed.firstNameSize == 5);
-    CHECK(parsed.isLastName == false);
-
-    strIndex = parsed.firstNameSize + parsed.firstNameIndex + 1;
-    getFirstName(configureString, strIndex, parsed);
-
-    LOG_INFO("%s %s %d %d %d",
-             &configureString[parsed.firstNameIndex], &configureString[strIndex],
-             parsed.firstNameSize, parsed.isLastName, strIndex);
-
-    CHECK(_CHECK_STRING(&configureString[parsed.firstNameIndex], "bigname2"));
-    CHECK(parsed.firstNameSize == 8);
-    CHECK(parsed.levelIndex == 15);
-    CHECK(parsed.isLastName == true);
-    strIndex = parsed.firstNameSize + parsed.firstNameIndex + 1;
-
-  }
-  TEST_CASE("simple case 2") {
-
-    int strIndex = 0;
-
-    //                             0123456789012345
-    const char *configureString = "  name1.bigname2:1";
-    ConfigStringParsed parsed;
-
-    getFirstName(configureString, strIndex, parsed);
-
-    LOG_INFO("%s %s %d %d %d",
-             &configureString[parsed.firstNameIndex], &configureString[strIndex],
-             parsed.firstNameSize, parsed.isLastName, strIndex);
-
-    CHECK(_CHECK_STRING(&configureString[parsed.firstNameIndex], "name1"));
-    CHECK(parsed.firstNameSize == 5);
-    CHECK(parsed.isLastName == false);
-    strIndex = parsed.firstNameSize + parsed.firstNameIndex + 1;
-
-    getFirstName(configureString, strIndex, parsed);
-
-    LOG_INFO("%s %s %d %d %d",
-             &configureString[parsed.firstNameIndex], &configureString[strIndex],
-             parsed.firstNameSize, parsed.isLastName, strIndex);
-
-    CHECK(_CHECK_STRING(&configureString[parsed.firstNameIndex], "bigname2"));
-    CHECK(parsed.firstNameSize == 8);
-    CHECK(parsed.levelIndex == 17);
-    CHECK(parsed.isLastName == true);
-    strIndex = parsed.firstNameSize + parsed.firstNameIndex + 1;
-
-  }
 }
+
+
+
+
+
+
+
