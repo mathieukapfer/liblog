@@ -113,16 +113,10 @@ void *LogFacade::createNode(const char* parent, const char* child, bool preAlloc
 }
 
 
-/// Define log level for a given path
+/// Define log level for a given path 
 bool LogFacade::configureLevel(const char* confString) {
-  //return priv->_logNodeFactory->configureLevel(confString);
-  return configureLevelNew(confString);
-}
-
-/// Define log level for a given path - new impl.
-bool LogFacade::configureLevelNew(const char* confString) {
   LOG_ENTER__("*** %s ***",confString);
-  return priv->_logNodeFactory->configureLevelNew(confString);
+  return priv->_logNodeFactory->configureLevel(confString);
 }
 
 
@@ -157,10 +151,6 @@ LogFifoI * LogFacade::getFifo() {
 
 
 /// getter to log level
-bool LogFacade::isLogEnabled(LogNode *catv, int priority) {
-  return(catv?catv->_logLevel >= priority:false);
-}
-
 int LogFacade::getLogLevel(LogNode *catv) {
   return(catv?catv->_logLevel:0);
 }

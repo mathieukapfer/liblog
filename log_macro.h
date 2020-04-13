@@ -14,7 +14,7 @@ class LogNode;
 
 // stuff to create & send the log event
 #define _LOG_ISENABLED(catv, priority) \
-  LogFacade::inst().isLogEnabled((LogNode*) catv, priority)
+  (LogFacade::inst().getLogLevel((LogNode*) catv) >= priority)
 
 #define _LOG_(catv, priority, fct, fmt, ...)                            \
   if (_LOG_ISENABLED(catv, priority)) {                                 \

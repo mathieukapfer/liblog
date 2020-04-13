@@ -24,7 +24,7 @@ class LogNodeFactory {
     { initTable(); };
 
   /// define log level
-  bool configureLevelNew(const char* confString);
+  bool configureLevel(const char* confString);
 
   /// dislay log node tree
   void displayLevelTree();

@@ -204,7 +204,7 @@ void LogNodeFactory::printTable() {
  *               "<LOG_ROOT_NAME>:3"
  * @return if level has been configured (if node exist)
  */
-bool LogNodeFactory::configureLevelNew(const char* confString) {
+bool LogNodeFactory::configureLevel(const char* confString) {
 
   static const bool IS_LAST_NAME= true;
   
