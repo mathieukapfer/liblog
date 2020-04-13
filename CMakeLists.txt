@@ -32,7 +32,6 @@ set(LIBLOG_COMMUN_SOURCES
 ./src/conf/LogConf.cpp
 ./src/logForLogger/log_utils.cpp
 ./src/node/ConfigureLevel.cpp
-./src/node/LogNodeVisitor_ConfigureLevel.cpp
 ./src/node/LogNode.cpp
 ./src/node/Node.cpp
 ./src/node/LogNodeFactory.cpp
