@@ -8,7 +8,6 @@
 #include "log_level.h"
 #include "LogNodeFactory.h"
 #include "LogNodeVisitor_ShowTree.h"
-#include "LogNodeVisitor_ConfigureLevel.h"
 #include "parseConfString.h"
 
 #include "ConfigureLevel.h"
@@ -165,45 +164,6 @@ LogNode *LogNodeFactory::getFreeNode(int &index) {
 
 
 /**
- * Define log level for a given path
- *
- * @param confString :the log configuration string like:
- *               "Main:3"
- *               "Main.SectionOfMain:3"
- *               "<LOG_ROOT_NAME>:3"
- * @return if level has been configured (if node exist)
- */
-bool  LogNodeFactory::configureLevel(const char* confString) {
-  bool ret = false;
-  LOG_DEBUG("%s",confString);
-
-  // add prefix 'GLOBAL.' if not present
-  bool useNewConfStr = false;
-  char firstName[LOG_CATEGORY_NAME_SIZE_MAX];
-  char newConfstr[LOG_CATEGORY_PATH_NAME_SIZE_MAX] =  { '\0' };
-
-  if (strcmp(LOG_ROOT_NAME, getFirstNameStr(confString, firstName)) != 0) {
-    strncat(newConfstr, LOG_ROOT_NAME, LOG_CATEGORY_PATH_NAME_SIZE_MAX);
-    strncat(newConfstr, ".", LOG_CATEGORY_PATH_NAME_SIZE_MAX);
-    strncat(newConfstr, confString, LOG_CATEGORY_PATH_NAME_SIZE_MAX);
-    useNewConfStr = true;
-    LOG_INFO("firstName:%s => conf:%s", firstName, newConfstr);
-  }
-
-  // launch configuation level visitor
-  ret = (getRootNode()->acceptAll
-         (*(new LogNodeVisitor_ConfigureLevel (useNewConfStr?newConfstr:confString))));
-
-  // log if found
-  LOG_DEBUG("'%s' %s",confString, ret?"found":"NOT FOUND");
-  IF_LOG_INFO {
-    displayLevelTree();
-  }
-
-  return ret;
-}
-
-/**
  * Dislay the log tree
  *
  */
@@ -235,6 +195,15 @@ void LogNodeFactory::printTable() {
 }
 
 
+/**
+ * Define log level for a given path
+ *
+ * @param confString :the log configuration string like:
+ *               "Main:3"
+ *               "Main.SectionOfMain:3"
+ *               "<LOG_ROOT_NAME>:3"
+ * @return if level has been configured (if node exist)
+ */
 bool LogNodeFactory::configureLevelNew(const char* confString) {
 
   static const bool IS_LAST_NAME= true;
@@ -243,7 +212,7 @@ bool LogNodeFactory::configureLevelNew(const char* confString) {
   LogNode * logNodeParent = getRootNode();
   int  strIndex = 0;
   char currentName[LOG_CATEGORY_PATH_NAME_SIZE_MAX];
-  int level;
+  int level = -1;
   bool isLastName = false;;  
 
   // 'GLOBAL' is optional in at the beginning of conf String
@@ -269,6 +238,9 @@ bool LogNodeFactory::configureLevelNew(const char* confString) {
     if(logNode && !isLastName) {
       logNodeParent = logNode;
       logNode = static_cast<LogNode *>(logNode->getFirstChild());
+    } else {
+      // leave loop
+      break;
     }
     }
   } 
