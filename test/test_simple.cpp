@@ -42,7 +42,7 @@ LOG_REGISTER("TestSimple");
 #define GET_LOG_LEVEL(tag)						\
   printf ("\n => %s:%d", tag, LogFacade::inst().getLogLevel((LogNode *) mapLogNode[std::string(tag)]));
 
-#define TEST_CONFIGURATON_STRING(str) \
+#define TEST_LOG_SPEC(str) \
   LOG_EMERGENCY("*** test configuration string: %s",str);                 \
   LogFacade::inst().configureLevelNew(str);  \
   LOG_DISLAY_TREE();
@@ -75,23 +75,23 @@ int main(int argc, char *argv[]) {
   GET_LOG_LEVEL("submodule1");
 
   /// test configure level
-  TEST_CONFIGURATON_STRING("GLOBAL:1");
+  TEST_LOG_SPEC("GLOBAL:1");
 
-  TEST_CONFIGURATON_STRING("GLOBAL:2");
+  TEST_LOG_SPEC("GLOBAL:2");
 
-  TEST_CONFIGURATON_STRING("aaa:7");
+  TEST_LOG_SPEC("aaa:7");
 
-  TEST_CONFIGURATON_STRING("a.b.c.d.e:2");
+  TEST_LOG_SPEC("a.b.c.d.e:3");
   
-  TEST_CONFIGURATON_STRING("GLOBAL:1");
+  TEST_LOG_SPEC("GLOBAL:1");
 
-  TEST_CONFIGURATON_STRING("GLOBAL.Main1:2");
+  TEST_LOG_SPEC("GLOBAL.Main1:2");
 
-  TEST_CONFIGURATON_STRING("GLOBAL.Main:3");
+  TEST_LOG_SPEC("GLOBAL.Main:3");
 
-  TEST_CONFIGURATON_STRING("GLOBAL.Main.module2:4");
+  TEST_LOG_SPEC("GLOBAL.Main.module2:4");
 
-  TEST_CONFIGURATON_STRING("GLOBAL.Main.module2.submodule1:5");
+  TEST_LOG_SPEC("GLOBAL.Main.module2.submodule1:5");
   
   return 0;
 }

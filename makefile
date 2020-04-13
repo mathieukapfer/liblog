@@ -37,22 +37,16 @@ test: test-x86 test-m3 test-a7
 
 test-x86:
 	@echo "\n\n#### Check conf from file\n\n"
-	cd ${BUILD_X86_DIR}; make
-	cd ${BUILD_X86_DIR}; make test_log
-	cd test; ../${BUILD_X86_DIR}/test/test_log
+	cd ${BUILD_X86_DIR}; make && ctest
 
 test-m3:
 	@echo "\n\n#### Check M3 conf (from memory)\n\n"
-	cd ${BUILD_X86_CONF_M3_DIR}; make
-	cd ${BUILD_X86_CONF_M3_DIR}; make test_log
-	cd test; ../${BUILD_X86_CONF_M3_DIR}/test/test_log
+	cd ${BUILD_X86_CONF_M3_DIR}; make && ctest
 
 test-a7:
 	@echo "\n\n#### Check A7 conf (cp to memory)\n\n"
-	cd ${BUILD_X86_CONF_A7_DIR}; make
-	cd ${BUILD_X86_CONF_A7_DIR}; make test_log
-	cd test; ../${BUILD_X86_CONF_A7_DIR}/test/test_log
-
+	cd ${BUILD_X86_CONF_A7_DIR}; make && ctest
+ 
 help-display:
 	@echo
 	@echo "Main targets:"

@@ -8,7 +8,7 @@
 #include "log_level.h"
 #include "LogNodeFactory.h"
 #include "LogNodeVisitor_ShowTree.h"
-#include "parseConfString.h"
+#include "LogSpecParser.h"
 
 #include "ConfigureLevel.h"
 
@@ -215,7 +215,7 @@ bool LogNodeFactory::configureLevelNew(const char* confString) {
   int level = -1;
   bool isLastName = false;
 
-  ConfigurationStringParser parser(confString);
+  LogSpecParser parser(confString);
   
   // 'GLOBAL' is optional in at the beginning of conf String
   if (parser.isStartingWithRoot() == false) {

@@ -28,7 +28,7 @@ include(CMakeLists_LogConfig.txt)
 set(LIBLOG_COMMUN_SOURCES
 ./src/fifo/LogFifo.cpp
 ./src/fifo/test_fifo.cpp
-./src/conf/parser/parseConfString.cpp
+./src/conf/parser/LogSpecParser.cpp
 ./src/conf/LogConf.cpp
 ./src/logForLogger/log_utils.cpp
 ./src/node/ConfigureLevel.cpp
@@ -71,6 +71,7 @@ if(_X86_ OR _DO_UNIT_TEST_)
   enable_testing()
   # add test subdir
   add_subdirectory(test)
+  add_subdirectory(src/conf/parser)
 endif()
 
 # install target with static lib and header
