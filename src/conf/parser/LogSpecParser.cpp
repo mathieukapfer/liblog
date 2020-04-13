@@ -1,5 +1,5 @@
 /**
- * @file   parseConfString.c
+ * @file   LogSpecParser.c
  * @author Mathieu <mathieu@debian>
  * @date   Tue May  7 09:51:46 2019
  *
@@ -11,7 +11,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "log_for_logger.h"
-#include "parseConfString.h"
+#include "LogSpecParser.h"
 #include "log_level.h"
 
 // helper
@@ -32,7 +32,7 @@ ENABLE_LOG(INFO);
  *         - isLastCat        : true if the category name is also the last
  *         - levelIndex       : offset of the level
  */
-bool ConfigurationStringParser::parseAtPos(int pos, ConfigStringParsed &parsed) {
+bool LogSpecParser::parseAtPos(int pos, ConfigStringParsed &parsed) {
 
   const char *start, *name, *sep, *eq, *level;
   const char *cp = _configStr;
@@ -79,7 +79,7 @@ bool ConfigurationStringParser::parseAtPos(int pos, ConfigStringParsed &parsed) 
 
 
 /// shortcut
-bool ConfigurationStringParser::isStartingWithRoot() {
+bool LogSpecParser::isStartingWithRoot() {
   ConfigStringParsed parsed;
   int localIndex = 0;
   parseAtPos(localIndex, parsed);
@@ -95,7 +95,7 @@ bool ConfigurationStringParser::isStartingWithRoot() {
  * @param  firstCat    out : first name  
  * @return true if the last name is reach 
  */
-bool ConfigurationStringParser::getNextCatStr(char **cat) {
+bool LogSpecParser::getNextCatStr(char **cat) {
   ConfigStringParsed parsed;
 
   // parse at current positon
@@ -116,7 +116,7 @@ bool ConfigurationStringParser::getNextCatStr(char **cat) {
 }
 
 /// parse and return the first category name
-bool ConfigurationStringParser::getFirstCatStr(char **cat) {
+bool LogSpecParser::getFirstCatStr(char **cat) {
   // reset the current 
   _currentIndex = 0;
   // call parser
@@ -124,11 +124,11 @@ bool ConfigurationStringParser::getFirstCatStr(char **cat) {
 }
 
 /// if parsed, then return level value of configuration string
-int ConfigurationStringParser::getLevel() {
+int LogSpecParser::getLevel() {
   int ret;
-
+  
   // check level is present
-  if (_levelStr > 0) {
+  if (_levelStr != NULL ) {
     // convert ascii to int
     ret  = atoi(_levelStr);
     if (ret == 0) {

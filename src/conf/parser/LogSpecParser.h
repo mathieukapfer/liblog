@@ -16,15 +16,15 @@
 
 #include "log_const.h"
 
-class ConfigurationStringParser {
+class LogSpecParser {
  public:
-  ConfigurationStringParser(const char *configureString):
+  LogSpecParser(const char *configureString):
     _configStr(configureString),
     _currentIndex(0),
     _levelStr(NULL)
     {}
   
-  virtual ~ConfigurationStringParser() {};
+  virtual ~LogSpecParser() {};
 
   /// parse and return the first category name
   bool getFirstCatStr(char **cat);
