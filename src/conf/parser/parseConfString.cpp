@@ -100,23 +100,29 @@ bool isFirstName_RootName(const char *configStr) {
 /**
  * Fillup the first category name of 'configStr'
  *
- * @param configStr
- * @param firstName
+ * @param configStr    in     : the config string to parse
+ * @param firstName    in out : buffer to receive the copy of first name of config string 
+ * @param level        out    : level of config string if last last name is reach, else -1
+ * @param currentIndex in out : keep trace of last position parsed in confiug string
  *
- * @return true if is is the last name
+ * @return true if the last name is reach - in this case, level is also parsed
  */
 bool getFirstNameStr_(const char *configStr , char *firstName, int &level, int &currentIndex) {
   ConfigStringParsed parsed;
 
+  // parse config string
   getFirstName(configStr, currentIndex, parsed);
-  
+
+  // put a copy of string in given buffer 
   strncpy(firstName, configStr + parsed.firstNameIndex,
           min (parsed.firstNameSize, LOG_CATEGORY_NAME_SIZE_MAX ));
   
   firstName[parsed.firstNameSize] = '\0';
 
+  // rewind to last position parsed
   currentIndex = parsed.firstNameSize + parsed.firstNameIndex + 1;
 
+  // parse level is last name reach
   if (parsed.isLastName) {
     level = atoi(&configStr[parsed.levelIndex]);
     if (level == 0) {
