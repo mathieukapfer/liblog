@@ -33,11 +33,10 @@ class LogFacade {
   /// use fifo instead of stdout
   void registerFifo(LogFifoI *fifo);
 
-  /// getter on fifo
+  /// getter to fifo
   LogFifoI *getFifo();
 
   /// getter to log level
-  bool isLogEnabled(LogNode *logNode, int priority);
   int getLogLevel(LogNode *catv);
 
   /// refresh log configuration
@@ -52,7 +51,6 @@ class LogFacade {
   /// as the file log.cnf in current directory is automatically parsed
   /// line by line with this method:
   bool configureLevel(const char* confString);
-  bool configureLevelNew(const char* confString);
 
   /// dislay log node tree
   void displayLevelTree();
