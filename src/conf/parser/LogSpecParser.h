@@ -20,8 +20,8 @@ class LogSpecParser {
  public:
   LogSpecParser(const char *configureString):
     _configStr(configureString),
-    _currentIndex(0),
-    _levelStr(NULL)
+    _levelStr(NULL),
+    _currentIndex(0)
     {}
   
   virtual ~LogSpecParser() {};

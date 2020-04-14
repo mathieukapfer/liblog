@@ -138,4 +138,5 @@ int LogSpecParser::getLevel() {
   } else {
     ret = -1;
   }
+  return ret;
 }
