@@ -88,14 +88,19 @@ LogNode *LogNodeFactory::createNode(const char* parent, const char* child, bool 
     }
   }
 
+  // todo: put all the code below in const !!!!
+  
   if (ret)
   if (creation) {
     if (preAllocated == true) {
       // mark node as prealloacted
       ret->_preAlloacted = true;
     } else {
-      // creation by declaration => set default level as root level
-      ret->_logLevel = getRootNode()->_logLevel;
+      int level;
+      // creation by declaration => set level of parent or root
+      ret->_logLevel = (parentIndex > 0)?
+        _logNodeTable[parentIndex]._logLevel:
+        getRootNode()->_logLevel;
     }
     LOG_INFO("%s[%d].%s[%d]", parent, parentIndex, child, childIndex );
   } else {
