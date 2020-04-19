@@ -8,7 +8,7 @@
 #include "LogFifoI.h"
 #include "LogMutexI.h"
 
-#define nbslot 32
+#define nbslot 64
 #define logMsgSizeMax 256
 
 class LogFifo: public LogFifoI {

@@ -34,7 +34,7 @@ static const char GUARD_VALUE[]="END!";
 #define SNPRINTF_APPEND(pos, fmt, ...) pos += snprintf(logMessage + pos, REMAINING_BUFFER_SIZE(pos), fmt, ##__VA_ARGS__);
 #define VSNPRINTF_APPEND(pos, fmt, ap) pos += vsnprintf(logMessage + pos, REMAINING_BUFFER_SIZE(pos), fmt, ap);
 
-void _log_logEvent(LogNode *logNode, struct LogEvent* ev, ...) {
+void _log_logEvent(void *_log_node, struct LogEvent* ev, ...) {
 #if 0
   // TODO: add capability to define a formater per node
   struct LogCategory* cat = category;
@@ -65,6 +65,8 @@ void _log_logEvent(LogNode *logNode, struct LogEvent* ev, ...) {
   char logMessage[LOG_MESSAGE_SIZE_MAX];
 #endif
 
+  LogNode *logNode = (LogNode *)_log_node;
+  
   va_start(ap, ev);
 
   // compute log tag path

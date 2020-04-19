@@ -12,7 +12,7 @@
 #include "log_level.h"
 #include "log_macro.h"
 #include "log_const.h"
-#include "LogFacade.h"
+#include "log_facade.h"
 
 // keep volatile qualifier for cross compilation (needed by M3, check if needed by A7)
 //#ifndef __i386__
@@ -24,7 +24,7 @@
 
 /* register a category name to be logged - see note 1) above */
 #define LOG_REGISTER(catName, ...)                                     \
-  static VOLATILE  void *_defaultLogCategory = (void *) LogFacade::inst().getNode(catName, false, ##__VA_ARGS__, 0);
+  static VOLATILE  void *_defaultLogCategory = (void *) getNode(catName, false, ##__VA_ARGS__, 0);
 
 /* macro for log */
 #define LOG_TRACE(fmt, ...)     LOG2(LP_TRACE, false, "" fmt, ##__VA_ARGS__)
@@ -56,22 +56,5 @@
 #define IF_LOG_FATAL if(_LOG_ISENABLED(_defaultLogCategory, LP_FATAL))
 #define IF_LOG_EMERGENCY if(_LOG_ISENABLED(_defaultLogCategory, LP_EMERGENCY))
 
-/* for usage without file system */
-/* define log level - BY CODE - see note 2) above */
-#define LOG_CONFIGURE(conf)  LogFacade::inst().configureLevel(conf);
-
-/* for support */
-/* display log level tree */
-#define LOG_DISLAY_TREE() LogFacade::inst().displayLevelTree();
-
-/* for fifo instread of stdio */
-#define LOG_REGISTER_FIFO(fifo) LogFacade::inst().registerFifo(fifo);
-
-/* provide at complation time the memory addr where the configuration file will be copied
- * (this is use for instance to share the conf from A7[Linux] to M3[Freertos] in LCES2 platform)
- */
-#ifdef ENABLE_COPY_CONF_TO_MEM
-#define LOG_REGISTER_MEM_CONF_ADDR(addr) LogFacade::inst().registerMemConfAddr(addr)
-#endif
 
 #endif /* LOG_H */

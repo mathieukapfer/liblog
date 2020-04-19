@@ -3,22 +3,19 @@
 
 #include <stdarg.h>
 
-// forward declaration
-class LogNode;
-
 struct LogEvent {
-  LogNode* cat;
+  void* cat;
   int priority;
   const char* fileName;
   int lineNum;
-  bool printFunctionName;
+  int printFunctionName;
   const char* functionName;
   const char *fmt;
   /*va_list ap;*/
 };
 
 /// log with header
-void _log_logEvent(LogNode *logNode, struct LogEvent *ev, ...);
+void _log_logEvent(void *logNode, struct LogEvent *ev, ...);
 
 /// log output api
 void _log(const char * format, ...);

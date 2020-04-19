@@ -88,11 +88,21 @@ void LogFacade::registerMemConfAddr(char * newAddr) {
  */
 void * LogFacade::getNode(const char* catName, bool preAllocated, ...) {
 
+  void* ret = NULL;
   va_list vl;
   va_start(vl,preAllocated);
+
+  ret = vgetNode(catName, preAllocated, vl);
+  
+  va_end(vl);
+  return (void *) ret;
+}
+
+/// public api for log node creation from variadic
+void * LogFacade::vgetNode(const char* catName, bool preAllocated, va_list vl) {
+  void* ret = NULL;
   const char* cat = catName;
   const char* parent = LOG_ROOT_NAME;
-  LogNode* ret = NULL;
 
   readConf();
 
@@ -103,9 +113,9 @@ void * LogFacade::getNode(const char* catName, bool preAllocated, ...) {
     cat = va_arg(vl, const char*);
   }
 
-  va_end(vl);
-  return (void *)ret;
+  return ret;
 }
+
 
 /// internal api for log node creation
 void *LogFacade::createNode(const char* parent, const char* child, bool preAllocated) {
