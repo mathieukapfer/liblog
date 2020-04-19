@@ -6,21 +6,24 @@
 #include "log_event.h"
 #include "log_level.h"
 #include "log_utils.h"
+
+#ifdef __cplusplus
+// add fonction template
 #include "log_formater.h"
+#endif
 
-#include "LogFacade.h"
+#include "log_facade.h"
 
-class LogNode;
 
 // stuff to create & send the log event
 #define _LOG_ISENABLED(catv, priority) \
-  (LogFacade::inst().getLogLevel((LogNode*) catv) >= priority)
+  (getLogLevel((void *)catv) >= priority)
 
 #define _LOG_(catv, priority, fct, fmt, ...)                            \
-  if (_LOG_ISENABLED(catv, priority)) {                                 \
+  if (_LOG_ISENABLED((void *)catv, priority)) {                         \
     struct LogEvent _log_ev =						\
-      {(LogNode*) catv, priority, __FILE__, __LINE__, fct, __FUNCTION__, fmt}; \
-    _log_logEvent( (LogNode*) catv, &_log_ev, ##__VA_ARGS__) ;		\
+      {(void *)catv, priority, __FILE__, __LINE__, fct, __FUNCTION__, fmt}; \
+    _log_logEvent( (void *) catv, &_log_ev, ##__VA_ARGS__) ;        \
   }
 
 #define LOG2(prio, fct, fmt, ...)		  \

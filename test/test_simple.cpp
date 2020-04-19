@@ -1,4 +1,5 @@
 #include "log.h"
+#include "log_conf.h"
 #include <map>
 #include <string>
 
@@ -71,11 +72,19 @@ TEST_SUITE("Test configuration") {
     {LOG_REGISTER__("Main","MyClass1")};
     {LOG_REGISTER__("Main","MyClass2")};
     {LOG_REGISTER__("Main","MyClass3")};
+    {LOG_REGISTER___("Main","MyClass1","section1")};
+    {LOG_REGISTER___("Main","MyClass2","section2")};
+    {LOG_REGISTER___("Main","MyClass3","section3")};
       
     CHECK(GET_LOG_LEVEL("Main") == 2);
     CHECK(GET_LOG_LEVEL("MyClass1") == 3);
     CHECK(GET_LOG_LEVEL("MyClass2") == 4);
     CHECK(GET_LOG_LEVEL("MyClass3") == 5);
+
+    // test inheritage from parent
+    CHECK(GET_LOG_LEVEL("section1") == 3);
+    CHECK(GET_LOG_LEVEL("section2") == 4);
+    CHECK(GET_LOG_LEVEL("section3") == 5);
   }
   
   TEST_CASE(" configuration by ") {

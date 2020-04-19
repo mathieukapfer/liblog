@@ -1,4 +1,5 @@
 #include "log.h"
+#include "log_conf.h"
 #include "MyClass.h"
 #include "MyClass2.h"
 #include "MyClass3.h"

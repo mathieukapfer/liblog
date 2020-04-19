@@ -11,6 +11,8 @@
 #ifndef LOGFACADE_H
 #define LOGFACADE_H
 
+#include <stdarg.h>
+
 // forward declaration
 class LogFacade_priv;
 class LogNode;
@@ -26,6 +28,9 @@ class LogFacade {
 
   /// public api for log node creation from variadic
   void *getNode(const char* catName, bool preAllocated, ...);
+
+  /// public api for log node creation from variadic
+  void *vgetNode(const char* catName, bool preAllocated, va_list argp);
 
   /// internal api for log node creation
   void *createNode(const char* parent, const char* child, bool preAllocated);
