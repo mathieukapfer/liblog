@@ -7,14 +7,14 @@
 ENABLE_LOG(DEBUG);
 
 /// const
-LogNode::LogNode(LogNode *p_parent, const char *p_name):
+LogNode::LogNode(LogNode *p_parent, const char *p_name, bool p_preAllocated):
   Node(p_parent),
 #ifndef ALLOW_CONFIGURATION_BEFORE_DECLARATION
   _name(p_name),
 #endif
-  _logLevel(DEFAULT_LOG_LEVEL),
+  _logLevel(p_parent?p_parent->_logLevel:DEFAULT_LOG_LEVEL),
   _inherited(false),
-  _preAlloacted(false)
+  _preAlloacted(p_preAllocated)
 {
   LOG_DEBUG("LogNode:%s->%s", p_parent?p_parent->_name:"-", p_name);
 #ifdef ALLOW_CONFIGURATION_BEFORE_DECLARATION

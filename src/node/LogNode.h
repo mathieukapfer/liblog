@@ -18,7 +18,7 @@ class LogNode: public Node {
 
   /// const & dest
   LogNode();
-  LogNode(LogNode *p_parent, const char *p_name);
+  LogNode(LogNode *p_parent, const char *p_name, bool p_preAllocated);
   virtual ~LogNode() {};
 
   /// get the complete name stared by parents's name

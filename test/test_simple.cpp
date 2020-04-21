@@ -132,7 +132,7 @@ TEST_SUITE("Test configuration") {
 
     // inhertage 
     { LOG_REGISTER___("module1","submodule2","subsub"); }; 
-    CHECK(GET_LOG_LEVEL("subsub") == 0) ;  // SHOULD BE 2 !!!!!
+    CHECK(GET_LOG_LEVEL("subsub") == 2); 
 
     //
     LOG_CONFIGURE_("Cat2.module1:3");
@@ -155,6 +155,7 @@ TEST_SUITE("Test configuration") {
     TEST_LOG_SPEC("aaa:7");
 
     TEST_LOG_SPEC("a.b.c.d.e:3");
+    CHECK(GET_LOG_LEVEL("a") == 2) ;  // should be inherited from global
   
     TEST_LOG_SPEC("GLOBAL:1");
 

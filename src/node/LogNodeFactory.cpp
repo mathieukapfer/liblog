@@ -26,7 +26,7 @@ void LogNodeFactory::initTable() {
   _logNodeTable[0]._name = LOG_ROOT_NAME;
 #else
   // ... by using placement new
-  new(&_logNodeTable[0]) LogNode(NULL, LOG_ROOT_NAME);
+  new(&_logNodeTable[0]) LogNode(NULL, LOG_ROOT_NAME, false);
 #endif
 }
 
@@ -43,8 +43,7 @@ LogNode *LogNodeFactory::createChildNode(LogNode * parent, const char* child, in
   int dummy;
   ret = getFreeNode(dummy);
   if (ret) {
-    new (ret) LogNode(parent, child);
-    ret->_preAlloacted = preAllocated;
+    new (ret) LogNode(parent, child, preAllocated);
     ret->_logLevel = level<0?parent->_logLevel:level;
   }
   LOG_EXIT_("%s->%s:%d", parent->_name, child, ret->_logLevel);
@@ -76,41 +75,27 @@ LogNode *LogNodeFactory::createNode(const char* parent, const char* child, bool 
       // create parent first - with root as parent by default
       ret = getFreeNode(parentIndex);
       if (ret) {
-        new (ret) LogNode(&(_logNodeTable[0]), parent);
+        new (ret) LogNode(&(_logNodeTable[0]), parent, preAllocated);
         creation = true;
       }
     }
     // create child
     ret = getFreeNode(childIndex);
     if (ret) {
-      new (ret) LogNode(&(_logNodeTable[parentIndex]), child);
+      new (ret) LogNode(&(_logNodeTable[parentIndex]), child, preAllocated);
       creation = true;
     }
   }
 
-  // todo: put all the code below in const !!!!
-  
-  if (ret)
-  if (creation) {
-    if (preAllocated == true) {
-      // mark node as prealloacted
-      ret->_preAlloacted = true;
+  if (ret) {
+    if( creation) {
+      // just log that
+      LOG_INFO("%s[%d].%s[%d]", parent, parentIndex, child, childIndex );
     } else {
-      int level;
-      // creation by declaration => set level of parent or root
-      ret->_logLevel = (parentIndex > 0)?
-        _logNodeTable[parentIndex]._logLevel:
-        getRootNode()->_logLevel;
+      // not created, so update 'preAllocated' flag
+      ret->_preAlloacted = preAllocated;
     }
-    LOG_INFO("%s[%d].%s[%d]", parent, parentIndex, child, childIndex );
-  } else {
-    if (preAllocated == false) {
-      // reset flag
-      ret->_preAlloacted = false;
-    }
-    //LOG_DEBUG("aleady done");
   }
-
 
   return ret;
 }
