@@ -97,15 +97,15 @@ bool LogSpecParser::isStartingWithRoot() {
  */
 bool LogSpecParser::getNextCatStr(char **cat) {
   ConfigStringParsed parsed;
+  int len;
 
   // parse at current positon
   parseAtPos(_currentIndex, parsed);
 
   // fill buf with first cat found
-  strncpy(_buf, _configStr + parsed.firstCatIndex,
-          min (GET_CURRENT_CAT_SIZE, LOG_CATEGORY_NAME_SIZE_MAX ));
-  
-  _buf[GET_CURRENT_CAT_SIZE] = '\0';
+  len = min (GET_CURRENT_CAT_SIZE, LOG_CATEGORY_NAME_SIZE_MAX - 1 /* room for '\0' */);
+  memcpy(_buf, _configStr + parsed.firstCatIndex, len);
+  _buf[len] = '\0';
 
   *cat = _buf;
 
