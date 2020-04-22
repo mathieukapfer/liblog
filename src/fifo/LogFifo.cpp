@@ -24,33 +24,33 @@ bool LogFifo::isFull() {
 }
 
 bool LogFifo::push(LogMsg  msg) {
-  bool ret = true;
-  bool goAhead = false;
+  bool ret = false;
 
   if(_mutex.Take()) {
     if (!isFull()) {
+
       // take next slot
       _slotPush = (_slotPush + 1) % nbslot;
-      // continue
-      goAhead = true;
-    }
-    _mutex.Give();
-  }
+      LogSlot *slot = &_logSlots[_slotPush];
+      
+      // change state
+      slot->state = BUZY;
 
-  // update slot
-  if (goAhead) {
-    LogSlot *slot = &_logSlots[_slotPush];
-    // change state
-    slot->state = BUZY;
-    // compute len if needed
-    ///slot->len = msg.len?msg.len:strnlen(msg.buf, logMsgSizeMax);
-    slot->len = msg.len?msg.len:strlen(msg.buf);
-    // do the copy
-    strncpy(slot->buf, msg.buf, logMsgSizeMax);
-    // finalize state
-    slot->state = FULL;
-  } else {
-    ret = false;
+      // compute len 
+      slot->len = msg.len?msg.len:strnlen(msg.buf, logMsgSizeMax - 1 /* keep room for '\0' */);
+
+      // do the copy, force end to '\0' in any case 
+      memcpy(slot->buf, msg.buf, slot->len);
+      slot->buf[slot->len] = 0;
+
+      // finalize state
+      slot->state = FULL;
+
+      // return that operation is well done
+      ret = true;
+      
+      _mutex.Give();
+    }
   }
 
   return ret;
