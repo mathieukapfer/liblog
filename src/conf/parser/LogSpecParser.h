@@ -50,7 +50,7 @@ struct ConfigStringParsed {
 
   bool parseAtPos(int pos, ConfigStringParsed &parsed);
   
-  char _buf[LOG_CATEGORY_PATH_NAME_SIZE_MAX];
+  char _buf[LOG_CATEGORY_NAME_SIZE_MAX];
 
   const char *_configStr;
   const char *_levelStr;

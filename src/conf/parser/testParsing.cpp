@@ -6,6 +6,7 @@
 #include "log_level.h"
 #include <string.h>
 
+#define GLOBAL_LOG_ENABLE
 #include "log_for_logger.h"
 
 ENABLE_LOG(INFO)
@@ -62,15 +63,31 @@ TEST_SUITE("Check parsing") {
     CHECK(parser.getLevel() == 9);
 }
       
-  TEST_CASE("test etNextCatStr loop") {
+  TEST_CASE("test getNextCatStr loop") {
 
     LogSpecParser parser("    name1.toto.zozo.momo:9");
     char *cat;
+    bool loop=true;
 
-    while (parser.getNextCatStr(&cat) == false) {
+    while (loop) {
+      loop = parser.getNextCatStr(&cat) == false;
       LOG_INFO("%s:%d (last:%d)", cat, parser.getLevel());
     } 
-      
+  }
+
+  TEST_CASE("test overfow") {
+
+    LogSpecParser parser(
+      "123456789_123456789_123456789_123456789_123456789_123456789_123456789._123456789_123456789_123456789_123456789_123456789_123456789_123456789_123456789_123456789_123456789_123456789_123456789_123456789_123456789_123456789_123456789_123456789_123456789_123456789_123456789_123456789_123456789_123456789:9");
+    
+    char *cat;
+    bool loop=true;
+
+    while (loop) {
+      loop = parser.getNextCatStr(&cat) == false;
+      LOG_INFO("%s:%d (last:%d)", cat, parser.getLevel());
+    } 
+
   }
 }
 
