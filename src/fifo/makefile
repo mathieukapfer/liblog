@@ -1,4 +1,4 @@
-CXXFLAGS= -g -I. -I..
+CXXFLAGS= -g -I. -I.. -I../..
 
 all: clean  test_fifo run
 
