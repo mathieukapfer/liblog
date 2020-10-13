@@ -15,6 +15,11 @@
 #include "LogFacade.h"
 #endif
 
+#include "log_timestamp.h"
+
+#define TIMESTAMP_SIZE 10
+
+
 /*
    Formater function
    Sample:
@@ -56,7 +61,7 @@ void _log_logEvent(void *_log_node, struct LogEvent* ev, ...) {
   // unique formateur for all nodes
   char logPath[LOG_CATEGORY_NAME_SIZE_MAX];
   // int logLevel = logNode?logNode->_logLevel:0;
-  char header[LOG_HEADER_SIZE];
+  char file_line[LOG_FILE_LINE_SIZE];
 
 #ifdef CHECK_STACK_CORRUPTION
   char logMessage[LOG_MESSAGE_SIZE_MAX + sizeof(GUARD_VALUE)];
@@ -65,21 +70,41 @@ void _log_logEvent(void *_log_node, struct LogEvent* ev, ...) {
   char logMessage[LOG_MESSAGE_SIZE_MAX];
 #endif
 
+
   LogNode *logNode = (LogNode *)_log_node;
-  
+
   va_start(ap, ev);
 
   // compute log tag path
   logPath[0] = '[';
   logNode?logNode->getFullName(&logPath[1],LOG_CATEGORY_NAME_SIZE_MAX-1):"<unknown>";
-  snprintf(header, LOG_HEADER_SIZE, "%s:%04d:", basename_const(ev->fileName), ev->lineNum);
+  strncat(logPath,"]", LOG_CATEGORY_NAME_SIZE_MAX);
 
-  // compute log header
-  SNPRINTF_APPEND(pos, "\n%-30s[<%-5s>] %-15s ", header, logLevelToString(ev->priority),
-                  strncat(logPath,"]", LOG_CATEGORY_NAME_SIZE_MAX));
+  // compute file:line
+  snprintf(file_line, LOG_FILE_LINE_SIZE, "%s:%04d:", basename_const(ev->fileName), ev->lineNum);
+
+  // compute timestamp
+  char timestamp[TIMESTAMP_SIZE];
+  formatTimestamp(timestamp, TIMESTAMP_SIZE);
+
+  // insert timestamp if available
+  if (timestamp[0] != NO_TIMESTAMP) {
+    SNPRINTF_APPEND(pos, "\n%10s ", timestamp);
+  } else {
+    SNPRINTF_APPEND(pos, "\n");
+  }
+
+  // compute log file_line
+  SNPRINTF_APPEND(pos, "%-30s[<%-5s>] %-15s ",
+                  file_line,
+                  logLevelToString(ev->priority),
+                  logPath);
+
+  // add function name if needed
   if (ev->printFunctionName) {
      SNPRINTF_APPEND(pos, "%10s() ", ev->functionName);
   }
+
   // compute log body
   VSNPRINTF_APPEND(pos, ev->fmt, ap);
 
