@@ -36,6 +36,7 @@ set(LIBLOG_COMMUN_SOURCES
 ./src/node/Node.cpp
 ./src/node/LogNodeFactory.cpp
 ./src/formater/log_event.cpp
+./src/formater/log_timestamp.cpp
 ./src/LogFacade.cpp
 ./log_facade.cpp
 ./log_level.cpp

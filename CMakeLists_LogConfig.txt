@@ -2,17 +2,20 @@
 # ============================
 if(CROSS_COMPILE_M3)
   message("Set liblog option for M3: disable file system and stdio")
+  set(TIMESTAMP_FREERTOS 1)
 elseif(CROSS_COMPILE_A7)
   # A7 linux
   message("Set liblog option for A7: enable file system and stdio")
   set(ENABLE_FILE_SYSTEM 1)
   set(ENABLE_STDIO 1)
   set(ENABLE_COPY_CONF_TO_MEM 1)
+  set(TIMESTAMP_LINUX 1)
 else()
   # X86 (unit test)
   message("Set liblog option for x86: enable file system and stdio")
   set(ENABLE_FILE_SYSTEM 1)
   set(ENABLE_STDIO 1)
+  set(TIMESTAMP_LINUX 1)
 endif()
 
 # Define compilation flag according to library option
@@ -30,4 +33,14 @@ endif()
 if(ENABLE_COPY_CONF_TO_MEM)
 	message("# Enable copy conf to mem")
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -D ENABLE_COPY_CONF_TO_MEM")
+endif()
+
+if(TIMESTAMP_LINUX)
+	message("# Use Linux timestamp")
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -D TIMESTAMP_LINUX")
+endif()
+
+if(TIMESTAMP_FREERTOS)
+	message("# Use Linux timestamp")
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -D TIMESTAMP_FREERTOS")
 endif()
