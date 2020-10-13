@@ -14,7 +14,8 @@ LogNode::LogNode(LogNode *p_parent, const char *p_name, bool p_preAllocated):
 #endif
   _logLevel(p_parent?p_parent->_logLevel:DEFAULT_LOG_LEVEL),
   _inherited(false),
-  _preAlloacted(p_preAllocated)
+  _preAlloacted(p_preAllocated),
+  _isPathInitialized(false)
 {
   LOG_DEBUG("LogNode:%s->%s", p_parent?p_parent->_name:"-", p_name);
 #ifdef ALLOW_CONFIGURATION_BEFORE_DECLARATION
@@ -31,7 +32,8 @@ LogNode::LogNode():
   _name(NULL),
 #endif
   _logLevel(DEFAULT_LOG_LEVEL),
-  _inherited(false)
+  _inherited(false),
+  _isPathInitialized(false)
 {
 #ifdef ALLOW_CONFIGURATION_BEFORE_DECLARATION
   _name[0] = '\0';

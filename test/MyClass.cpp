@@ -16,7 +16,6 @@ void MyClass::aMethode() {
     LOG_REGISTER("aMethode1","block1");
     LOG_INFO("inside block")
   }
-
   // log something
   LOG_INFO("OK!");
 }
