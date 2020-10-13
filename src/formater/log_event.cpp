@@ -40,22 +40,6 @@ static const char GUARD_VALUE[]="END!";
 #define VSNPRINTF_APPEND(pos, fmt, ap) pos += vsnprintf(logMessage + pos, REMAINING_BUFFER_SIZE(pos), fmt, ap);
 
 void _log_logEvent(void *_log_node, struct LogEvent* ev, ...) {
-#if 0
-  // TODO: add capability to define a formater per node
-  struct LogCategory* cat = category;
-  va_start(ev->ap, ev);
-  while (1) {
-    struct LogAppender* appender = cat->appender;
-    if (appender != NULL) {
-      appender->doAppend(appender, ev);
-    }
-    if (!cat->willLogToParent)
-    break;
-
-    cat = cat->parent;
-  }
-  va_end(ev->ap);
-#else
   int pos=0;
   va_list ap;
   // unique formateur for all nodes
@@ -121,8 +105,6 @@ void _log_logEvent(void *_log_node, struct LogEvent* ev, ...) {
     {
     }
   }
-#endif
-
 #endif
 
 } // _log_logEvent
