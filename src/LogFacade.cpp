@@ -1,41 +1,11 @@
 #include <stdarg.h>
 #include "LogFacade.h"
-#include "LogNodeFactory.h"
-#include "LogConf.h"
-#include "LogNode.h"
-#include "LogFifoI.h"
+#include "LogFacade_priv.h"
 
 #include "log_for_logger.h"
 
-#ifdef LOG_CNF_FILE_ENABLE
-#include "LogConfFile.h"
-#else
-#include "LogConfMem.h"
-#endif
-
 #include "log_const.h"
 ENABLE_LOG(INFO)
-
-class LogFacade_priv {
-
- public:
-  LogFacade_priv():
-    _logNodeFactory(new LogNodeFactory),
-#ifdef LOG_CNF_FILE_ENABLE
-    _logConf(new LogConfFile()),
-#else
-    _logConf(new LogConfMem()),
-#endif
-  _isLogConfParsed(false),
-  _fifo(NULL)
-  {};
-  
-  LogNodeFactory *_logNodeFactory;
-  LogConf *_logConf;
-  bool _isLogConfParsed;
-  LogFifoI *_fifo;
-
-};
 
 LogFacade &LogFacade::inst() {
   static LogFacade inst;
@@ -93,7 +63,7 @@ void * LogFacade::getNode(const char* catName, bool preAllocated, ...) {
   va_start(vl,preAllocated);
 
   ret = vgetNode(catName, preAllocated, vl);
-  
+
   va_end(vl);
   return (void *) ret;
 }
@@ -117,13 +87,7 @@ void * LogFacade::vgetNode(const char* catName, bool preAllocated, va_list vl) {
 }
 
 
-/// internal api for log node creation
-void *LogFacade::createNode(const char* parent, const char* child, bool preAllocated) {
-  return (void *)priv->_logNodeFactory->createNode(parent, child, preAllocated);
-}
-
-
-/// Define log level for a given path 
+/// Define log level for a given path
 bool LogFacade::configureLevel(const char* confString) {
   LOG_ENTER__("*** %s ***",confString);
   return priv->_logNodeFactory->configureLevel(confString);
@@ -164,4 +128,3 @@ LogFifoI * LogFacade::getFifo() {
 int LogFacade::getLogLevel(LogNode *catv) {
   return(catv?catv->_logLevel:0);
 }
-
