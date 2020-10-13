@@ -27,7 +27,7 @@ class LogNode: public Node {
   /// is free
   bool isFree();
 
-  /// 
+  ///
   bool hasSameName(const char* name);
 
   ///  overload inherited methode
@@ -39,7 +39,7 @@ class LogNode: public Node {
     return static_cast<LogNode *>(Node::acceptFirstSibling(visitor));
   }
   */
-  
+
 
 #ifdef ALLOW_CONFIGURATION_BEFORE_DECLARATION
   char _name[LOG_CATEGORY_NAME_SIZE_MAX];
@@ -47,8 +47,14 @@ class LogNode: public Node {
   const char *_name;
 #endif
   int _logLevel;
+
+  // kind of level
   bool _inherited;
   bool _preAlloacted;
+
+  // managed cache for path to compute it once
+  char _path[LOG_CATEGORY_PATH_NAME_SIZE_MAX];
+  bool _isPathInitialized;
 
 };
 

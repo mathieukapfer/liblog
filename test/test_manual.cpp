@@ -12,12 +12,12 @@ int main(int argc, char *argv[]) {
   MyClass2 myClass2;
   LOG_DISLAY_TREE();
 
-  myClass2.aMethode(); 
+  myClass2.aMethode();
   LOG_DISLAY_TREE();
 
-  myClass.aMethode(); 
+  myClass.aMethode();
+  myClass.aMethode();
   LOG_DISLAY_TREE();
 
   return 0;
 }
-

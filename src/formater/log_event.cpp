@@ -24,8 +24,12 @@
    Formater function
    Sample:
 
-   log_test.c:0153:              [NOTIC] [Main]          Hello - in main: !!!!!
-   log_test.c:0152:              [DEBUG] [Main]          _DOCTEST_ANON_FUNC_14() ENTER:test ENTER
+ 0000.7289 AuthentConfig.cpp:0022:       [<NOTIC>] [AuthentConfig] registerModbusIndex() ENTER:
+ 0000.7290 MaintenanceDb.cpp:0025:       [<NOTIC>] [MaintenanceDb] registerModbusIndex() ENTER:
+ 0000.7291 AuthentDb.cpp:0054:           [<NOTIC>] [authen.Db]     registerModbusIndex() ENTER:
+ 0000.7292 IoCpwIpc.cpp:0040:            [<NOTIC>] [iocpw.ipc]     registerSharedIndex() ENTER:
+ 0000.7293 IoCpwIpc.cpp:0059:            [<NOTIC>] [iocpw.ipc]     registerModbusIndex() ENTER:
+
 */
 
 // uncomment this line to enable stack corruption checker
@@ -43,7 +47,8 @@ void _log_logEvent(void *_log_node, struct LogEvent* ev, ...) {
   int pos=0;
   va_list ap;
   // unique formateur for all nodes
-  char logPath[LOG_CATEGORY_NAME_SIZE_MAX];
+  char logPath[LOG_CATEGORY_PATH_NAME_SIZE_MAX];
+  char *logPathPtr = logPath;
   // int logLevel = logNode?logNode->_logLevel:0;
   char file_line[LOG_FILE_LINE_SIZE];
 
@@ -59,10 +64,21 @@ void _log_logEvent(void *_log_node, struct LogEvent* ev, ...) {
 
   va_start(ap, ev);
 
-  // compute log tag path
-  logPath[0] = '[';
-  logNode?logNode->getFullName(&logPath[1],LOG_CATEGORY_NAME_SIZE_MAX-1):"<unknown>";
-  strncat(logPath,"]", LOG_CATEGORY_NAME_SIZE_MAX);
+  // compute log path once
+  if (logNode->_isPathInitialized) {
+    // switch pointer
+    logPathPtr = logNode->_path;
+  } else {
+    // compute it
+    logPath[0] = '[';
+    logNode?logNode->getFullName(&logPath[1],LOG_CATEGORY_PATH_NAME_SIZE_MAX-1):"<unknown>";
+    strncat(logPath,"]", LOG_CATEGORY_PATH_NAME_SIZE_MAX);
+    // store it
+    strncpy(logNode->_path, logPath, LOG_CATEGORY_PATH_NAME_SIZE_MAX);
+    // mark it
+    logNode->_isPathInitialized = true;
+  }
+
 
   // compute file:line
   snprintf(file_line, LOG_FILE_LINE_SIZE, "%s:%04d:", basename_const(ev->fileName), ev->lineNum);
@@ -78,11 +94,11 @@ void _log_logEvent(void *_log_node, struct LogEvent* ev, ...) {
     SNPRINTF_APPEND(pos, "\n");
   }
 
-  // compute log file_line
+  // compute log file_line header
   SNPRINTF_APPEND(pos, "%-30s[<%-5s>] %-15s ",
                   file_line,
                   logLevelToString(ev->priority),
-                  logPath);
+                  logPathPtr);
 
   // add function name if needed
   if (ev->printFunctionName) {
@@ -92,6 +108,7 @@ void _log_logEvent(void *_log_node, struct LogEvent* ev, ...) {
   // compute log body
   VSNPRINTF_APPEND(pos, ev->fmt, ap);
 
+  // push result
   _log(logMessage);
 
   // end of variadic
