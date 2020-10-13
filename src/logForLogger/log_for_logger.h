@@ -53,8 +53,8 @@
 // formater
 #define __LOG__(priority, fct, FMT, ...)                                 \
 	if (_LOG_ISENABLED(void, priority)) {                                  \
-    char header[LOG_HEADER_SIZE];                                       \
-    snprintf(header, LOG_HEADER_SIZE, "%s:%04d:", basename_const(__FILE__), __LINE__); \
+    char header[LOG_FILE_LINE_SIZE];                                       \
+    snprintf(header, LOG_FILE_LINE_SIZE, "%s:%04d:", basename_const(__FILE__), __LINE__); \
     printf("\n%-30s[%-5s] %-15s", header, logLevelToString(priority), LOGGER_LOG_PATH); \
     if (fct) {                                                          \
       printf("%10s():", __FUNCTION__);                                  \

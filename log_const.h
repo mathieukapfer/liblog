@@ -28,9 +28,9 @@
 #define LOG_CATEGORY_NODE_MAX 100
 
 // max of "file:line" header
-#define LOG_HEADER_SIZE 50
+#define LOG_FILE_LINE_SIZE 50
 
-// max of "file:line" header
+// max of log message
 #define LOG_MESSAGE_SIZE_MAX 255
 
 
