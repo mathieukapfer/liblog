@@ -6,7 +6,7 @@ BUILD_X86_CONF_A7_DIR=build_x86_conf_a7
 # main target
 help: help-display
 
-all:build-x86 build-x86-conf-m3 build-x86-conf-a7
+build-all:build-x86 build-x86-conf-m3 build-x86-conf-a7
 
 # build target
 build-x86:
@@ -46,7 +46,7 @@ test-m3:
 test-a7:
 	@echo "\n\n#### Check A7 conf (cp to memory)\n\n"
 	cd ${BUILD_X86_CONF_A7_DIR}; make && ctest
- 
+
 help-display:
 	@echo
 	@echo "Main targets:"
