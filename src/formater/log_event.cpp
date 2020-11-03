@@ -15,10 +15,13 @@
 #include "LogFacade.h"
 #endif
 
+#ifdef ENABLE_SYS_LOG
+#include "log_event_syslog.h"
+#endif
+
 #include "log_timestamp.h"
 
 #define TIMESTAMP_SIZE 10
-
 
 /*
    Formater function
@@ -84,6 +87,7 @@ void _log_logEvent(void *_log_node, struct LogEvent* ev, ...) {
   snprintf(file_line, LOG_FILE_LINE_SIZE, "%s:%04d:", basename_const(ev->fileName), ev->lineNum);
 
   // compute timestamp
+#if !ENABLE_SYS_LOG // remove timestamp for syslog
   char timestamp[TIMESTAMP_SIZE];
   formatTimestamp(timestamp, TIMESTAMP_SIZE);
 
@@ -93,6 +97,7 @@ void _log_logEvent(void *_log_node, struct LogEvent* ev, ...) {
   } else {
     SNPRINTF_APPEND(pos, "\n");
   }
+#endif
 
   // compute log file_line header
   SNPRINTF_APPEND(pos, "%-30s[<%-5s>] %-15s ",
@@ -107,6 +112,11 @@ void _log_logEvent(void *_log_node, struct LogEvent* ev, ...) {
 
   // compute log body
   VSNPRINTF_APPEND(pos, ev->fmt, ap);
+
+  // use syslog
+#ifdef ENABLE_SYS_LOG
+  log_syslog(ev->priority, logMessage);
+#endif;
 
   // push result
   _log(logMessage);
