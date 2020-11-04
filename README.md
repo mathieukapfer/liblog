@@ -113,7 +113,7 @@ On linux by syslog (`tail -f /var/log/syslog`):
  Oct 21 04:46:33 rzn1-evlink-ep1 evse[256]: SharedMemory.cpp:0094:        [<NOTIC>] [IPC]           W:SHARED_INDEX_HMI_API_BLINK               0 (size:1) @index:163 (offset:824)
 ```
 
-## Additional filter for syslog
+##  4) Additional filter for syslog
 You can filter the maximum log level sent to syslog deamon with `SYSLOG_MAX_LEVEL`
 Be carefull to put this "log spec" after `GLOBAL`, otherwise it will be overwrited:
 ```shell
