@@ -1,4 +1,5 @@
 # Put hierarchical log in your application
+# Hierarchical logger
 
 ## 1) Usage
   * include the header
@@ -35,7 +36,7 @@ Sample:
 
 NOTES:
   - You have notice that the log sections can be created hierchically. That will help to set a given level for the a given section (and all its subsections automatically) thanks to log specification.
-  - A good usage of hierarchical log section is to reflect your directory tree and files organisation.
+  - __A good usage of hierarchical sections is when its reflect your directory tree and files organisation.__
 
 ##  2) Provide log specification
 ###   2.1) By 'log.cfg' file
