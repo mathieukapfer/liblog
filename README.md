@@ -20,18 +20,26 @@
 Sample:
 
 ```C
-  #include "log.h"
-  LOG_REGISTER("MainFile");                  //<---------- Create a category for the entire file
+#include "log.h"
+LOG_REGISTER("File"); //<-- Create a default category for the entire file
 
-  int main(int argc, char *argv[]) {
-    int i = 123;
-    LOG_REGISTER("Main");                    //<---------- Create a sub category 'Main'
-    LOG_DEBUG("Hello - in main %d",i);       //<---------- Log as DEBUG level
-      {
-        LOG_REGISTER("Main","Section");      //<---------- Create a sub sub category 'SectionOfMain'
-        LOG_INFO("Hello - inside section");  //<---------- Log as INFO level
-      }
-    }
+void aFunction() {LOG_ENTER();}
+
+int main(int argc, char *argv[]) {
+  int i = 123;
+  aFunction();
+  LOG_REGISTER("Main");                    //<-- Create a category 'Main'
+  LOG_DEBUG("Hello from main %d", i);      //<-- Log as DEBUG level
+  {
+    LOG_REGISTER("Main", "Section");       //<-- Create a sub category 'Section'
+    LOG_INFO("Hello from nested section"); //<-- Log as INFO level
+  }
+}
+```
+```
+ 0000.0000 sample.cpp:0004:   [<DEBUG>] [File]          ENTER: aFunction()
+ 0000.0000 sample.cpp:0010:   [<DEBUG>] [Main]          Hello from main 123
+ 0000.0000 sample.cpp:0013:   [<INFO >] [Main.Section]  Hello from nested section
 ```
 
 NOTES:
