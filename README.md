@@ -38,8 +38,8 @@ NOTES:
   - A good usage of hierarchical log section is to reflect your directory tree and files organisation.
 
 ##  2) Provide log specification
-###   2.1) By 'log.cfg' file (in same place as bin)
-Here after is a `log.cfg` sample
+###   2.1) By 'log.cfg' file
+Here after is a `log.cfg` sample that sould be put in same place as the executable. Then is will be parsed at startup.
 
 ```shell
               # Both level format are supported:
@@ -110,5 +110,5 @@ Be carefull to put this "log spec" after `GLOBAL`, otherwise it will be overwrit
 ```shell
  GLOBAL                   : NOTICE   # apply NOTICE level as default (including SYSLOG_MAX_LEVEL)
  SYSLOG_MAX_LEVEL         : INFO     # change max level for syslog to INFO
- MAIN                     : DEBUG    # more log for MAIN section (on stdio only)
+ MAIN                     : DEBUG    # more log for MAIN section (in stdout but not syslog)
 ```
