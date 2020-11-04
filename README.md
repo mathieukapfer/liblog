@@ -101,3 +101,12 @@ On linux by syslog (tail -f /var/log/syslog):
  Oct 21 04:46:33 rzn1-evlink-ep1 evse[256]: SharedMemory.cpp:0094:        [<NOTIC>] [IPC]           W:SHARED_INDEX_SetCpwIsReady               0 (size:1) @index:11 (offset:44)
  Oct 21 04:46:33 rzn1-evlink-ep1 evse[256]: SharedMemory.cpp:0094:        [<NOTIC>] [IPC]           W:SHARED_INDEX_HMI_API_BLINK               0 (size:1) @index:163 (offset:824)           
 ```
+
+###  filter log for syslog
+You can also add a filter the maximum log level that will be sent to syslog deamon with `SYSLOG_MAX_LEVEL`
+Be carefull to put this lgo spec after `GLOBAL`, otherwise it will be overwrited by its level
+```
+ GLOBAL                   : NOTICE   # apply NOTICE level as default (including SYSLOG_MAX_LEVEL) 
+ SYSLOG_MAX_LEVEL         : INFO     # change max level for syslog to INFO
+ MAIN                     : DEBUG    # more log for MAIN section (on stdio only)
+```
