@@ -8,10 +8,12 @@ Put in your code,
             #include "log.h"
 ```
              
-  * call the macro to register a name - optionaly linked to a parent - for any section of code  
+  * a call of the macro below to register a name - optionaly linked to a parent - for any section of code  
 ```C  
             LOG_REGISTER("section_name");
-            LOG_REGISTER("parent_name", "section_name");
+            {
+              LOG_REGISTER("parent_name", "section_name");
+            }
 ```
 
   * add log like this: `LOG_{level} ( {params} )`   
@@ -76,7 +78,7 @@ If you do not have file system, you can setup log level by insert macro in you c
 ```
 
 ##  3) Get log when you application is running
-```bash
+```
            log_test.c:0068:         [DEBUG] [Main]                Hello - in main
            log_test.c:0069:         [INFO ] [Main][Section]       Hello - inside section
 ```
