@@ -1,4 +1,4 @@
-# Log your application
+# Put hierarchical log in your application
 
 ## 1) Usage
 Put in your code,
@@ -8,13 +8,14 @@ Put in your code,
             #include "log.h"
 ```
              
-  * call the macro to register a name for your section of code  
+  * call the macro to register a name - optionaly linked to a parent - for any section of code  
 ```C  
-            LOG_REGISTER("section_name", "subsection name", ...)
+            LOG_REGISTER("section_name");
+            LOG_REGISTER("parent_name", "section_name");
 ```
 
   * add log like this: `LOG_{level} ( {params} )`   
-    * where `{level}` is: NONE EMERG FATAL CRIT ERROR WARN NOTIC INFO DEBUG TRACE
+    * where `{level}` is: `NONE EMERG FATAL CRIT ERROR WARN NOTIC INFO DEBUG TRACE`
     * and `{param}` is variadic list of parameters like **printf()**
   
 Sample:
@@ -24,7 +25,8 @@ Sample:
             LOG_REGISTER("MainFile");                  //<---------- Create a category for the entire file
 
             int main(int argc, char *argv[]) {
-              LOG_REGISTER("Main");                    //<---------- Create a sub category 'Main'
+              int i = 123;
+              LOG_REGISTER("Main %d",i);               //<---------- Create a sub category 'Main'
               LOG_DEBUG("Hello - in main");            //<---------- Log as DEBUG level
                 {
                   LOG_REGISTER("Main","Section");      //<---------- Create a sub sub category 'SectionOfMain'
@@ -51,15 +53,16 @@ Here after is a "log.cfg" sample
 ```
 
 ###   2.2) By code 
-If you do not have file system, you can setup log level by insert macro 'LOG_CONFIGURE({path},{level})' in you code
-              
+If you do not have file system, you can setup log level by insert macro in you code : `LOG_CONFIGURE({path},{level})` 
+```C              
               void main() {
               LOG_CONFIGURE("Main:2");
               LOG_CONFIGURE("Main.SectionOfMain:3");
               ...
+```
 
 ###   In both cases, here is log level meaning:
-
+```C
               TRACE          9  ==> higher verbose level
               DEBUG          8
               INFO           7
@@ -70,8 +73,10 @@ If you do not have file system, you can setup log level by insert macro 'LOG_CON
               FATAL          2
               EMERGENCY      1  ==> lower verbose level
               NONE           0  ==> no log
+```
 
 ##  3) Get log when you application is running
-
+```bash
            log_test.c:0068:         [DEBUG] [Main]                Hello - in main
            log_test.c:0069:         [INFO ] [Main][Section]       Hello - inside section
+```
