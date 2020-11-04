@@ -69,7 +69,7 @@ bool LogSpecParser::parseAtPos(int pos, ConfigStringParsed &parsed) {
   // move index
   // index += (sep - start) + 1;
 
-  LOG_INFO("'%s' '%s' %d %d %d",
+  LOG_TRACE("'%s' '%s' %d %d %d",
            GET_CURRENT_CAT_NAME, &_configStr[pos],
            parsed.firstCatSize, parsed.isLastCat, pos);
 

@@ -85,6 +85,8 @@ TEST_SUITE("Test configuration") {
     CHECK(GET_LOG_LEVEL("section1") == 3);
     CHECK(GET_LOG_LEVEL("section2") == 4);
     CHECK(GET_LOG_LEVEL("section3") == 5);
+
+    LogFacade::inst().printTable();
   }
   
   TEST_CASE(" configuration by ") {
@@ -166,12 +168,7 @@ TEST_SUITE("Test configuration") {
 
     TEST_LOG_SPEC("GLOBAL.Cat.module2.submodule1:5");
 
+    LogFacade::inst().printTable();
+
   }
 }
-
-
-
-
-
-
-
