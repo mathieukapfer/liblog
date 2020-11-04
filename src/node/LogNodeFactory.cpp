@@ -270,12 +270,3 @@ void LogNodeFactory::setConfigrationLevel(LogNode * logNode, int level) {
   LOG_ENTER("%s,%d",logNode->_name, level);
   logNode->acceptAllChildren(* (new ConfigureLevel::SetLevel(level)));
 }
-
-
-
-
-
-
-
-
-
