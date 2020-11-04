@@ -1,4 +1,4 @@
-# Put hierarchical log in your application
+![](hierachical_stone.png?raw=true)
 # Hierarchical logger
 
 ## 1) Usage
