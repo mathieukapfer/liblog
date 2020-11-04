@@ -5,12 +5,12 @@
   * include the header
 
 ```C
-            #include "log.h"
+  #include "log.h"
 ```
 
   * name your blocks of code thanks to macro below
 ```C
-            LOG_REGISTER("section_name");
+  LOG_REGISTER("section_name");
 ```
 
   * then, the code is ready to be logged thanks to: `LOG_{level} ( {params} )`
@@ -20,18 +20,18 @@
 Sample:
 
 ```C
-            #include "log.h"
-            LOG_REGISTER("MainFile");                  //<---------- Create a category for the entire file
+  #include "log.h"
+  LOG_REGISTER("MainFile");                  //<---------- Create a category for the entire file
 
-            int main(int argc, char *argv[]) {
-              int i = 123;
-              LOG_REGISTER("Main");                    //<---------- Create a sub category 'Main'
-              LOG_DEBUG("Hello - in main %d",i);       //<---------- Log as DEBUG level
-                {
-                  LOG_REGISTER("Main","Section");      //<---------- Create a sub sub category 'SectionOfMain'
-                  LOG_INFO("Hello - inside section");  //<---------- Log as INFO level
-                }
-              }
+  int main(int argc, char *argv[]) {
+    int i = 123;
+    LOG_REGISTER("Main");                    //<---------- Create a sub category 'Main'
+    LOG_DEBUG("Hello - in main %d",i);       //<---------- Log as DEBUG level
+      {
+        LOG_REGISTER("Main","Section");      //<---------- Create a sub sub category 'SectionOfMain'
+        LOG_INFO("Hello - inside section");  //<---------- Log as INFO level
+      }
+    }
 ```
 
 NOTES:
