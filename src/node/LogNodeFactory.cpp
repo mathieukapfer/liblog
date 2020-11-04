@@ -249,7 +249,7 @@ bool LogNodeFactory::configureLevel(const char* confString) {
     LOG_INFO("Node not found with %s (%s) : create it", currentName, confString);
 
     // create node
-    logNodeParent = createChildNode(logNodeParent, currentName, level, true);
+    logNodeParent = createChildNode(logNodeParent, currentName, isLastName?level:-1, true);
 
     //... and continue until end of conf string
     while(!isLastName) { 
@@ -257,8 +257,8 @@ bool LogNodeFactory::configureLevel(const char* confString) {
       isLastName =  parser.getNextCatStr(&currentName);
       
       // create node
-      logNodeParent = createChildNode(logNodeParent, currentName, level, true);
-    } 
+      logNodeParent = createChildNode(logNodeParent, currentName, isLastName?level:-1, true);
+    }
   }
 #endif
 
