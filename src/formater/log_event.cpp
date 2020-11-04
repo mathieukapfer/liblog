@@ -131,18 +131,18 @@ void _log_logEvent(void *_log_node, struct LogEvent* ev, ...) {
   snprintf(file_line, LOG_FILE_LINE_SIZE, "%s:%04d:", basename_const(ev->fileName), ev->lineNum);
 
   // compute log file_line header
-  SNPRINTF_APPEND(pos, "%-30s[<%-5s>] %-15s ",
+  SNPRINTF_APPEND(pos, "%-30s %-5s %-15s ",
                   file_line,
                   logLevelToString(ev->priority),
                   logPathPtr);
+
+  // compute log body
+  VSNPRINTF_APPEND(pos, ev->fmt, ap);
 
   // add function name if needed
   if (ev->printFunctionName) {
      SNPRINTF_APPEND(pos, "%10s() ", ev->functionName);
   }
-
-  // compute log body
-  VSNPRINTF_APPEND(pos, ev->fmt, ap);
 
   // use syslog
 #ifdef ENABLE_SYS_LOG
