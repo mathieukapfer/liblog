@@ -26,8 +26,8 @@ Sample:
 
             int main(int argc, char *argv[]) {
               int i = 123;
-              LOG_REGISTER("Main %d",i);               //<---------- Create a sub category 'Main'
-              LOG_DEBUG("Hello - in main");            //<---------- Log as DEBUG level
+              LOG_REGISTER("Main");                    //<---------- Create a sub category 'Main'
+              LOG_DEBUG("Hello - in main %d",i);       //<---------- Log as DEBUG level
                 {
                   LOG_REGISTER("Main","Section");      //<---------- Create a sub sub category 'SectionOfMain'
                   LOG_INFO("Hello - inside section");  //<---------- Log as INFO level
