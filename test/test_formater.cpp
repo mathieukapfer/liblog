@@ -6,7 +6,7 @@
 //     make test_formater && ./test_formater
 //
 
-#include "../log_formater.h"
+#include "log_formater.h"
 
 /*
  * embedded unit test
