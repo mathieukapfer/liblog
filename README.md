@@ -1,5 +1,5 @@
 ![](hierachical_stone.png?raw=true)
-# C/C++ Hierarchical logger
+# C/C++ Hierarchical Logger
 
 ## 1) Usage
   * include the header
