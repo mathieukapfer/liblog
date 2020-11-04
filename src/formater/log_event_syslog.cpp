@@ -21,7 +21,7 @@ void log_syslog(int prio, const char * msg) {
   if (!isSyslogOpened) {
     // compute 'log_level' minus 1,
     // but take care '0' that mean's NO LOG for our logger
-    int log_mask = MAX(getLogLevel(_defaultLogCategory)-1,0);
+    int log_mask = MAX(getLogLevel((void *)_defaultLogCategory)-1 , 0);
     setlogmask (LOG_UPTO(log_mask));
     openlog("evse", LOG_CONS | LOG_PID | LOG_NDELAY, LOG_LOCAL1);
     isSyslogOpened = true;

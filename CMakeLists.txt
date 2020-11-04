@@ -36,7 +36,6 @@ set(LIBLOG_COMMUN_SOURCES
 ./src/node/Node.cpp
 ./src/node/LogNodeFactory.cpp
 ./src/formater/log_event.cpp
-./src/formater/log_event_syslog.cpp
 ./src/formater/log_timestamp.cpp
 ./src/LogFacade.cpp
 ./src/log_facade.cpp
@@ -51,7 +50,13 @@ else()
     src/conf/LogConfMem.cpp)
 endif()
 
-add_library(log STATIC ${LIBLOG_COMMUN_SOURCES} ${LIBLOG_CONF})
+if(ENABLE_SYS_LOG)
+  set(LIBLOG_SYSLOG
+    src/formater/log_event_syslog.cpp)
+endif()
+
+
+add_library(log STATIC ${LIBLOG_COMMUN_SOURCES} ${LIBLOG_CONF} ${LIBLOG_SYSLOG})
 
 # hum .. not working => use liblogConfig.cmake instead
 #target_include_directories(log PUBLIC src src/fifo )
