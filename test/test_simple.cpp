@@ -155,8 +155,7 @@ TEST_SUITE("Test configuration") {
     TEST_LOG_SPEC("aaa:7");
 
     TEST_LOG_SPEC("a.b.c.d.e:3");
-    CHECK(GET_LOG_LEVEL("a") == 2) ;  // should be inherited from global
-  
+
     TEST_LOG_SPEC("GLOBAL:1");
 
     TEST_LOG_SPEC("GLOBAL.Cat1:2");
