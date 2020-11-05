@@ -1,16 +1,18 @@
+# run ctest
 test:
-	cd ..; make test
+	cp log.cfg ../build_x86/test
+	cd ../build_x86 && make test
 
-test-sample:
+# run example (see README.md)
+test-example:
 	-cd ../build_x86/test && rm log.cfg
-	cd ../build_x86;  make && cd test && make sample && ./sample
+	cd ../build_x86;  make && cd test && make example && ./example
 
-test-manual:
-	cd ../build_x86; make && cd test && make test_manual && ./test_manual
-
+# execute test out of ctest
 test-simple:
 	cp log.cfg ../build_x86/test
 	cd ../build_x86; make && cd test && make test_simple && ./test_simple
 
+# see formater result
 test-formater:
 	CXXFLAGS=-I.. make  test_formater && ./test_formater

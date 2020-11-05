@@ -1,34 +1,16 @@
 
-add_executable(test_log
-	log_test.cpp
-	MyClass.cpp
-	MyClass2.cpp
-	subdir/MyClass3.cpp
-)
-
-
-target_link_libraries(test_log log)
-
 if(_X86_)
-add_executable(sample
-  sample.cpp
+add_executable(example
+  example.cpp
   )
 
-target_link_libraries(sample log)
+target_link_libraries(example log)
 
 add_executable(test_simple
   test_simple.cpp
   )
 
 target_link_libraries(test_simple log)
-
-add_executable(test_manual
-  test_manual.cpp
-  MyClass.cpp
-  MyClass2.cpp
-  subdir/MyClass3.cpp
-  )
-target_link_libraries(test_manual log)
 
 endif()
 
