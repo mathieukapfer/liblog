@@ -13,11 +13,16 @@
   LOG_REGISTER("section_name");
 ```
 
+  * you may link a section to his parent i.e. create a sub section
+```C
+  LOG_REGISTER("parent_name", "section_name");
+```
+
   * then, the code is ready to be logged thanks to: `LOG_{level} ( {params} )`
     * where `{level}` is: `NONE EMERG FATAL CRIT ERROR WARN NOTIC INFO DEBUG TRACE`
     * and `{param}` is variadic list of parameters like **printf()**
 
-Sample:
+### Full Sample:
 
 ```C
 #include "log.h"
@@ -36,6 +41,7 @@ int main(int argc, char *argv[]) {
   }
 }
 ```
+That produce:
 ```
  0000.0000 sample.cpp:0004:   [DEBUG] [File]               ENTER: aFunction()
  0000.0000 sample.cpp:0010:   [INFO ] [File.Main]          Hello from main 123
@@ -43,8 +49,8 @@ int main(int argc, char *argv[]) {
 ```
 
 NOTES:
-  - You have noticed that the log sections can be created hierchically. That will help to set a given level for the a given section (and all its subsections automatically) thanks to log specification.
-  - __A good usage of hierarchical sections is when its reflect your directory tree and files organisation.__
+  - __A good usage hierarchical logs tree is one that reflect your directory tree and files organisation.__
+  - this hierarchical log tree will help you to set a given level for the a given section of code, including all its subsections, thanks to log specification.
 
 ##  2) Provide log specification
 ###   2.1) By 'log.cfg' file
@@ -64,7 +70,43 @@ Here after is a `log.cfg` sample that sould be put in same place as the executab
               File.Main.Section:TRACE  #  Get all log for 'Section' (TRACE is the max level)
 
 ```
-Each line is executed once by once. Then the first line `GLOBAL:NOTICE` set the log level for all sections (special name `GLOBAL` is the root of the node tree). Then the second line `File:DEBUG` increase the log level for `File` and all its sections i.e. `File.Main` and `File.Main.Section`. At least, the last line `File.Main.Section:TRACE` increase again the log for the deeper block of code `Section`
+Each line is executed once by once. Then the first line `GLOBAL:NOTICE` set the default log level (special name `GLOBAL` is the root of the node tree). Then, the second line `File:DEBUG` increase the log level for `File` and all its sections i.e. `File.Main` and `File.Main.Section`. At least, the last line `File.Main.Section:TRACE` increase again the log for the deeper block of code `Section`
+
+####   Display log spec
+Add the code below to print the log spec of your program. It can be used as `log.cfg` template.
+<table>
+<tr><td>
+<div markdown="1">
+
+```C++
+#include "log_conf.h"
+
+int main(int argc, char *argv[]) {
+...
+  LOG_DISLAY_TREE();
+...
+}
+
+```
+</div></td>
+<td><div markdown="1">
+
+```
+*Display spec:
+ GLOBAL                   :TRACE(9)
+ File                     :TRACE(9)
+ File.Main                :TRACE(9)
+ File.Main.Section        :TRACE(9)
+ SYSLOG_MAX_LEVEL         :TRACE(9)
+*
+```
+
+</div></tr></table>
+
+Note:
+  - only the known sections (section that has been run) are display when `LOG_DISLAY_TREE()` is called.
+  - if you have section declared in your `log.cfg` but not yet run in your code, it will appears with `// prealloacted`
+  - on linux, a section `SYSLOG_MAX_LEVEL` appear to define an addition filter before put log in syslog buffer
 
 ###   2.2) By code
 If you do not have file system, you can setup log level by insert macro in you code : `LOG_CONFIGURE({path},{level})`
@@ -89,7 +131,7 @@ If you do not have file system, you can setup log level by insert macro in you c
               NONE           0  ==> no log
 ```
 
-##  3) Get log when you application is running
+##  3) Log output
 On linux: timestamp in sec (precision 0,1ms)
 ```
  0000.7289 AuthentConfig.cpp:0022:       [<NOTIC>] [AuthentConfig] ENTER: registerModbusIndex()
