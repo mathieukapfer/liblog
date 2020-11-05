@@ -28,22 +28,22 @@ void aFunction() {LOG_ENTER();}
 int main(int argc, char *argv[]) {
   int i = 123;
   aFunction();
-  LOG_REGISTER("Main");                    //<-- Create a category 'Main'
-  LOG_DEBUG("Hello from main %d", i);      //<-- Log as DEBUG level
+  LOG_REGISTER("File", "Main");              //<-- Create a sub category 'Main' of 'File'
+  LOG_INFO("Hello from main %d", i);         //<-- Log as INFO
   {
-    LOG_REGISTER("Main", "Section");       //<-- Create a sub category 'Section'
-    LOG_INFO("Hello from nested section"); //<-- Log as INFO level
+    LOG_REGISTER("File", "Main", "Section"); //<-- Create a sub category 'Section' of 'Main'
+    LOG_TRACE("Hello from nested section");  //<-- Log as TRACE
   }
 }
 ```
 ```
- 0000.0000 sample.cpp:0004:   [<DEBUG>] [File]          ENTER: aFunction()
- 0000.0000 sample.cpp:0010:   [<DEBUG>] [Main]          Hello from main 123
- 0000.0000 sample.cpp:0013:   [<INFO >] [Main.Section]  Hello from nested section
+ 0000.0000 sample.cpp:0004:   [DEBUG] [File]               ENTER: aFunction()
+ 0000.0000 sample.cpp:0010:   [INFO ] [File.Main]          Hello from main 123
+ 0000.0000 sample.cpp:0013:   [TRACE] [File.Main.Section]  Hello from nested section
 ```
 
 NOTES:
-  - You have notice that the log sections can be created hierchically. That will help to set a given level for the a given section (and all its subsections automatically) thanks to log specification.
+  - You have noticed that the log sections can be created hierchically. That will help to set a given level for the a given section (and all its subsections automatically) thanks to log specification.
   - __A good usage of hierarchical sections is when its reflect your directory tree and files organisation.__
 
 ##  2) Provide log specification
@@ -55,22 +55,23 @@ Here after is a `log.cfg` sample that sould be put in same place as the executab
               # Level as str: NONE EMERG FATAL CRIT ERROR WARN NOTIC INFO DEBUG TRACE
               # Level as int: 0,   1,    2,    3,   4,    5,   6,    7,   8,    9
 
-              # put your default level below
+              # set your level filter
 
-              GLOBAL:NOTICE      #  globally by name (and the entire program)
-              GLOBAL:6           #  globally by int
-              Main:WARNING       #  on section Main and all sub section
-              Main.Section:INFO  #  on a section by name
-              Main.Section:4     #  on a section by int
+              GLOBAL:NOTICE            #  Default log for the entire program
+              GLOBAL:6                 #  Same as above with 'int' syntaxe
+              File:INFO                #  More log for 'File' :until INFO
+              File.Main:DEBUG          #  More log for 'Main' :until DEBUG
+              File.Main.Section:TRACE  #  Get all log for 'Section' (TRACE is the max level)
+
 ```
-Each line is executed once by once. Then the first line `GLOBAL:NOTICE` set the log level for all sections (special name `GLOBAL` is the root of the node tree). Then the second line `Main:WARNING` change the level for `Main` and all its sections i.e. `Main.Section`. At least, in our example, the last line `Main.Section:4` change the log only for the deeper block of code.
+Each line is executed once by once. Then the first line `GLOBAL:NOTICE` set the log level for all sections (special name `GLOBAL` is the root of the node tree). Then the second line `File:DEBUG` increase the log level for `File` and all its sections i.e. `File.Main` and `File.Main.Section`. At least, the last line `File.Main.Section:TRACE` increase again the log for the deeper block of code `Section`
 
 ###   2.2) By code
 If you do not have file system, you can setup log level by insert macro in you code : `LOG_CONFIGURE({path},{level})`
 ```C
               void main() {
               LOG_CONFIGURE("Main:2");
-              LOG_CONFIGURE("Main.SectionOfMain:3");
+              LOG_CONFIGURE("Main.Section:3");
               ...
 ```
 
@@ -91,11 +92,11 @@ If you do not have file system, you can setup log level by insert macro in you c
 ##  3) Get log when you application is running
 On linux: timestamp in sec (precision 0,1ms)
 ```
- 0000.7289 AuthentConfig.cpp:0022:       [<NOTIC>] [AuthentConfig] registerModbusIndex() ENTER:
- 0000.7290 MaintenanceDb.cpp:0025:       [<NOTIC>] [MaintenanceDb] registerModbusIndex() ENTER:
- 0000.7291 AuthentDb.cpp:0054:           [<NOTIC>] [authen.Db]     registerModbusIndex() ENTER:
- 0000.7292 IoCpwIpc.cpp:0040:            [<NOTIC>] [iocpw.ipc]     registerSharedIndex() ENTER:
- 0000.7293 IoCpwIpc.cpp:0059:            [<NOTIC>] [iocpw.ipc]     registerModbusIndex() ENTER:
+ 0000.7289 AuthentConfig.cpp:0022:       [<NOTIC>] [AuthentConfig] ENTER: registerModbusIndex()
+ 0000.7290 MaintenanceDb.cpp:0025:       [<NOTIC>] [MaintenanceDb] ENTER: registerModbusIndex()
+ 0000.7291 AuthentDb.cpp:0054:           [<NOTIC>] [authen.Db]     ENTER: registerModbusIndex()
+ 0000.7292 IoCpwIpc.cpp:0040:            [<NOTIC>] [iocpw.ipc]     ENTER: registerSharedIndex()
+ 0000.7293 IoCpwIpc.cpp:0059:            [<NOTIC>] [iocpw.ipc]     ENTER: registerModbusIndex()
 ```
 
 On FreerRTOS: timestamp = nb ticks
@@ -119,5 +120,5 @@ Be carefull to put this "log spec" after `GLOBAL`, otherwise it will be overwrit
 ```shell
  GLOBAL                   : NOTICE   # apply NOTICE level as default (including SYSLOG_MAX_LEVEL)
  SYSLOG_MAX_LEVEL         : INFO     # change max level for syslog to INFO
- MAIN                     : DEBUG    # more log for MAIN section (in stdout but not syslog)
+ MAIN                     : DEBUG    # more log for MAIN section (apply on stdout, but not syslog)
 ```
