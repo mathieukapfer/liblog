@@ -1,5 +1,5 @@
 # C/C++ Hierarchical Logger
-When your log reflect your code architecture.
+When your logs reflect your code, debuging is a plaisure.
 ![](hierachical_stone.png?raw=true)
 
 ## 1) Usage
