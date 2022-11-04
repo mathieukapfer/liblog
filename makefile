@@ -55,8 +55,3 @@ help-display:
 	@echo "  make build-x86-conf-m3   : build & test for host with m3 config"
 	@echo "  make build-x86-conf-a7   : build & test for host with a7 config"
 	@echo "  make test                : do test (out of cmake to see the output)"
-
-
-index:
-	-rm TAGS;
-	find . -name "*.*[hcp]" | xargs etags -a -lc

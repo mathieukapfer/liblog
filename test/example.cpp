@@ -1,20 +1,31 @@
 #include "log.h"
 #include "log_conf.h"
+#include <unistd.h>
 
-LOG_REGISTER("File"); //<-- Create a default category for the entire file
+// File section name
+LOG_REGISTER("File");
 
-void aFunction() {LOG_ENTER();}
+void aFunction() {  LOG_ENTER(); }
+
+void anotherFunction() {
+  LOG_ENTER();
+
+  // Function section name
+  LOG_REGISTER("File","aFunc");
+  LOG_INFO("Nested section");
+}
 
 int main(int argc, char *argv[]) {
-  int i = 123;
+  // Function section name
+  LOG_REGISTER("File","Main");
 
   aFunction();
-  LOG_REGISTER("File","Main");        //<-- Create a category 'Main'
-  LOG_DEBUG("Hello - in main %d", i); //<-- Log as DEBUG level
-  {
-    LOG_REGISTER("File", "Main", "Section"); //<-- Create a sub category 'Section'
-    LOG_INFO("Hello - inside section");      //<-- Log as INFO level
-  }
+  anotherFunction();
 
+  int i = 42;
+  sleep(1);
+  LOG_DEBUG("Hello from main %d", i);
+
+  // Display the log configuration
   LOG_DISLAY_TREE();
 }
