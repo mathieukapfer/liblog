@@ -1,6 +1,9 @@
-# C/C++ Hierarchical Logger
-When your logs reflect your code, debugging is so fun !
-![](hierachical_stone.png?raw=true)
+# C/C++ 'Tree' Logger
+Yet another logger including 'auto-magic' design introspection and log level inheritage ;0)
+
+When your logs reflect your design, debugging session is so fun !
+
+![](liblog_screenshot.png?raw=true)
 
 ## 1) Usage
   * include the header
