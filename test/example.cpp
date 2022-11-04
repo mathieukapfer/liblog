@@ -8,11 +8,9 @@ LOG_REGISTER("File");
 void aFunction() {  LOG_ENTER(); }
 
 void anotherFunction() {
-  LOG_ENTER();
-
   // Function section name
-  LOG_REGISTER("File","aFunc");
-  LOG_INFO("Nested section");
+  LOG_REGISTER("Main","aFunc");
+  LOG_ENTER();
 }
 
 int main(int argc, char *argv[]) {
@@ -20,11 +18,12 @@ int main(int argc, char *argv[]) {
   LOG_REGISTER("File","Main");
 
   aFunction();
-  anotherFunction();
 
   int i = 42;
   sleep(1);
   LOG_DEBUG("Hello from main %d", i);
+
+  anotherFunction();
 
   // Display the log configuration
   LOG_DISLAY_TREE();
