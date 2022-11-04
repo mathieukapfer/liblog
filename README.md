@@ -1,7 +1,7 @@
 # C/C++ 'Tree' Logger
-Yet another logger including 'auto-magic' design introspection and log level inheritage ;0)
+Yet another logger including 'auto-magic' design introspection and log level inheritage 
 
-When your logs reflect your design, debugging session is so fun !
+Ease your debug session with hierachical logs
 
 ![](liblog_screenshot.png?raw=true)
 
